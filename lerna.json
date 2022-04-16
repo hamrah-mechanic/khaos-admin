@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "packages/*",
+    "examples/hm-app"
+  ],
+  "version": "1.0.0",
+  "useWorkspaces":true,
+  "stream":true
+}

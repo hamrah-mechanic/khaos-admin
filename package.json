@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "name": "back-office",
+  "scripts": {
+    "start": "lerna run start",
+    "build": "lerna run build"
+  },
+  "private":true,
+  "workspaces":{
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ]
+  }
+}
