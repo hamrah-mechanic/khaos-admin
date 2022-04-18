@@ -18,13 +18,13 @@ export const authenticate = (tokens: { refreshToken: string; accessToken: string
   }
 };
 
-export const isAuthenticated = (): string => {
-  try {
-    return Cookies.get('token');
-  } catch (err) {
-    console.error(err);
-  }
-};
+// export const isAuthenticated = (): string => {
+//   try {
+//     return Cookies.get('token');
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 export const logout = (): void => {
   try {
@@ -36,15 +36,15 @@ export const logout = (): void => {
   }
 };
 
-export const extractUserFromCookie = (token?: string): User | null => {
-  if (token) {
-    const user = jwt(token) as User;
-    return user;
-  }
-  const accessToken = Cookies.get('token');
-  if (accessToken && accessToken !== 'undefined') {
-    const user = jwt(accessToken) as User;
-    return user;
-  }
-  return null;
-};
+// export const extractUserFromCookie = (token?: string): User | null => {
+//   if (token) {
+//     const user = jwt(token) as User;
+//     return user;
+//   }
+//   const accessToken = Cookies.get('token');
+//   if (accessToken && accessToken !== 'undefined') {
+//     const user = jwt(accessToken) as User;
+//     return user;
+//   }
+//   return null;
+// };
