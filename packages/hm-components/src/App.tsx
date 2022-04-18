@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Test from 'cm-core';
+
 function App() {
   return (
     <div className="App">

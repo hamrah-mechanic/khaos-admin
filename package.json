@@ -1,15 +1,16 @@
 {
   "version": "1.0.0",
   "devDependencies": {
+    "craco": "^0.0.3",
     "lerna": "^4.0.0"
   },
   "name": "back-office",
   "scripts": {
-    "start": "lerna run start",
+    "start": "lerna exec --scope app -- npm start",
     "build": "lerna run build"
   },
-  "private":true,
-  "workspaces":{
+  "private": true,
+  "workspaces": {
     "packages": [
       "packages/*",
       "examples/*"
