@@ -1,14 +1,13 @@
-import React, { createContext, useState, useEffect } from "react";
-import { User } from "../types";
-import { authenticate, extractUserFromCookie ,removeAuthTokens} from "./authUtilities";
+import React, { createContext, useState, useEffect } from 'react';
+import { User } from '../types';
+import { authenticate, extractUserFromCookie, removeAuthTokens } from './authUtilities';
 
 interface AuthContextType {
   user?: User | undefined;
-  login:(tokens:{refreshToken:string,accessToken:string})=>void;
-  logout?:(cb?:()=>void)=>void;
-
+  login: (tokens: { refreshToken: string; accessToken: string }) => void;
+  logout?: (cb?: () => void) => void;
 }
-export const AuthContext = createContext<AuthContextType>({login:()=>console.log('loggedIn')});
+export const AuthContext = createContext<AuthContextType>({ login: () => console.log('loggedIn') });
 
 const AuthProvider = (props: any) => {
   const { children } = props;
@@ -19,19 +18,19 @@ const AuthProvider = (props: any) => {
     if (user) setUser(extractedUser);
   }, []);
 
-  const login = (tokens:{refreshToken:string,accessToken:string})=>{
-    authenticate(tokens)
-  }
-  const logout = ():void=>{
+  const login = (tokens: { refreshToken: string; accessToken: string }) => {
+    authenticate(tokens);
+  };
+  const logout = (): void => {
     setUser(undefined);
     removeAuthTokens();
-  }
+  };
   return (
     <AuthContext.Provider
       value={{
         user: user,
         login,
-        logout
+        logout,
       }}
     >
       {children}
