@@ -1,7 +1,8 @@
-import AuthContext from './auth/AuthContext';
+import AuthProvider,{AuthContext} from './auth/AuthContext';
 import request from './api/request';
+export * from './types';
 
 export * from './auth/authUtilities';
 export {
-  AuthContext,request
+  AuthProvider,AuthContext,request,
 }

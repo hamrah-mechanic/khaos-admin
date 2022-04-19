@@ -1,10 +1,30 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { logout } from '../auth/authUtilities';
 
 interface AxiosOptions extends AxiosRequestConfig {
   isAuthenticated?: boolean;
 }
 const api = Axios.create();
 
+api.interceptors.response.use(
+  function (response) {
+    return response.data;
+  },
+  function (error) {
+    if (error.response && error.response.status === 401) {
+      // return refreshAccessToken().then(newToken => {
+      //   if (newToken) {
+      //     error.config.headers['Authorization'] = `Bearer ${newToken}`;
+      //     return api.request(error.config);
+      //   } else {
+      //     logout();
+      //     return;
+      //   }
+      // });
+    }
+    return Promise.reject(error);
+  },
+);
 
 
 const request = {
@@ -34,3 +54,4 @@ const request = {
 };
 
 export default request;
+

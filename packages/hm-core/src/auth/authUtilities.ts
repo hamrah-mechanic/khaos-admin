@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import jwt from 'jwt-decode';
+import { User } from '../types';
 
 export const authenticate = (tokens: { refreshToken: string; accessToken: string }, expiration?: number): boolean => {
   const { accessToken, refreshToken } = tokens;
@@ -18,33 +19,35 @@ export const authenticate = (tokens: { refreshToken: string; accessToken: string
   }
 };
 
-// export const isAuthenticated = (): string => {
-//   try {
-//     return Cookies.get('token');
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
 export const logout = (): void => {
   try {
     Cookies.remove('token');
     Cookies.remove('refreshToken');
-    Cookies.remove('resendToken');
   } catch (err) {
     console.error(err);
   }
 };
 
-// export const extractUserFromCookie = (token?: string): User | null => {
-//   if (token) {
-//     const user = jwt(token) as User;
-//     return user;
-//   }
-//   const accessToken = Cookies.get('token');
-//   if (accessToken && accessToken !== 'undefined') {
-//     const user = jwt(accessToken) as User;
-//     return user;
-//   }
-//   return null;
-// };
+
+export const removeAuthTokens = (): void => {
+  try {
+    Cookies.remove('token');
+    Cookies.remove('refreshToken');
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const extractUserFromCookie = (token?: string): User | null => {
+  try{
+    const accessToken = Cookies.get('token');
+    if (accessToken) {
+      const user = jwt(accessToken) as User;
+      return user;
+    }
+  }catch (err) {
+    console.error(err);
+    return null;
+  }
+  return null;
+};

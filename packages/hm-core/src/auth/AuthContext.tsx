@@ -1,34 +1,41 @@
 import React, { createContext, useState, useEffect } from "react";
-
+import { User } from "../types";
+import { authenticate, extractUserFromCookie ,removeAuthTokens} from "./authUtilities";
 
 interface AuthContextType {
-  user?: any;
-}
-const AuthContext = createContext({});
+  user?: User | undefined;
+  login:(tokens:{refreshToken:string,accessToken:string})=>void;
+  logout?:(cb?:()=>void)=>void;
 
-const AuthProvider = (props:any) => {
+}
+export const AuthContext = createContext<AuthContextType>({login:()=>console.log('loggedIn')});
+
+const AuthProvider = (props: any) => {
   const { children } = props;
 
-  const [contextState, setContextState] = useState({
-      authorize: false,
-      checkAuth: false,
-      backdrop: false,
-      error: false,
-      success: false,
-  });
+  const [user, setUser] = useState<User | undefined>(undefined);
   useEffect(() => {
-  console.log('check auth')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+    const extractedUser = extractUserFromCookie() as User;
+    if (user) setUser(extractedUser);
+  }, []);
+
+  const login = (tokens:{refreshToken:string,accessToken:string})=>{
+    authenticate(tokens)
+  }
+  const logout = ():void=>{
+    setUser(undefined);
+    removeAuthTokens();
+  }
   return (
     <AuthContext.Provider
-        value={{
-            authorize: contextState.authorize,
-        }}
+      value={{
+        user: user,
+        login,
+        logout
+      }}
     >
-        {children}
+      {children}
     </AuthContext.Provider>
-);
-}
+  );
+};
 export default AuthProvider;
-//https://github.com/mbozkaya/react-authentication-with-context-api/blob/main/src/contexts/AuthContext.js
