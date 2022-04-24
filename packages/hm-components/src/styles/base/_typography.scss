@@ -1,0 +1,53 @@
+body {
+    font-family: $display-font;
+    font-weight: 300;
+    line-height: 1.7;
+    direction: rtl;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button,
+textarea {
+    font-family: $display-font;
+}
+
+%heading {
+    font-family: $display-font;
+    font-weight: 400;
+}
+
+.heading-1 {
+    @extend %heading;
+    font-size: 4.5rem;
+    line-height: 1;
+    margin: 2.5rem 0;
+}
+
+.heading-2 {
+    @extend %heading;
+    font-size: 4rem;
+    margin: 2rem 0;
+}
+
+.heading-3 {
+    @extend %heading;
+    font-size: 3rem;
+    margin: 1.5rem 0;
+    // color: $color-primary;
+}
+
+.heading-4 {
+    @extend %heading;
+    font-size: 1.9rem;
+    margin: 2rem 0;
+}
+b,
+strong {
+    font-weight: bold;
+}
