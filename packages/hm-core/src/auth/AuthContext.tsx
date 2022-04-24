@@ -20,8 +20,9 @@ const AuthProvider = (props: any) => {
   }, []);
 
   const login = (tokens: { refreshToken: string; accessToken: string }) => {
-    setUser({ fullName: 'iman' });
+    console.log('login', tokens);
     authenticate(tokens);
+    // setUser({});
   };
   const logout = (): void => {
     setUser(undefined);

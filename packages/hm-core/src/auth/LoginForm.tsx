@@ -7,8 +7,9 @@ interface FormData {
   password: string;
 }
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }: any) => {
   const onFinish = (data: FormData) => {
+    onLogin(data.username, data.password);
     console.log(data);
   };
 

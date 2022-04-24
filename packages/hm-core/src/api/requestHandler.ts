@@ -7,11 +7,13 @@ interface AxiosOptions extends AxiosRequestConfig {
 }
 const api = Axios.create();
 
-api.interceptors.request.use(function (config: AxiosOptions) {
+api.interceptors.request.use(function (config: any) {
+  const token = Cookies.get('token');
   //set Authorization header
-  if (Cookies.get('token')) {
-    // config.headers['Authorization'] = `Bearer ${Cookies.get('token')}`;
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
+  return config;
 });
 const request = {
   get: <T>(endpoint: string, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
