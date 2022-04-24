@@ -15,10 +15,12 @@ const AuthProvider = (props: any) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   useEffect(() => {
     const extractedUser = extractUserFromCookie() as User;
+    console.log(extractUserFromCookie());
     if (user) setUser(extractedUser);
   }, []);
 
   const login = (tokens: { refreshToken: string; accessToken: string }) => {
+    setUser({ fullName: 'iman' });
     authenticate(tokens);
   };
   const logout = (): void => {
