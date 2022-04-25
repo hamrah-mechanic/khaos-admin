@@ -7,19 +7,24 @@ interface FormData {
   password: string;
 }
 
-const LoginForm = () => {
+interface LoginFormProps {
+  cardClassName?: string;
+  formClassName?: string;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ cardClassName, formClassName }) => {
   const onFinish = (data: FormData) => {
     console.log(data);
   };
 
   return (
-    <Card className="d-flex align-items-center flex-column" title="ورود به سیستم">
+    <Card className={cardClassName} title="ورود به سیستم">
       <Form
         name="basic"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
         autoComplete="off"
+        className={formClassName}
       >
         <Form.Item name="username" rules={[{ required: true, message: 'نام کاربری را لطفا وارد نمایید!' }]}>
           <Input placeholder="نام کاربری" />

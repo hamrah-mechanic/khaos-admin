@@ -28,7 +28,6 @@ export const logout = (): void => {
   }
 };
 
-
 export const removeAuthTokens = (): void => {
   try {
     Cookies.remove('token');
@@ -39,13 +38,13 @@ export const removeAuthTokens = (): void => {
 };
 
 export const extractUserFromCookie = (token?: string): User | null => {
-  try{
+  try {
     const accessToken = Cookies.get('token');
     if (accessToken) {
       const user = jwt(accessToken) as User;
       return user;
     }
-  }catch (err) {
+  } catch (err) {
     console.error(err);
     return null;
   }

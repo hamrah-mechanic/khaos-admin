@@ -26,13 +26,11 @@ api.interceptors.response.use(
   },
 );
 
-
 const request = {
   get: <T>(endpoint: string, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
     return api.get(endpoint, options);
   },
   post: <T>(endpoint: string, data: unknown, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
-
     return api.post(endpoint, Object.assign({}, data), options);
   },
   put: (endpoint: string, data: unknown, options?: AxiosOptions): Promise<AxiosResponse> => {
@@ -54,4 +52,3 @@ const request = {
 };
 
 export default request;
-
