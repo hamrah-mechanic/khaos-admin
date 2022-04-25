@@ -1,6 +1,8 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { logout } from '../auth/authUtilities';
 import Cookies from 'js-cookie';
+import { store } from '../store/store';
+import { setError } from '../store/slices/errorSlice';
 
 interface AxiosOptions extends AxiosRequestConfig {
   isAuthenticated?: boolean;
@@ -15,6 +17,17 @@ api.interceptors.request.use(function (config: any) {
   }
   return config;
 });
+api.interceptors.response.use(
+  function (response) {
+    return response.data;
+  },
+  function (error: any) {
+    if (error.response && error.response.status === 401) {
+      store.dispatch(setError({ type: 401, message: 'token invalid' }));
+    }
+    return Promise.reject(error);
+  },
+);
 const request = {
   get: <T>(endpoint: string, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
     return api.get(endpoint, options);

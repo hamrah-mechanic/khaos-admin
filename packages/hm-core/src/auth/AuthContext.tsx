@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
+import errorSlice from '../store/slices/errorSlice';
 import { User } from '../types';
 import { authenticate, extractUserFromCookie, removeAuthTokens } from './authUtilities';
+import { Provider, useSelector } from 'react-redux';
+import { store, RootState } from '../store/store';
 
 interface AuthContextType {
   user?: User | undefined;
@@ -11,6 +14,11 @@ export const AuthContext = createContext<AuthContextType>({ login: () => console
 
 const AuthProvider = (props: any) => {
   const { children } = props;
+  // console.log(
+  //   'error is ',
+  //   useSelector((state: RootState) => state.error),
+  // );
+  // console.log(useSelector(state => state));
 
   const [user, setUser] = useState<User | undefined>(undefined);
   useEffect(() => {
@@ -29,15 +37,17 @@ const AuthProvider = (props: any) => {
     removeAuthTokens();
   };
   return (
-    <AuthContext.Provider
-      value={{
-        user: user,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <Provider store={store}>
+      <AuthContext.Provider
+        value={{
+          user: user,
+          login,
+          logout,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </Provider>
   );
 };
 export default AuthProvider;
