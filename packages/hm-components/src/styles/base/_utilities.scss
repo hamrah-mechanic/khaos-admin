@@ -11,19 +11,12 @@ html {
     font-weight: bold;
 }
 
-#raychatBtn {
-    z-index: 9;
-
-    @include media-breakpoint-down(md) {
-        bottom: 6.4rem;
-    }
-}
-
 .input-error {
     input {
         border: 1px solid red;
     }
 }
+
 .text-error {
     color: red;
     font-size: 1.2rem;
@@ -31,15 +24,19 @@ html {
     margin-top: 0.8rem;
     display: block;
 }
+
 .text-left {
     text-align: left;
 }
+
 .text-right {
     text-align: right;
 }
+
 .text-center {
     text-align: center;
 }
+
 .text-danger {
     color: red;
 }

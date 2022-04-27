@@ -1,4 +1,3 @@
 export interface User {
-    fullName?: string;
- 
+  fullName?: string;
 }

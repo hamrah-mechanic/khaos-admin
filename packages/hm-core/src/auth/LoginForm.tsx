@@ -21,14 +21,7 @@ const LoginForm = ({ onLogin }: any) => {
   };
   return (
     <Card className="d-flex align-items-center flex-column" title="ورود به سیستم">
-      {user?.fullName ? user?.fullName : 'asdf'}
-      <Form
-        name="basic"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
+      <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} autoComplete="off">
         <Form.Item name="username" rules={[{ required: true, message: 'نام کاربری را لطفا وارد نمایید!' }]}>
           <Input placeholder="نام کاربری" />
         </Form.Item>

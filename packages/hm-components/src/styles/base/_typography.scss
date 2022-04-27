@@ -39,7 +39,6 @@ textarea {
     @extend %heading;
     font-size: 3rem;
     margin: 1.5rem 0;
-    // color: $color-primary;
 }
 
 .heading-4 {
@@ -47,6 +46,7 @@ textarea {
     font-size: 1.9rem;
     margin: 2rem 0;
 }
+
 b,
 strong {
     font-weight: bold;
