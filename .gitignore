@@ -1,3 +1,4 @@
 node_modules
 back-office-app
 .eslintcache
+.npmrc

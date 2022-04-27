@@ -6,12 +6,12 @@ export const authenticate = (tokens: { refreshToken: string; accessToken: string
   const { accessToken, refreshToken } = tokens;
   try {
     if (expiration) {
-      Cookies.set('token', accessToken, { expires: expiration });
-      Cookies.set('refreshToken', refreshToken, { expires: 1000 });
+      Cookies.set('access_token', accessToken, { expires: expiration });
+      Cookies.set('refresh_token', refreshToken, { expires: 1000 });
       return true;
     }
-    Cookies.set('token', accessToken);
-    Cookies.set('refreshToken', refreshToken);
+    Cookies.set('access_token', accessToken);
+    Cookies.set('refresh_token', refreshToken);
     return true;
   } catch (err) {
     console.error(err);
@@ -21,8 +21,8 @@ export const authenticate = (tokens: { refreshToken: string; accessToken: string
 
 export const logout = (): void => {
   try {
-    Cookies.remove('token');
-    Cookies.remove('refreshToken');
+    Cookies.remove('access_token');
+    Cookies.remove('refresh_token');
   } catch (err) {
     console.error(err);
   }
@@ -30,14 +30,14 @@ export const logout = (): void => {
 
 export const removeAuthTokens = (): void => {
   try {
-    Cookies.remove('token');
-    Cookies.remove('refreshToken');
+    Cookies.remove('access_token');
+    Cookies.remove('refresh_token');
   } catch (err) {
     console.error(err);
   }
 };
 
-export const extractUserFromCookie = (token?: string): User | null => {
+export const extractUserFromCookie = (token?: string): any => {
   try {
     const accessToken = Cookies.get('token');
     if (accessToken) {

@@ -1,6 +1,9 @@
 import { Card, Form, Input } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { SimpleButton } from 'hm-components';
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
+import requestHandler from '../api/requestHandler';
 
 interface FormData {
   username: string;
@@ -8,13 +11,17 @@ interface FormData {
 }
 
 const LoginForm = ({ onLogin }: any) => {
-  const onFinish = (data: FormData) => {
-    onLogin(data.username, data.password);
-    console.log(data);
+  const { login, user } = useContext(AuthContext);
+  const onFinish = async (data: FormData) => {
+    const creds = await onLogin(data.username, data.password);
+    login(creds);
   };
-
+  const test = () => {
+    requestHandler.request.get('https://dev.hamrah-mechanic.com/api/v1/membership/connect/userinfo');
+  };
   return (
     <Card className="d-flex align-items-center flex-column" title="ورود به سیستم">
+      {user?.fullName ? user?.fullName : 'asdf'}
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -39,6 +46,7 @@ const LoginForm = ({ onLogin }: any) => {
           <SimpleButton htmlType="submit" title="ورود" type="primary" block />
         </Form.Item>
       </Form>
+      <button onClick={test}>test</button>
     </Card>
   );
 };

@@ -1,19 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import AuthContext from './auth/AuthContext';
+import { Provider, useSelector } from 'react-redux';
+import { store, RootState } from './store/store';
+interface AppTypes {
+  authFunctions: AuthFunctions;
+}
+type AuthFunctions = {
+  login: () => void;
+  logout: () => void;
+};
+function App({ login, children, refreshAccess }: any) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <AuthContext refreshAccess={refreshAccess} value={login}>
+        {children}
+      </AuthContext>
+    </Provider>
   );
 }
 
