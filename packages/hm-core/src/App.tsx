@@ -4,14 +4,14 @@ import { store, RootState } from './store/store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routing from './Routing/Router';
 
-interface AppTypes {
+interface KhaosTypes {
   authFunctions: AuthFunctions;
 }
 type AuthFunctions = {
   login: () => void;
   logout: () => void;
 };
-function App({ login, children, refreshAccess }: any) {
+function Khaos({ login, children, refreshAccess }: any) {
   return (
     <Provider store={store}>
       <AuthContext refreshAccess={refreshAccess} value={login}>
@@ -21,4 +21,4 @@ function App({ login, children, refreshAccess }: any) {
   );
 }
 
-export default App;
+export default Khaos;
