@@ -39,7 +39,7 @@ export const removeAuthTokens = (): void => {
 
 export const extractUserFromCookie = (token?: string): any => {
   try {
-    const accessToken = Cookies.get('token');
+    const accessToken = Cookies.get('access_token');
     if (accessToken) {
       const user = jwt(accessToken) as User;
       return user;

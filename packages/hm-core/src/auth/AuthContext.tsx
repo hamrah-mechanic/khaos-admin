@@ -14,11 +14,8 @@ export const AuthContext = createContext<any>({});
 const AuthProvider = (props: any) => {
   const { children, refreshAccess } = props;
   const error = useSelector((state: RootState) => state.error);
-  const [user, setUser] = useState<User | undefined>(undefined);
-  useEffect(() => {
-    const extractedUser = extractUserFromCookie();
-    if (extractedUser) setUser({ fullName: extractedUser.full_name });
-  }, []);
+  const [user, setUser] = useState<User | undefined>(() => extractUserFromCookie());
+
   useEffect(() => {
     if (error?.type === '401') {
       onUnAuthorized();

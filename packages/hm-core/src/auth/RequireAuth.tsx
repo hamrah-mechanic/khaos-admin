@@ -4,6 +4,7 @@ import { AuthContext } from './AuthContext';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const location = useLocation();
+  console.log('context', useContext(AuthContext));
   const { user } = useContext(AuthContext);
 
   if (user === undefined) {
