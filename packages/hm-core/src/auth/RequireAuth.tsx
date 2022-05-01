@@ -7,7 +7,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
   console.log('context', useContext(AuthContext));
   const { user } = useContext(AuthContext);
 
-  if (user === undefined) {
+  if (user === undefined || user === null) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

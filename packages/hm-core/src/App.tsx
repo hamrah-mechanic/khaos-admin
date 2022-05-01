@@ -3,7 +3,6 @@ import { Provider, useSelector } from 'react-redux';
 import { store, RootState } from './store/store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routing from './Routing/Router';
-
 interface KhaosTypes {
   authFunctions: AuthFunctions;
 }
