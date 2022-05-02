@@ -14,8 +14,10 @@ import { Layout } from 'antd';
 import SidebarMenu from '../SideBar';
 
 const { Header, Content, Sider } = Layout;
-
-const Page: React.FC = () => {
+type Props = {
+  sideBarItems: Array<{ name: string; link: string }>;
+};
+const Page = (props: Props) => {
   return (
     <Layout style={{ minHeight: '100vh' }} className={styles['layout']}>
       <Header className={styles['header']}>
@@ -25,7 +27,7 @@ const Page: React.FC = () => {
       </Header>
       <Layout>
         <Sider collapsed={false} className={styles['layout__sidebar']}>
-          <SidebarMenu />
+          <SidebarMenu items={props.sideBarItems} />
         </Sider>
         <Layout>
           <Content className={styles['layout__content']}>
