@@ -10,7 +10,12 @@ interface FormData {
   password: string;
 }
 
-const LoginForm = ({ onLogin }: any) => {
+interface LoginFormProps {
+  onLogin: any;
+  cardClassName?: string;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin, cardClassName }) => {
   const { login, user } = useContext(AuthContext);
   const onFinish = async (data: FormData) => {
     const creds = await onLogin(data.username, data.password);
@@ -20,7 +25,7 @@ const LoginForm = ({ onLogin }: any) => {
     requestHandler.request.get('https://dev.hamrah-mechanic.com/api/v1/membership/connect/userinfo');
   };
   return (
-    <Card className="d-flex align-items-center flex-column" title="ورود به سیستم">
+    <Card className={`${cardClassName} d-flex flex-column`} title="ورود به سیستم">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} autoComplete="off">
         <Form.Item name="username" rules={[{ required: true, message: 'نام کاربری را لطفا وارد نمایید!' }]}>
           <Input placeholder="نام کاربری" />
