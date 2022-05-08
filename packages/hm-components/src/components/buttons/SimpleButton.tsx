@@ -1,11 +1,10 @@
 import { Button, ButtonProps } from 'antd';
 
 interface SimpleButtonProps extends ButtonProps {
-  children?: React.ReactNode;
   onClick?: () => void;
 }
 
-const SimpleButton: React.FC<SimpleButtonProps> = ({ children, onClick, title, ...props }) => {
+const SimpleButton: React.FC<SimpleButtonProps> = ({ onClick, title, ...props }) => {
   return (
     <Button onClick={onClick} {...props}>
       {title}

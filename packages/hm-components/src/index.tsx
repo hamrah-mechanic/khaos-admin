@@ -1,6 +1,5 @@
-import HelloWorld from './components/HelloWorld';
 import { SimpleButton } from './components/buttons';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import './styles/main.scss';
 
-export { HelloWorld, SimpleButton };
+export { SimpleButton };

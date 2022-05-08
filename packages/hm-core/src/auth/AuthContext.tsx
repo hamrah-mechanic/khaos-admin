@@ -1,8 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import errorSlice from '../store/slices/errorSlice';
 import { User } from '../types';
 import { authenticate, extractUserFromCookie, removeAuthTokens } from './authUtilities';
-import { Provider, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { store, RootState } from '../store/store';
 import { setError } from '../store/slices/errorSlice';
 

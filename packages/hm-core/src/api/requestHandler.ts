@@ -1,8 +1,6 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { authenticate, logout } from '../auth/authUtilities';
 import Cookies from 'js-cookie';
-import { store } from '../store/store';
-import { setError } from '../store/slices/errorSlice';
 
 interface AxiosOptions extends AxiosRequestConfig {
   isAuthenticated?: boolean;
@@ -37,6 +35,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
 // api.interceptors.response.use(
 //   function (response) {
 //     return response;
@@ -51,6 +50,7 @@ api.interceptors.response.use(
 //     return Promise.reject(error);
 //   },
 // );
+
 const request = {
   get: <T>(endpoint: string, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
     return api.get(endpoint, options);

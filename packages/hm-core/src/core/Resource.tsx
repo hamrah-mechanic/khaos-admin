@@ -1,19 +1,18 @@
 import React, { ComponentType, ReactElement, Children, useContext, useEffect, useState } from 'react';
 import request from '../api/requestHandler';
 import { AuthContext } from '../auth/AuthContext';
-import { ResourceProvider, ResorceContext } from './ResourceContext';
+import { ResourceProvider } from './ResourceContext';
 
 interface ResourceProps {
   name?: string;
-  contextName?: any;
+  contextName?: string;
   crud?: ReactElement | ComponentType<any>;
   children?: any;
 }
 
-const Resource: React.FC<ResourceProps> = ({ contextName, children }) => {
+const Resource: React.FC<ResourceProps> = ({ children }) => {
   //FIXME: change to global context
   const { dataProvider } = useContext(AuthContext);
-  console.log('route', dataProvider);
   const [list, setList] = useState({});
   const childrenResource = Children.map(children, child => {
     return React.cloneElement(child, { usersList: list });
@@ -29,7 +28,6 @@ const Resource: React.FC<ResourceProps> = ({ contextName, children }) => {
 
   const show = async () => {
     const { data } = await request.request.get(`${dataProvider}/users`);
-    console.log(data);
     setList(data);
   };
   const update = () => {

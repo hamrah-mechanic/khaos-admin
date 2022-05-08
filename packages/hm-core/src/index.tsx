@@ -1,8 +1,8 @@
 import AuthProvider, { AuthContext } from './auth/AuthContext';
 import LoginForm from './auth/LoginForm';
 import requestHandler from './api/requestHandler';
-import 'antd/dist/antd.css';
-import Khaos from './App';
+import 'antd/dist/antd.min.css';
+import Khaos from './_app';
 import Resource from './core/Resource';
 import { ResorceContext } from './core/ResourceContext';
 

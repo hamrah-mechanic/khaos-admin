@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import RequireAuth from '../auth/RequireAuth';
-import Page from '../Layouts/Page';
+import Page from '../layouts/Page';
 
 const Routing = ({ children }: any) => {
   const sideBarItems = [];
