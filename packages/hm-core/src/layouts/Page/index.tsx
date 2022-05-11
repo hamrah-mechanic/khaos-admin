@@ -1,5 +1,4 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 
 //STYLES
 import styles from './page.module.scss';
@@ -16,8 +15,10 @@ import SidebarMenu from '../SideBar';
 const { Header, Content, Sider } = Layout;
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
+  children: any;
 };
-const Page = (props: Props) => {
+
+const Page = ({ children, sideBarItems }: Props) => {
   return (
     <Layout style={{ minHeight: '100vh' }} className={styles['layout']}>
       <Header className={styles['header']}>
@@ -27,12 +28,10 @@ const Page = (props: Props) => {
       </Header>
       <Layout>
         <Sider collapsed={false} className={styles['layout__sidebar']}>
-          <SidebarMenu items={props.sideBarItems} />
+          <SidebarMenu items={sideBarItems} />
         </Sider>
         <Layout>
-          <Content className={styles['layout__content']}>
-            <Outlet />
-          </Content>
+          <Content className={styles['layout__content']}>{children} </Content>
         </Layout>
       </Layout>
     </Layout>

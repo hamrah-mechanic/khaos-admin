@@ -1,22 +1,18 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React from 'react';
-import RequireAuth from '../auth/RequireAuth';
 import Page from '../layouts/Page';
 
-const Routing = ({ children }: any) => {
-  const sideBarItems = [];
-  const dynamicRoutes = React.Children.map(children, child => {
-    if (child.props.name !== 'login') sideBarItems.push({ name: child.props.name, link: child.props.name });
-    return <Route path={child.props.name} element={<RequireAuth>{child}</RequireAuth>} />;
+const Routing = ({ children, login }: any) => {
+  const sideBarItems = React.Children.map(children, child => {
+    return { name: child.props.name, link: child.props.name };
   });
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={'/login'} element={children[0]} />
-        <Route element={<Page sideBarItems={sideBarItems} />}>{dynamicRoutes}</Route>
+        <Route path="/login" element={login} />
+        <Route path="/*" element={<Page sideBarItems={sideBarItems}>{children}</Page>} />
       </Routes>
     </BrowserRouter>
   );
 };
-
 export default Routing;

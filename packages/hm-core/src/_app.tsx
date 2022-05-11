@@ -15,8 +15,8 @@ type AuthFunctions = {
 function Khaos({ login, children, refreshAccess, dataProvider }: any) {
   return (
     <Provider store={store}>
-      <AuthContext refreshAccess={refreshAccess} dataProvider={dataProvider} value={login}>
-        <Routing>{children}</Routing>
+      <AuthContext refreshAccess={refreshAccess} dataProvider={dataProvider}>
+        <Routing login={login}>{children}</Routing>
       </AuthContext>
     </Provider>
   );

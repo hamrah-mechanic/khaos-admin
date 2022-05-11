@@ -1,22 +1,27 @@
-import React, { ComponentType, ReactElement, Children, useContext, useEffect, useState } from 'react';
+import React, { ComponentType, ReactElement, useContext, useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import request from '../api/requestHandler';
 import { AuthContext } from '../auth/AuthContext';
 import { ResourceProvider } from './ResourceContext';
+import ResourceNavigator from './ResourceNavigator';
 
 interface ResourceProps {
   name?: string;
   contextName?: string;
+  components?: Array<{ path: string; component: any }>;
   crud?: ReactElement | ComponentType<any>;
   children?: any;
 }
 
-const Resource: React.FC<ResourceProps> = ({ children }) => {
+const Resource: React.FC<ResourceProps> = ({ children, components }) => {
+  //FIXME array of components
   //FIXME: change to global context
   const { dataProvider } = useContext(AuthContext);
   const [list, setList] = useState({});
-  const childrenResource = Children.map(children, child => {
-    return React.cloneElement(child, { usersList: list });
-  });
+
+  const withPropsComponent = component => {
+    return React.cloneElement(component, { usersList: list });
+  };
 
   useEffect(() => {
     show();
@@ -38,7 +43,19 @@ const Resource: React.FC<ResourceProps> = ({ children }) => {
     return null;
   };
 
-  return <ResourceProvider value={{ list }}>{childrenResource}</ResourceProvider>;
+  return (
+    <ResourceProvider value={{ list }}>
+      <>
+        <ResourceNavigator paths={components.map(comp => comp.path)} />
+        <Routes>
+          {components.map(component => {
+            const { path, component: Compo } = component;
+            return <Route key={path} path={path} element={withPropsComponent(<Compo />)} />;
+          })}
+        </Routes>
+      </>
+    </ResourceProvider>
+  );
 };
 
 export default Resource;
