@@ -1,5 +1,6 @@
 import React, { ComponentType, ReactElement, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import RequireAuth from '../auth/RequireAuth';
 import request from '../api/requestHandler';
 import { AuthContext } from '../auth/AuthContext';
 import { ResourceProvider } from './ResourceContext';
@@ -47,12 +48,14 @@ const Resource: React.FC<ResourceProps> = ({ children, components }) => {
     <ResourceProvider value={{ list }}>
       <>
         <ResourceNavigator paths={components.map(comp => comp.path)} />
-        <Routes>
-          {components.map(component => {
-            const { path, component: Compo } = component;
-            return <Route key={path} path={path} element={withPropsComponent(<Compo />)} />;
-          })}
-        </Routes>
+        <RequireAuth>
+          <Routes>
+            {components.map(component => {
+              const { path, component: Compo } = component;
+              return <Route key={path} path={path} element={withPropsComponent(<Compo />)} />;
+            })}
+          </Routes>
+        </RequireAuth>
       </>
     </ResourceProvider>
   );
