@@ -5,10 +5,6 @@ import { useSelector } from 'react-redux';
 import { store, RootState } from '../store/store';
 import { setError } from '../store/slices/errorSlice';
 
-interface AuthContextType {
-  user?: User | undefined;
-}
-
 export const AuthContext = createContext<any>({});
 
 const AuthProvider = (props: any) => {
