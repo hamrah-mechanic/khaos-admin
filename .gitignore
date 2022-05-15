@@ -3,3 +3,4 @@ back-office-app
 playground
 .eslintcache
 .npmrc
+cypress.env.json

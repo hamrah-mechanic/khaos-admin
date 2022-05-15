@@ -14,7 +14,7 @@ interface ResourceProps {
   children?: any;
 }
 
-const Resource: React.FC<ResourceProps> = ({ children, components }) => {
+const Resource: React.FC<ResourceProps> = ({ children, components, name }) => {
   //FIXME array of components
   //FIXME: change to global context
   const { dataProvider } = useContext(AuthContext);

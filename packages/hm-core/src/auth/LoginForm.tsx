@@ -4,6 +4,7 @@ import { SimpleButton } from 'hm-components';
 import { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 import requestHandler from '../api/requestHandler';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   username: string;
@@ -17,9 +18,14 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin, cardClassName }) => {
   const { login, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const onFinish = async (data: FormData) => {
-    const creds = await onLogin(data.username, data.password);
-    login(creds);
+    try {
+      const creds = await onLogin(data.username, data.password);
+      login(creds);
+      navigate('/');
+    } catch {}
   };
   const test = () => {
     requestHandler.request.get('https://dev.hamrah-mechanic.com/api/v1/membership/connect/userinfo');
@@ -41,7 +47,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, cardClassName }) => {
           />
         </Form.Item>
         <Form.Item>
-          <SimpleButton htmlType="submit" title="ورود" type="primary" block />
+          <SimpleButton htmlType="submit" title="Welcome" type="primary" block />
         </Form.Item>
       </Form>
       <button onClick={test}>test</button>
