@@ -37,7 +37,7 @@ export const removeAuthTokens = (): void => {
   }
 };
 
-export const extractUserFromCookie = (token?: string): any => {
+export const extractUserFromCookie = (token?: string): User => {
   try {
     const accessToken = Cookies.get('access_token');
     if (accessToken) {

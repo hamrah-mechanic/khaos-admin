@@ -1,13 +1,18 @@
+import { SimpleButton } from 'hm-components';
 import { Link } from 'react-router-dom';
-const ResourceNavigator = ({ paths }: any) => {
+
+const ResourceNavigator = ({ navigators }) => {
   return (
-    <>
-      {paths.map(path => (
-        <Link key={path} to={path}>
-          {path}
-        </Link>
-      ))}
-    </>
+    <div className="d-flex">
+      {navigators.map(
+        navigator =>
+          navigator.button && (
+            <Link key={navigator.link} to={navigator.link}>
+              <SimpleButton title={navigator.name} {...navigator.button} />
+            </Link>
+          ),
+      )}
+    </div>
   );
 };
 

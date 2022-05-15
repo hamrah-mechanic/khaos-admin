@@ -5,13 +5,10 @@ import { useSelector } from 'react-redux';
 import { store, RootState } from '../store/store';
 import { setError } from '../store/slices/errorSlice';
 
-interface AuthContextType {
-  user?: User | undefined;
-}
-
+//FIXME: correct types instead any
 export const AuthContext = createContext<any>({});
 
-const AuthProvider = (props: any) => {
+const AuthProvider = props => {
   const { children, refreshAccess, dataProvider } = props;
   const error = useSelector((state: RootState) => state.error);
   const [user, setUser] = useState<User | undefined>(() => extractUserFromCookie());
@@ -23,9 +20,9 @@ const AuthProvider = (props: any) => {
     }
   }, [error]);
 
-  const login = async (tokens: any) => {
+  const login = async tokens => {
     authenticate({ refreshToken: tokens.refresh_token, accessToken: tokens.access_token });
-    const extractedUser = extractUserFromCookie() as User;
+    const extractedUser = extractUserFromCookie();
     setUser(extractedUser);
   };
 
