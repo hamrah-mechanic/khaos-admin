@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 
 //STYLES
 import styles from './page.module.scss';
