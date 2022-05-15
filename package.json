@@ -51,10 +51,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --cache --fix"
-    ],
-    "*.{ts, tsx}" : [
-      "tsc-files --noEmit"
+      "eslint --cache --fix",
+      "bash -c tsc --skipLibCheck --noEmit"
     ],
     "*.{css,scss,md}": "prettier --write"
   }
