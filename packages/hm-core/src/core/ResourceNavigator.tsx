@@ -1,7 +1,7 @@
 import { SimpleButton } from 'hm-components';
 import { Link } from 'react-router-dom';
 
-const ResourceNavigator = ({ navigators }: any) => {
+const ResourceNavigator = ({ navigators }) => {
   return (
     <div className="d-flex">
       {navigators.map(

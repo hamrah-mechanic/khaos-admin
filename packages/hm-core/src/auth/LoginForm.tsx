@@ -11,12 +11,12 @@ interface FormData {
 }
 
 interface LoginFormProps {
-  onLogin: any;
+  onLogin: (username: string, password: string) => void;
   cardClassName?: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin, cardClassName }) => {
-  const { login, user } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const onFinish = async (data: FormData) => {
     const creds = await onLogin(data.username, data.password);
     login(creds);

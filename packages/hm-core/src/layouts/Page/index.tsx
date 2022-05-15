@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 
 //STYLES
 import styles from './page.module.scss';
@@ -15,7 +15,7 @@ import SidebarMenu from '../SideBar';
 const { Header, Content, Sider } = Layout;
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
-  children: any;
+  children: React.ReactNode;
 };
 
 const Page = ({ children, sideBarItems }: Props) => {

@@ -81,7 +81,7 @@ const request = {
 
 export default { request, api };
 
-//This shall be removed later
+//FIXME: This shall be removed later
 const renewAccessToken = async (): Promise<any> => {
   const params = new URLSearchParams();
   const token = Cookies.get('refresh_token') as string;

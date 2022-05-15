@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ComponentType, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from '../auth/RequireAuth';
 import { ButtonProps } from 'antd';
@@ -11,7 +11,7 @@ interface ResourceProps {
   name: string;
   sidebarLink: string;
   contextName?: string;
-  components?: Array<{ path: string; component: any; name: string; button?: ButtonProps }>;
+  components?: Array<{ path: string; component: ComponentType; name: string; button?: ButtonProps }>;
 }
 
 const Resource: React.FC<ResourceProps> = ({ components }) => {
@@ -35,6 +35,7 @@ const Resource: React.FC<ResourceProps> = ({ components }) => {
 
   const show = async () => {
     const { data } = await request.request.get(`${dataProvider}/users`);
+    //FIXME: correct types from backend api instead any
     setList(data as Array<any>);
   };
 
