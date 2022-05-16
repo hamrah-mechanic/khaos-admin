@@ -1,5 +1,5 @@
-import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import { Menu } from 'antd';
 
 type Props = {
   items: Array<{ name: string; link: string }>;

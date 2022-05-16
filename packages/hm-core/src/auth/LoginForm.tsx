@@ -1,7 +1,7 @@
+import { useContext } from 'react';
+import { SimpleButton } from 'hm-components';
 import { Card, Form, Input } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { SimpleButton } from 'hm-components';
-import { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 import requestHandler from '../api/requestHandler';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ interface FormData {
 }
 
 interface LoginFormProps {
-  onLogin: any;
+  onLogin: (username: string, password: string) => void;
   cardClassName?: string;
 }
 

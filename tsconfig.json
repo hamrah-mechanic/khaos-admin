@@ -15,10 +15,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "downlevelIteration": true,
     "incremental": true,
     "baseUrl": "./",
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["src", "/node_modules/**/*", "**/*.ts", "**/*.tsx"]
 }

@@ -15,12 +15,12 @@ import SidebarMenu from '../SideBar';
 const { Header, Content, Sider } = Layout;
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
-  children: any;
+  children: React.ReactNode;
 };
 
 const Page = ({ children, sideBarItems }: Props) => {
   return (
-    <Layout style={{ minHeight: '100vh' }} className={styles['layout']}>
+    <Layout className={styles['layout']}>
       <Header className={styles['header']}>
         <div className={styles['logo']}>
           <div className={styles['logo__image']}>{/* <img src={logo} alt="hm" /> */}</div>

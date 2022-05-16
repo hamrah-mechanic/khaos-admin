@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Routing from './Routing/Router';
 
-function Khaos({ login, children, refreshAccess, dataProvider }: any) {
+const Khaos = ({ login, children, refreshAccess, dataProvider }) => {
   return (
     <Provider store={store}>
       <AuthContext refreshAccess={refreshAccess} dataProvider={dataProvider}>
@@ -11,6 +11,6 @@ function Khaos({ login, children, refreshAccess, dataProvider }: any) {
       </AuthContext>
     </Provider>
   );
-}
+};
 
 export default Khaos;

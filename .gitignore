@@ -4,3 +4,4 @@ playground
 .eslintcache
 .npmrc
 cypress.env.json
+tsconfig.tsbuildinfo

@@ -1,53 +1,71 @@
-import React, { ComponentType, ReactElement, useContext, useEffect, useState } from 'react';
+import React, { ComponentType, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from '../auth/RequireAuth';
+import { ButtonProps } from 'antd';
 import request from '../api/requestHandler';
 import { AuthContext } from '../auth/AuthContext';
 import { ResourceProvider } from './ResourceContext';
 import ResourceNavigator from './ResourceNavigator';
 
 interface ResourceProps {
-  name?: string;
+  name: string;
+  sidebarLink: string;
   contextName?: string;
-  components?: Array<{ path: string; component: any }>;
-  crud?: ReactElement | ComponentType<any>;
-  children?: any;
+  components?: Array<{ path: string; component: ComponentType; name: string; button?: ButtonProps }>;
 }
 
-const Resource: React.FC<ResourceProps> = ({ children, components, name }) => {
+const Resource: React.FC<ResourceProps> = ({ components, name }) => {
   //FIXME array of components
   //FIXME: change to global context
   const { dataProvider } = useContext(AuthContext);
-  const [list, setList] = useState({});
-
-  const withPropsComponent = component => {
-    return React.cloneElement(component, { usersList: list });
-  };
+  const [list, setList] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     show();
   }, []);
 
-  const create = () => {
-    return null;
+  const selectItem = item => {
+    setSelectedItem(item);
+  };
+
+  const create = async formData => {
+    const { data } = await request.request.post(`${dataProvider}/users`, formData);
+    setList([...list, data]);
   };
 
   const show = async () => {
     const { data } = await request.request.get(`${dataProvider}/users`);
-    setList(data);
-  };
-  const update = () => {
-    return null;
+    //FIXME: correct types from backend api instead any
+    setList(data as Array<any>);
   };
 
-  const remove = () => {
-    return null;
+  const update = async (id, formData) => {
+    const { data } = await request.request.put(`${dataProvider}/users/${id}`, formData);
+    setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
+  };
+
+  const remove = async id => {
+    await request.request.delete(`${dataProvider}/users/${id}`);
+    setList(list.filter(item => item.id !== id));
+  };
+
+  const withPropsComponent = component => {
+    return React.cloneElement(component, { usersList: list, remove, selectItem, selectedItem, update, create });
   };
 
   return (
     <ResourceProvider value={{ list }}>
       <>
-        <ResourceNavigator paths={components.map(comp => comp.path)} />
+        <ResourceNavigator
+          navigators={components.map(comp => {
+            return {
+              name: comp.name,
+              link: comp.path,
+              button: comp.button,
+            };
+          })}
+        />
         <RequireAuth>
           <Routes>
             {components.map(component => {
