@@ -18,6 +18,11 @@ module.exports = {
       },
     },
   ],
+
+  "framework": '@storybook/react',
+  "core": {
+    builder: 'webpack5',
+  },
   
   webpackFinal: config => {
     config.resolve.modules.push(path.resolve(__dirname, '..'), 'node_modules');
