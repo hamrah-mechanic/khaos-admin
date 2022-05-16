@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from 'antd';
 
-interface SimpleButtonProps extends ButtonProps {
+export interface SimpleButtonProps extends ButtonProps {
   onClick?: () => void;
 }
 
