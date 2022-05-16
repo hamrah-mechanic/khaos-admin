@@ -8,13 +8,17 @@ module.exports = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-    "@storybook/preset-create-react-app"
+    'storybook-css-modules-preset',
+    {
+      name: '@storybook/preset-scss',
+      options: {
+        cssLoaderOptions: {
+          modules: true,
+        }
+      },
+    },
   ],
-  "framework": "@storybook/react",
-  "core": {
-    "builder": "@storybook/builder-webpack5"
-  },
+  
   webpackFinal: config => {
     config.resolve.modules.push(path.resolve(__dirname, '..'), 'node_modules');
     config.resolve.roots = [path.resolve(__dirname, '../public')];
