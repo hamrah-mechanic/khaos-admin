@@ -9,14 +9,12 @@ import GlobalContext from '../store/GlobalContext';
 GlobalContext;
 interface ResourceProps {
   name: string;
+  entityName: string;
   sidebarLink: string;
-  contextName?: string;
   components?: Array<{ path: string; component: ComponentType; name: string; button?: ButtonProps }>;
 }
 
-const Resource: React.FC<ResourceProps> = ({ components, name }) => {
-  //FIXME array of components
-  //FIXME: change to global context
+const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -29,28 +27,36 @@ const Resource: React.FC<ResourceProps> = ({ components, name }) => {
   };
 
   const create = async formData => {
-    const { data } = await request.request.post(`${root}/users`, formData);
+    const { data } = await request.request.post(`${root}/${entityName}`, formData);
     setList([...list, data]);
   };
 
   const show = async () => {
-    const { data } = await request.request.get(`${root}/users`);
+    const { data } = await request.request.get(`${root}/${entityName}`);
     //FIXME: correct types from backend api instead any
     setList(data as Array<any>);
   };
 
   const update = async (id, formData) => {
-    const { data } = await request.request.put(`${root}/users/${id}`, formData);
+    const { data } = await request.request.put(`${root}/${entityName}/${id}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
   };
 
   const remove = async id => {
-    await request.request.delete(`${root}/users/${id}`);
+    await request.request.delete(`${root}/${entityName}/${id}`);
     setList(list.filter(item => item.id !== id));
   };
 
   const withPropsComponent = component => {
-    return React.cloneElement(component, { usersList: list, remove, selectItem, selectedItem, update, create });
+    return React.cloneElement(component, {
+      usersList: list,
+      remove,
+      selectItem,
+      selectedItem,
+      update,
+      create,
+      entityName,
+    });
   };
 
   return (
@@ -60,7 +66,7 @@ const Resource: React.FC<ResourceProps> = ({ components, name }) => {
           navigators={components.map(comp => {
             return {
               name: comp.name,
-              link: comp.path,
+              link: entityName + '/' + comp.path,
               button: comp.button,
             };
           })}
@@ -69,7 +75,7 @@ const Resource: React.FC<ResourceProps> = ({ components, name }) => {
           <Routes>
             {components.map(component => {
               const { path, component: Compo } = component;
-              return <Route key={path} path={path} element={withPropsComponent(<Compo />)} />;
+              return <Route key={path} path={entityName + '/' + path} element={withPropsComponent(<Compo />)} />;
             })}
           </Routes>
         </RequireAuth>

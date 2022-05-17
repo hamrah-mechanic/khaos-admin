@@ -4,7 +4,6 @@ import { Card, Form, Input } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { AuthContext } from './AuthContext';
 import requestHandler from '../api/requestHandler';
-import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   username: string;
@@ -13,23 +12,24 @@ interface FormData {
 
 interface LoginFormProps {
   onLogin: (username: string, password: string) => void;
+  callback?: () => void;
   cardClassName?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onLogin, cardClassName }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin, callback, cardClassName }) => {
   const { login, user } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const onFinish = async (data: FormData) => {
     try {
       const creds = await onLogin(data.username, data.password);
       login(creds);
-      navigate('/');
+      if (callback) callback();
     } catch {}
   };
   const test = () => {
     requestHandler.request.get('https://dev.hamrah-mechanic.com/api/v1/membership/connect/userinfo');
   };
+
   return (
     <Card className={`${cardClassName} d-flex flex-column`} title="ورود به سیستم">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} autoComplete="off">

@@ -4,7 +4,7 @@ import Page from '../layouts/Page';
 
 const Routing = ({ children, login }) => {
   const sideBarItems = React.Children.map(children, child => {
-    return { name: child.props.name, link: child.props.sidebarLink };
+    return { name: child.props.name, link: `${child.props.entityName}/${child.props.sidebarLink}` };
   });
   return (
     <BrowserRouter>
