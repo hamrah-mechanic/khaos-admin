@@ -2,23 +2,24 @@
     min-height: 100vh;
     .header {
         padding: 0;
+        height: 100px;
     }
 
-    // .logo {
-    //     height: 100%;
-    //     background: white;
-    //     width: 20rem;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
+    .logo {
+        height: 100%;
+        background: white;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    //     &__image {
-    //         width: 60%;
-    //         display: flex;
-    //         align-items: center;
-    //         justify-content: center;
-    //     }
-    // }
+        &__image {
+            width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 
     &__content {
         padding: 2.4rem;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 //STYLES
 import styles from './page.module.scss';
@@ -11,6 +11,7 @@ import { Layout } from 'antd';
 
 //COMPONENTS
 import SidebarMenu from '../SideBar';
+import GlobalContext from '../../store/GlobalContext';
 
 const { Header, Content, Sider } = Layout;
 type Props = {
@@ -19,11 +20,15 @@ type Props = {
 };
 
 const Page = ({ children, sideBarItems }: Props) => {
+  const { logo } = useContext(GlobalContext);
+
   return (
     <Layout className={styles['layout']}>
       <Header className={styles['header']}>
         <div className={styles['logo']}>
-          <div className={styles['logo__image']}>{/* <img src={logo} alt="hm" /> */}</div>
+          <div className={styles['logo__image']}>
+            <img src={logo} alt="hm" />
+          </div>
         </div>
       </Header>
       <Layout>
