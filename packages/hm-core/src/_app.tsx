@@ -1,16 +1,16 @@
-import AuthContext from './auth/AuthContext';
+import AuthProvider from './auth/AuthContext';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Routing from './Routing/Router';
 import GlobalContext from './store/GlobalContext';
 
-const Khaos = ({ login, children, refreshAccess, appConfig }) => {
+const Khaos = ({ login, children, loginRequest, refreshRequest, appConfig }) => {
   return (
     <Provider store={store}>
       <GlobalContext.Provider value={appConfig}>
-        <AuthContext refreshAccess={refreshAccess}>
+        <AuthProvider loginRequest={loginRequest} refreshRequest={refreshRequest}>
           <Routing login={login}>{children}</Routing>
-        </AuthContext>
+        </AuthProvider>
       </GlobalContext.Provider>
     </Provider>
   );

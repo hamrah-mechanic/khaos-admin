@@ -1,11 +1,7 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { authenticate, logout } from '../auth/authUtilities';
 import Cookies from 'js-cookie';
 
-interface AxiosOptions extends AxiosRequestConfig {
-  isAuthenticated?: boolean;
-}
-const api = Axios.create();
+export const api = Axios.create();
 
 api.interceptors.request.use(function (config: any) {
   const token = Cookies.get('access_token');
@@ -15,66 +11,31 @@ api.interceptors.request.use(function (config: any) {
   }
   return config;
 });
-api.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    if (error.response && error.response.status === 401) {
-      return renewAccessToken().then((newToken: any) => {
-        if (newToken) {
-          authenticate({ refreshToken: newToken.refresh_token, accessToken: newToken.access_token });
-          error.config.headers['Authorization'] = `Bearer ${newToken.access_token}`;
-          return api.request(error.config);
-        } else {
-          logout();
-          return;
-        }
-      });
-    }
-    return Promise.reject(error);
-  },
-);
-
-// api.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error: any) {
-//     if (error.response && error.response.status === 401) {
-//       store.dispatch(setError({ type: '401', message: 'token invalid' }));
-//       const token = Cookies.get('access_token');
-//       error.config.headers['Authorization'] = `Bearer ${token}`;
-//       return api.request(error.config);
-//     }
-//     return Promise.reject(error);
-//   },
-// );
 
 const request = {
-  get: <T>(endpoint: string, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
+  get: <T>(endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     return api.get(endpoint, options);
   },
-  post: <T>(endpoint: string, data: unknown, options?: AxiosOptions): Promise<AxiosResponse<T>> => {
+  post: <T>(endpoint: string, data: unknown, options?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     if (options?.headers?.['Content-Type'] === 'application/x-www-form-urlencoded') {
       return api.post(endpoint, data, options);
     }
     return api.post(endpoint, Object.assign({}, data), options);
   },
-  put: (endpoint: string, data: unknown, options?: AxiosOptions): Promise<AxiosResponse> => {
+  put: (endpoint: string, data: unknown, options?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return api.put(endpoint, data, options);
   },
-  patch: (endpoint: string, options?: AxiosOptions): Promise<AxiosResponse> => {
+  patch: (endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return api.patch(endpoint, options);
   },
-  delete: (endpoint: string, options?: AxiosOptions): Promise<AxiosResponse> => {
+  delete: (endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return api.delete(endpoint, options);
   },
-  options: (endpoint: string, options?: AxiosOptions): Promise<AxiosResponse> => {
+  options: (endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return api.options(endpoint, options);
   },
 
-  head: (endpoint: string, options?: AxiosOptions): Promise<AxiosResponse> => {
+  head: (endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return api.head(endpoint, options);
   },
 };

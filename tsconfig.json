@@ -20,5 +20,6 @@
     "incremental": true,
     "baseUrl": "./",
   },
-  "include": ["src", "/node_modules/**/*", "**/*.ts", "**/*.tsx"]
+  "include": ["src", "/node_modules/**/*", "**/*.ts", "**/*.tsx"],
+  "exclude": ["/cypress/**"]
 }
