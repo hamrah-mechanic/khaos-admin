@@ -1,0 +1,130 @@
+@import '../../styles/abstracts/variables';
+
+@mixin GhostButton() {
+    background-color: transparent !important;
+    &:hover {
+        background-color: transparent !important;
+    }
+}
+
+.button {
+    &--info {
+        background-color: $color-info !important;
+        border-color: $color-info !important;
+        color: $color-white !important;
+
+        &:hover {
+            background-color: $color-info-hover !important;
+            border-color: $color-info-hover !important;
+        }
+
+        &--ghost {
+            @include GhostButton;
+            color: $color-info !important;
+
+            &:hover {
+                color: $color-info !important;
+            }
+        }
+    }
+
+    &--secondary {
+        background-color: $color-secondary !important;
+        border-color: $color-secondary !important;
+        color: $color-white !important;
+
+        &:hover {
+            background-color: $color-secondary-hover !important;
+            border-color: $color-secondary-hover !important;
+        }
+
+        &--ghost {
+            @include GhostButton;
+            color: $color-secondary !important;
+
+            &:hover {
+                color: $color-secondary !important;
+            }
+        }
+    }
+
+    &--success {
+        background-color: $color-success !important;
+        border-color: $color-success !important;
+        color: $color-white !important;
+
+        &:hover {
+            background-color: $color-success-hover !important;
+            border-color: $color-success-hover !important;
+        }
+
+        &--ghost {
+            @include GhostButton;
+            color: $color-success !important;
+
+            &:hover {
+                color: $color-success !important;
+            }
+        }
+    }
+
+    &--warning {
+        background-color: $color-warning !important;
+        border-color: $color-warning !important;
+        color: $color-black !important;
+
+        &:hover {
+            background-color: $color-warning-hover !important;
+            border-color: $color-warning-hover !important;
+        }
+
+        &--ghost {
+            @include GhostButton;
+            color: $color-warning !important;
+
+            &:hover {
+                color: $color-warning !important;
+            }
+        }
+    }
+
+    &--dark {
+        background-color: $color-dark !important;
+        border-color: $color-dark !important;
+        color: $color-white !important;
+
+        &:hover {
+            background-color: $color-dark-hover !important;
+            border-color: $color-dark-hover !important;
+        }
+
+        &--ghost {
+            @include GhostButton;
+            color: $color-dark !important;
+
+            &:hover {
+                color: $color-dark !important;
+            }
+        }
+    }
+
+    &--light {
+        background-color: $color-light !important;
+        border-color: $color-light !important;
+        color: $color-black !important;
+
+        &:hover {
+            background-color: $color-light-hover !important;
+            border-color: $color-light-hover !important;
+        }
+
+        &--ghost {
+            @include GhostButton;
+            color: $color-black !important;
+
+            &:hover {
+                color: $color-black !important;
+            }
+        }
+    }
+}

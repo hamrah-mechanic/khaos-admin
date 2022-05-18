@@ -21,5 +21,5 @@
     "baseUrl": "./",
   },
   "include": ["src", "/node_modules/**/*", "**/*.ts", "**/*.tsx"],
-  "exclude": ["/cypress/**"]
+  "exclude": ["cypress"]
 }
