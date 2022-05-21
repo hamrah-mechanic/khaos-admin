@@ -25,7 +25,7 @@ module.exports = {
   },
   
   webpackFinal: config => {
-    config.resolve.modules.push(path.resolve(__dirname, '..'), 'node_modules');
+    config.resolve.modules.push(path.resolve(__dirname, '..'), 'src');
     config.resolve.roots = [path.resolve(__dirname, '../public')];
     return config;
   },
