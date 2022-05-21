@@ -19,6 +19,7 @@
     "downlevelIteration": true,
     "incremental": true,
     "baseUrl": "./",
+    "types": ["cypress"]
   },
   "include": ["src", "/node_modules/**/*", "**/*.ts", "**/*.tsx", "cypress/integration/auth.js"]
 }

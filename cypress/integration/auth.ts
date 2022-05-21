@@ -20,3 +20,5 @@ describe('Test login flow', () => {
     cy.get('tr').should('have.class', 'ant-table-row');
   });
 });
+
+export default {};
