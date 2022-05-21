@@ -1,7 +1,7 @@
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import RequireAuth from '../auth/RequireAuth';
-import { ButtonProps } from 'antd';
+import { SimpleButtonProps } from 'hm-components/src/components/buttons/SimpleButton';
 import request from '../api/requestHandler';
 import { ResourceProvider } from './ResourceContext';
 import ResourceNavigator from './ResourceNavigator';
@@ -11,7 +11,7 @@ interface ResourceProps {
   name: string;
   entityName: string;
   sidebarLink: string;
-  components?: Array<{ path: string; component: ComponentType; name: string; button?: ButtonProps }>;
+  components?: Array<{ path: string; component: ComponentType; name: string; button?: SimpleButtonProps }>;
 }
 
 const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
