@@ -10,6 +10,13 @@ describe('Test login flow', () => {
     cy.get('#basic_username').type(Cypress.env('username'));
     cy.get('#basic_password').type(Cypress.env('password'));
     cy.contains('Welcome').click();
-    cy.url().should('eq', Cypress.env('root'));
+  });
+  it('Should has data in table', () => {
+    cy.request('https://jsonplaceholder.typicode.com/users').as('users');
+    cy.get('@users').should(response => {
+      expect(response).property('status').to.eq(200);
+      expect(response).property('body').to.not.be.null;
+    });
+    cy.get('tr').should('have.class', 'ant-table-row');
   });
 });
