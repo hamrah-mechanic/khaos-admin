@@ -6,7 +6,6 @@ import request from '../api/requestHandler';
 import { ResourceProvider } from './ResourceContext';
 import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
-GlobalContext;
 interface ResourceProps {
   name: string;
   entityName: string;
