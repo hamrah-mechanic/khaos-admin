@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { authenticate, logout } from '../auth/authUtilities';
 import { AuthContext } from '../auth/AuthContext';
 import { api } from './requestHandler';

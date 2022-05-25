@@ -37,13 +37,15 @@
     "build": "lerna run build",
     "prepare": "husky install",
     "lint": "lint-staged",
-    "e2e-test": "cypress open"
+    "e2e-test": "cypress open",
+    "watch": "lerna run --parallel watch"
   },
   "private": true,
   "workspaces": {
     "packages": [
       "packages/*",
-      "examples/*"
+      "examples/*",
+      "playground/*"
     ]
   },
   "husky": {

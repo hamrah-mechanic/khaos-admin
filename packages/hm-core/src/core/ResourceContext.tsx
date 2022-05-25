@@ -1,4 +1,4 @@
-import { createContext, ReactElement } from 'react';
+import React, { createContext, ReactElement } from 'react';
 
 interface ResourceProviderProps {
   children: ReactElement;

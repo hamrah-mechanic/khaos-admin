@@ -1,7 +1,8 @@
 {
   "packages": [
     "packages/*",
-    "examples/hm-app"
+    "examples/hm-app",
+    "playground/*"
   ],
   "version": "1.0.0",
   "useWorkspaces":true,

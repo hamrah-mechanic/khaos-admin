@@ -1,3 +1,4 @@
+import React from 'react';
 import Cookies from 'js-cookie';
 import jwt from 'jwt-decode';
 import { User } from '../types';

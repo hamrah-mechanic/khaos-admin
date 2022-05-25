@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import Routing from './Routing/Router';
 import GlobalContext from './store/GlobalContext';
+import React from 'react';
 
 const Khaos = ({ login, children, loginRequest, refreshRequest, appConfig }) => {
   return (
