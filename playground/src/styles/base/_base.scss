@@ -1,0 +1,49 @@
+@import '~bootstrap/scss/mixins/_breakpoints';
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+body {
+    box-sizing: border-box;
+    text-align: right;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    color: rgb(19, 19, 114);
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+button,
+a,
+input {
+    -webkit-appearance: none !important;
+}
+
+.sticky-container {
+    padding-bottom: 9rem;
+}
+
+.hm-container {
+    @include media-breakpoint-up(lg) {
+        padding-right: 10rem;
+        padding-left: 10rem;
+    }
+}
+
+@for $i from 1 through 5 {
+    .flex-#{$i} {
+        flex: $i;
+    }
+}
