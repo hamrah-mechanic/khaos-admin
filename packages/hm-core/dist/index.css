@@ -1,28 +1,3 @@
-/* src/layouts/Page/page.module.scss */
-.layout .header {
-  padding: 0;
-}
-.layout .logo {
-  height: 100%;
-  background: white;
-  width: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.layout .logo__image {
-  width: 60%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.layout__content {
-  padding: 2.4rem;
-}
-.layout__sidebar {
-  box-shadow: 0 0.1rem 0.4rem -0.1rem rgba(0, 0, 0, 0.15);
-}
-
 /* ../../node_modules/antd/dist/antd.min.css */
 [class*=ant-]::-ms-clear,
 [class*=ant-] input::-ms-clear,

@@ -29,9 +29,7 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.1",
     "esbuild-postcss": "^0.0.4",
-    "esbuild-sass-plugin": "^2.2.6",
-    "i": "^0.3.7",
-    "npm": "^8.10.0"
+    "esbuild-sass-plugin": "^2.2.6"
   },
   "scripts": {
     "build": "tsup",

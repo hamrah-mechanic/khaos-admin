@@ -39,9 +39,9 @@ var __copyProps = (to, from, except, desc) => {
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// ../../node_modules/tsup/assets/cjs_shims.js
+// node_modules/tsup/assets/cjs_shims.js
 var init_cjs_shims = __esm({
-  "../../node_modules/tsup/assets/cjs_shims.js"() {
+  "node_modules/tsup/assets/cjs_shims.js"() {
   }
 });
 
@@ -9657,7 +9657,7 @@ function getContainer(option) {
   var head = document.querySelector("head");
   return head || document.body;
 }
-function injectCSS(css2) {
+function injectCSS(css3) {
   var _option$csp;
   var option = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
   if (!canUseDom()) {
@@ -9668,7 +9668,7 @@ function injectCSS(css2) {
     var _option$csp2;
     styleNode.nonce = (_option$csp2 = option.csp) === null || _option$csp2 === void 0 ? void 0 : _option$csp2.nonce;
   }
-  styleNode.innerHTML = css2;
+  styleNode.innerHTML = css3;
   var container = getContainer(option);
   var firstChild = container.firstChild;
   if (option.prepend && container.prepend) {
@@ -9688,7 +9688,7 @@ function findExistNode(key2) {
     return node.tagName === "STYLE" && node.getAttribute(getMark(option)) === key2;
   });
 }
-function updateCSS(css2, key2) {
+function updateCSS(css3, key2) {
   var option = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
   var container = getContainer(option);
   if (!containerCache.has(container)) {
@@ -9704,12 +9704,12 @@ function updateCSS(css2, key2) {
       var _option$csp5;
       existNode.nonce = (_option$csp5 = option.csp) === null || _option$csp5 === void 0 ? void 0 : _option$csp5.nonce;
     }
-    if (existNode.innerHTML !== css2) {
-      existNode.innerHTML = css2;
+    if (existNode.innerHTML !== css3) {
+      existNode.innerHTML = css3;
     }
     return existNode;
   }
-  var newNode = injectCSS(css2, option);
+  var newNode = injectCSS(css3, option);
   newNode.setAttribute(getMark(option), key2);
   return newNode;
 }
@@ -21652,7 +21652,39 @@ init_cjs_shims();
 var import_react51 = __toESM(require("react"));
 
 // src/layouts/Page/page.module.scss
-var _default = {};
+init_cjs_shims();
+var css2 = `._layout_1lyuz_1 ._header_1lyuz_1 {
+  padding: 0;
+}
+._layout_1lyuz_1 ._logo_1lyuz_4 {
+  height: 100%;
+  background: white;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._layout_1lyuz_1 ._logo__image_1lyuz_12 {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+._layout__content_1lyuz_18 {
+  padding: 2.4rem;
+}
+._layout__sidebar_1lyuz_21 {
+  box-shadow: 0 0.1rem 0.4rem -0.1rem rgba(0, 0, 0, 0.15);
+}`;
+document.head.appendChild(document.createElement("style")).appendChild(document.createTextNode(css2));
+var page_module_default = {
+  "layout": "_layout_1lyuz_1",
+  "header": "_header_1lyuz_1",
+  "logo": "_logo_1lyuz_4",
+  "logo__image": "_logo__image_1lyuz_12",
+  "layout__content": "_layout__content_1lyuz_18",
+  "layout__sidebar": "_layout__sidebar_1lyuz_21"
+};
 
 // src/layouts/Page/index.tsx
 var import_react_redux = require("react-redux");
@@ -21710,23 +21742,23 @@ var Page = ({ children, sideBarItems }) => {
     }));
   };
   return /* @__PURE__ */ import_react51.default.createElement(layout_default2, {
-    className: _default["layout"]
+    className: page_module_default["layout"]
   }, /* @__PURE__ */ import_react51.default.createElement(Header2, {
-    className: _default["header"]
+    className: page_module_default["header"]
   }, /* @__PURE__ */ import_react51.default.createElement("div", {
-    className: _default["logo"]
+    className: page_module_default["logo"]
   }, /* @__PURE__ */ import_react51.default.createElement("div", {
-    className: _default["logo__image"]
+    className: page_module_default["logo__image"]
   }, /* @__PURE__ */ import_react51.default.createElement("img", {
     src: logo,
     alt: "hm"
   })))), /* @__PURE__ */ import_react51.default.createElement(layout_default2, null, /* @__PURE__ */ import_react51.default.createElement(Sider2, {
     collapsed: false,
-    className: _default["layout__sidebar"]
+    className: page_module_default["layout__sidebar"]
   }, /* @__PURE__ */ import_react51.default.createElement(SideBar_default, {
     items: sideBarItems
   })), /* @__PURE__ */ import_react51.default.createElement(layout_default2, null, /* @__PURE__ */ import_react51.default.createElement(Content4, {
-    className: _default["layout__content"]
+    className: page_module_default["layout__content"]
   }, children, " "))));
 };
 var Page_default = Page;

@@ -55,6 +55,8 @@
     "@storybook/testing-library": "^0.0.11",
     "css-loader": "^6.7.1",
     "esbuild-postcss": "^0.0.4",
+    "postcss": "^8.4.14",
+    "postcss-modules": "^4.3.1",
     "sass-loader": "^12.6.0",
     "storybook-css-modules-preset": "^1.1.1",
     "style-loader": "^3.3.1",
