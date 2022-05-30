@@ -39,9 +39,9 @@ var __copyProps = (to, from, except, desc) => {
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// node_modules/tsup/assets/cjs_shims.js
+// ../../node_modules/tsup/assets/cjs_shims.js
 var init_cjs_shims = __esm({
-  "node_modules/tsup/assets/cjs_shims.js"() {
+  "../../node_modules/tsup/assets/cjs_shims.js"() {
   }
 });
 
@@ -2666,10 +2666,13 @@ var AuthContext_default = AuthProvider;
 
 // src/auth/LoginForm.tsx
 init_cjs_shims();
-var import_react46 = __toESM(require("react"));
+var import_react47 = __toESM(require("react"));
 var import_hm_components = require("hm-components");
 
-// ../../node_modules/antd/es/index.js
+// ../../node_modules/react-router/index.js
+init_cjs_shims();
+
+// ../../node_modules/history/index.js
 init_cjs_shims();
 
 // ../../node_modules/@babel/runtime/helpers/esm/extends.js
@@ -2688,6 +2691,772 @@ function _extends() {
   };
   return _extends.apply(this, arguments);
 }
+
+// ../../node_modules/history/index.js
+var Action;
+(function(Action2) {
+  Action2["Pop"] = "POP";
+  Action2["Push"] = "PUSH";
+  Action2["Replace"] = "REPLACE";
+})(Action || (Action = {}));
+var readOnly = process.env.NODE_ENV !== "production" ? function(obj) {
+  return Object.freeze(obj);
+} : function(obj) {
+  return obj;
+};
+function warning(cond, message) {
+  if (!cond) {
+    if (typeof console !== "undefined")
+      console.warn(message);
+    try {
+      throw new Error(message);
+    } catch (e2) {
+    }
+  }
+}
+var BeforeUnloadEventType = "beforeunload";
+var PopStateEventType = "popstate";
+function createBrowserHistory(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  var _options = options, _options$window = _options.window, window2 = _options$window === void 0 ? document.defaultView : _options$window;
+  var globalHistory = window2.history;
+  function getIndexAndLocation() {
+    var _window$location = window2.location, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash;
+    var state = globalHistory.state || {};
+    return [state.idx, readOnly({
+      pathname,
+      search,
+      hash,
+      state: state.usr || null,
+      key: state.key || "default"
+    })];
+  }
+  var blockedPopTx = null;
+  function handlePop() {
+    if (blockedPopTx) {
+      blockers.call(blockedPopTx);
+      blockedPopTx = null;
+    } else {
+      var nextAction = Action.Pop;
+      var _getIndexAndLocation = getIndexAndLocation(), nextIndex = _getIndexAndLocation[0], nextLocation = _getIndexAndLocation[1];
+      if (blockers.length) {
+        if (nextIndex != null) {
+          var delta = index2 - nextIndex;
+          if (delta) {
+            blockedPopTx = {
+              action: nextAction,
+              location: nextLocation,
+              retry: function retry() {
+                go(delta * -1);
+              }
+            };
+            go(delta);
+          }
+        } else {
+          process.env.NODE_ENV !== "production" ? warning(false, "You are trying to block a POP navigation to a location that was not created by the history library. The block will fail silently in production, but in general you should do all navigation with the history library (instead of using window.history.pushState directly) to avoid this situation.") : void 0;
+        }
+      } else {
+        applyTx(nextAction);
+      }
+    }
+  }
+  window2.addEventListener(PopStateEventType, handlePop);
+  var action = Action.Pop;
+  var _getIndexAndLocation2 = getIndexAndLocation(), index2 = _getIndexAndLocation2[0], location = _getIndexAndLocation2[1];
+  var listeners = createEvents();
+  var blockers = createEvents();
+  if (index2 == null) {
+    index2 = 0;
+    globalHistory.replaceState(_extends({}, globalHistory.state, {
+      idx: index2
+    }), "");
+  }
+  function createHref(to) {
+    return typeof to === "string" ? to : createPath(to);
+  }
+  function getNextLocation(to, state) {
+    if (state === void 0) {
+      state = null;
+    }
+    return readOnly(_extends({
+      pathname: location.pathname,
+      hash: "",
+      search: ""
+    }, typeof to === "string" ? parsePath(to) : to, {
+      state,
+      key: createKey()
+    }));
+  }
+  function getHistoryStateAndUrl(nextLocation, index3) {
+    return [{
+      usr: nextLocation.state,
+      key: nextLocation.key,
+      idx: index3
+    }, createHref(nextLocation)];
+  }
+  function allowTx(action2, location2, retry) {
+    return !blockers.length || (blockers.call({
+      action: action2,
+      location: location2,
+      retry
+    }), false);
+  }
+  function applyTx(nextAction) {
+    action = nextAction;
+    var _getIndexAndLocation3 = getIndexAndLocation();
+    index2 = _getIndexAndLocation3[0];
+    location = _getIndexAndLocation3[1];
+    listeners.call({
+      action,
+      location
+    });
+  }
+  function push(to, state) {
+    var nextAction = Action.Push;
+    var nextLocation = getNextLocation(to, state);
+    function retry() {
+      push(to, state);
+    }
+    if (allowTx(nextAction, nextLocation, retry)) {
+      var _getHistoryStateAndUr = getHistoryStateAndUrl(nextLocation, index2 + 1), historyState = _getHistoryStateAndUr[0], url2 = _getHistoryStateAndUr[1];
+      try {
+        globalHistory.pushState(historyState, "", url2);
+      } catch (error) {
+        window2.location.assign(url2);
+      }
+      applyTx(nextAction);
+    }
+  }
+  function replace(to, state) {
+    var nextAction = Action.Replace;
+    var nextLocation = getNextLocation(to, state);
+    function retry() {
+      replace(to, state);
+    }
+    if (allowTx(nextAction, nextLocation, retry)) {
+      var _getHistoryStateAndUr2 = getHistoryStateAndUrl(nextLocation, index2), historyState = _getHistoryStateAndUr2[0], url2 = _getHistoryStateAndUr2[1];
+      globalHistory.replaceState(historyState, "", url2);
+      applyTx(nextAction);
+    }
+  }
+  function go(delta) {
+    globalHistory.go(delta);
+  }
+  var history = {
+    get action() {
+      return action;
+    },
+    get location() {
+      return location;
+    },
+    createHref,
+    push,
+    replace,
+    go,
+    back: function back() {
+      go(-1);
+    },
+    forward: function forward() {
+      go(1);
+    },
+    listen: function listen(listener) {
+      return listeners.push(listener);
+    },
+    block: function block(blocker) {
+      var unblock = blockers.push(blocker);
+      if (blockers.length === 1) {
+        window2.addEventListener(BeforeUnloadEventType, promptBeforeUnload);
+      }
+      return function() {
+        unblock();
+        if (!blockers.length) {
+          window2.removeEventListener(BeforeUnloadEventType, promptBeforeUnload);
+        }
+      };
+    }
+  };
+  return history;
+}
+function promptBeforeUnload(event) {
+  event.preventDefault();
+  event.returnValue = "";
+}
+function createEvents() {
+  var handlers = [];
+  return {
+    get length() {
+      return handlers.length;
+    },
+    push: function push(fn) {
+      handlers.push(fn);
+      return function() {
+        handlers = handlers.filter(function(handler) {
+          return handler !== fn;
+        });
+      };
+    },
+    call: function call2(arg) {
+      handlers.forEach(function(fn) {
+        return fn && fn(arg);
+      });
+    }
+  };
+}
+function createKey() {
+  return Math.random().toString(36).substr(2, 8);
+}
+function createPath(_ref) {
+  var _ref$pathname = _ref.pathname, pathname = _ref$pathname === void 0 ? "/" : _ref$pathname, _ref$search = _ref.search, search = _ref$search === void 0 ? "" : _ref$search, _ref$hash = _ref.hash, hash = _ref$hash === void 0 ? "" : _ref$hash;
+  if (search && search !== "?")
+    pathname += search.charAt(0) === "?" ? search : "?" + search;
+  if (hash && hash !== "#")
+    pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
+  return pathname;
+}
+function parsePath(path) {
+  var parsedPath = {};
+  if (path) {
+    var hashIndex = path.indexOf("#");
+    if (hashIndex >= 0) {
+      parsedPath.hash = path.substr(hashIndex);
+      path = path.substr(0, hashIndex);
+    }
+    var searchIndex = path.indexOf("?");
+    if (searchIndex >= 0) {
+      parsedPath.search = path.substr(searchIndex);
+      path = path.substr(0, searchIndex);
+    }
+    if (path) {
+      parsedPath.pathname = path;
+    }
+  }
+  return parsedPath;
+}
+
+// ../../node_modules/react-router/index.js
+var import_react3 = require("react");
+var NavigationContext = /* @__PURE__ */ (0, import_react3.createContext)(null);
+if (process.env.NODE_ENV !== "production") {
+  NavigationContext.displayName = "Navigation";
+}
+var LocationContext = /* @__PURE__ */ (0, import_react3.createContext)(null);
+if (process.env.NODE_ENV !== "production") {
+  LocationContext.displayName = "Location";
+}
+var RouteContext = /* @__PURE__ */ (0, import_react3.createContext)({
+  outlet: null,
+  matches: []
+});
+if (process.env.NODE_ENV !== "production") {
+  RouteContext.displayName = "Route";
+}
+function invariant(cond, message) {
+  if (!cond)
+    throw new Error(message);
+}
+function warning2(cond, message) {
+  if (!cond) {
+    if (typeof console !== "undefined")
+      console.warn(message);
+    try {
+      throw new Error(message);
+    } catch (e2) {
+    }
+  }
+}
+var alreadyWarned = {};
+function warningOnce(key2, cond, message) {
+  if (!cond && !alreadyWarned[key2]) {
+    alreadyWarned[key2] = true;
+    process.env.NODE_ENV !== "production" ? warning2(false, message) : void 0;
+  }
+}
+function matchRoutes(routes, locationArg, basename) {
+  if (basename === void 0) {
+    basename = "/";
+  }
+  let location = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+  let pathname = stripBasename(location.pathname || "/", basename);
+  if (pathname == null) {
+    return null;
+  }
+  let branches = flattenRoutes(routes);
+  rankRouteBranches(branches);
+  let matches = null;
+  for (let i = 0; matches == null && i < branches.length; ++i) {
+    matches = matchRouteBranch(branches[i], pathname);
+  }
+  return matches;
+}
+function flattenRoutes(routes, branches, parentsMeta, parentPath) {
+  if (branches === void 0) {
+    branches = [];
+  }
+  if (parentsMeta === void 0) {
+    parentsMeta = [];
+  }
+  if (parentPath === void 0) {
+    parentPath = "";
+  }
+  routes.forEach((route, index2) => {
+    let meta = {
+      relativePath: route.path || "",
+      caseSensitive: route.caseSensitive === true,
+      childrenIndex: index2,
+      route
+    };
+    if (meta.relativePath.startsWith("/")) {
+      !meta.relativePath.startsWith(parentPath) ? process.env.NODE_ENV !== "production" ? invariant(false, 'Absolute route path "' + meta.relativePath + '" nested under path ' + ('"' + parentPath + '" is not valid. An absolute child route path ') + "must start with the combined path of all its parent routes.") : invariant(false) : void 0;
+      meta.relativePath = meta.relativePath.slice(parentPath.length);
+    }
+    let path = joinPaths([parentPath, meta.relativePath]);
+    let routesMeta = parentsMeta.concat(meta);
+    if (route.children && route.children.length > 0) {
+      !(route.index !== true) ? process.env.NODE_ENV !== "production" ? invariant(false, "Index routes must not have child routes. Please remove " + ('all child routes from route path "' + path + '".')) : invariant(false) : void 0;
+      flattenRoutes(route.children, branches, routesMeta, path);
+    }
+    if (route.path == null && !route.index) {
+      return;
+    }
+    branches.push({
+      path,
+      score: computeScore(path, route.index),
+      routesMeta
+    });
+  });
+  return branches;
+}
+function rankRouteBranches(branches) {
+  branches.sort((a, b) => a.score !== b.score ? b.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b.routesMeta.map((meta) => meta.childrenIndex)));
+}
+var paramRe = /^:\w+$/;
+var dynamicSegmentValue = 3;
+var indexRouteValue = 2;
+var emptySegmentValue = 1;
+var staticSegmentValue = 10;
+var splatPenalty = -2;
+var isSplat = (s) => s === "*";
+function computeScore(path, index2) {
+  let segments = path.split("/");
+  let initialScore = segments.length;
+  if (segments.some(isSplat)) {
+    initialScore += splatPenalty;
+  }
+  if (index2) {
+    initialScore += indexRouteValue;
+  }
+  return segments.filter((s) => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
+}
+function compareIndexes(a, b) {
+  let siblings = a.length === b.length && a.slice(0, -1).every((n2, i) => n2 === b[i]);
+  return siblings ? a[a.length - 1] - b[b.length - 1] : 0;
+}
+function matchRouteBranch(branch, pathname) {
+  let {
+    routesMeta
+  } = branch;
+  let matchedParams = {};
+  let matchedPathname = "/";
+  let matches = [];
+  for (let i = 0; i < routesMeta.length; ++i) {
+    let meta = routesMeta[i];
+    let end = i === routesMeta.length - 1;
+    let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
+    let match = matchPath({
+      path: meta.relativePath,
+      caseSensitive: meta.caseSensitive,
+      end
+    }, remainingPathname);
+    if (!match)
+      return null;
+    Object.assign(matchedParams, match.params);
+    let route = meta.route;
+    matches.push({
+      params: matchedParams,
+      pathname: joinPaths([matchedPathname, match.pathname]),
+      pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
+      route
+    });
+    if (match.pathnameBase !== "/") {
+      matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
+    }
+  }
+  return matches;
+}
+function matchPath(pattern4, pathname) {
+  if (typeof pattern4 === "string") {
+    pattern4 = {
+      path: pattern4,
+      caseSensitive: false,
+      end: true
+    };
+  }
+  let [matcher, paramNames] = compilePath(pattern4.path, pattern4.caseSensitive, pattern4.end);
+  let match = pathname.match(matcher);
+  if (!match)
+    return null;
+  let matchedPathname = match[0];
+  let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
+  let captureGroups = match.slice(1);
+  let params = paramNames.reduce((memo3, paramName, index2) => {
+    if (paramName === "*") {
+      let splatValue = captureGroups[index2] || "";
+      pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
+    }
+    memo3[paramName] = safelyDecodeURIComponent(captureGroups[index2] || "", paramName);
+    return memo3;
+  }, {});
+  return {
+    params,
+    pathname: matchedPathname,
+    pathnameBase,
+    pattern: pattern4
+  };
+}
+function compilePath(path, caseSensitive, end) {
+  if (caseSensitive === void 0) {
+    caseSensitive = false;
+  }
+  if (end === void 0) {
+    end = true;
+  }
+  process.env.NODE_ENV !== "production" ? warning2(path === "*" || !path.endsWith("*") || path.endsWith("/*"), 'Route path "' + path + '" will be treated as if it were ' + ('"' + path.replace(/\*$/, "/*") + '" because the `*` character must ') + "always follow a `/` in the pattern. To get rid of this warning, " + ('please change the route path to "' + path.replace(/\*$/, "/*") + '".')) : void 0;
+  let paramNames = [];
+  let regexpSource = "^" + path.replace(/\/*\*?$/, "").replace(/^\/*/, "/").replace(/[\\.*+^$?{}|()[\]]/g, "\\$&").replace(/:(\w+)/g, (_, paramName) => {
+    paramNames.push(paramName);
+    return "([^\\/]+)";
+  });
+  if (path.endsWith("*")) {
+    paramNames.push("*");
+    regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
+  } else {
+    regexpSource += end ? "\\/*$" : "(?:(?=[.~-]|%[0-9A-F]{2})|\\b|\\/|$)";
+  }
+  let matcher = new RegExp(regexpSource, caseSensitive ? void 0 : "i");
+  return [matcher, paramNames];
+}
+function safelyDecodeURIComponent(value, paramName) {
+  try {
+    return decodeURIComponent(value);
+  } catch (error) {
+    process.env.NODE_ENV !== "production" ? warning2(false, 'The value for the URL param "' + paramName + '" will not be decoded because' + (' the string "' + value + '" is a malformed URL segment. This is probably') + (" due to a bad percent encoding (" + error + ").")) : void 0;
+    return value;
+  }
+}
+function resolvePath(to, fromPathname) {
+  if (fromPathname === void 0) {
+    fromPathname = "/";
+  }
+  let {
+    pathname: toPathname,
+    search = "",
+    hash = ""
+  } = typeof to === "string" ? parsePath(to) : to;
+  let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
+  return {
+    pathname,
+    search: normalizeSearch(search),
+    hash: normalizeHash(hash)
+  };
+}
+function resolvePathname(relativePath, fromPathname) {
+  let segments = fromPathname.replace(/\/+$/, "").split("/");
+  let relativeSegments = relativePath.split("/");
+  relativeSegments.forEach((segment) => {
+    if (segment === "..") {
+      if (segments.length > 1)
+        segments.pop();
+    } else if (segment !== ".") {
+      segments.push(segment);
+    }
+  });
+  return segments.length > 1 ? segments.join("/") : "/";
+}
+function resolveTo(toArg, routePathnames, locationPathname) {
+  let to = typeof toArg === "string" ? parsePath(toArg) : toArg;
+  let toPathname = toArg === "" || to.pathname === "" ? "/" : to.pathname;
+  let from;
+  if (toPathname == null) {
+    from = locationPathname;
+  } else {
+    let routePathnameIndex = routePathnames.length - 1;
+    if (toPathname.startsWith("..")) {
+      let toSegments = toPathname.split("/");
+      while (toSegments[0] === "..") {
+        toSegments.shift();
+        routePathnameIndex -= 1;
+      }
+      to.pathname = toSegments.join("/");
+    }
+    from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
+  }
+  let path = resolvePath(to, from);
+  if (toPathname && toPathname !== "/" && toPathname.endsWith("/") && !path.pathname.endsWith("/")) {
+    path.pathname += "/";
+  }
+  return path;
+}
+function getToPathname(to) {
+  return to === "" || to.pathname === "" ? "/" : typeof to === "string" ? parsePath(to).pathname : to.pathname;
+}
+function stripBasename(pathname, basename) {
+  if (basename === "/")
+    return pathname;
+  if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
+    return null;
+  }
+  let nextChar = pathname.charAt(basename.length);
+  if (nextChar && nextChar !== "/") {
+    return null;
+  }
+  return pathname.slice(basename.length) || "/";
+}
+var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
+var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
+var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
+var normalizeHash = (hash) => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash;
+function useHref(to) {
+  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useHref() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+  let {
+    basename,
+    navigator: navigator2
+  } = (0, import_react3.useContext)(NavigationContext);
+  let {
+    hash,
+    pathname,
+    search
+  } = useResolvedPath(to);
+  let joinedPathname = pathname;
+  if (basename !== "/") {
+    let toPathname = getToPathname(to);
+    let endsWithSlash = toPathname != null && toPathname.endsWith("/");
+    joinedPathname = pathname === "/" ? basename + (endsWithSlash ? "/" : "") : joinPaths([basename, pathname]);
+  }
+  return navigator2.createHref({
+    pathname: joinedPathname,
+    search,
+    hash
+  });
+}
+function useInRouterContext() {
+  return (0, import_react3.useContext)(LocationContext) != null;
+}
+function useLocation() {
+  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useLocation() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+  return (0, import_react3.useContext)(LocationContext).location;
+}
+function useNavigate() {
+  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useNavigate() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+  let {
+    basename,
+    navigator: navigator2
+  } = (0, import_react3.useContext)(NavigationContext);
+  let {
+    matches
+  } = (0, import_react3.useContext)(RouteContext);
+  let {
+    pathname: locationPathname
+  } = useLocation();
+  let routePathnamesJson = JSON.stringify(matches.map((match) => match.pathnameBase));
+  let activeRef = (0, import_react3.useRef)(false);
+  (0, import_react3.useEffect)(() => {
+    activeRef.current = true;
+  });
+  let navigate = (0, import_react3.useCallback)(function(to, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    process.env.NODE_ENV !== "production" ? warning2(activeRef.current, "You should call navigate() in a React.useEffect(), not when your component is first rendered.") : void 0;
+    if (!activeRef.current)
+      return;
+    if (typeof to === "number") {
+      navigator2.go(to);
+      return;
+    }
+    let path = resolveTo(to, JSON.parse(routePathnamesJson), locationPathname);
+    if (basename !== "/") {
+      path.pathname = joinPaths([basename, path.pathname]);
+    }
+    (!!options.replace ? navigator2.replace : navigator2.push)(path, options.state);
+  }, [basename, navigator2, routePathnamesJson, locationPathname]);
+  return navigate;
+}
+function useResolvedPath(to) {
+  let {
+    matches
+  } = (0, import_react3.useContext)(RouteContext);
+  let {
+    pathname: locationPathname
+  } = useLocation();
+  let routePathnamesJson = JSON.stringify(matches.map((match) => match.pathnameBase));
+  return (0, import_react3.useMemo)(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname), [to, routePathnamesJson, locationPathname]);
+}
+function useRoutes(routes, locationArg) {
+  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useRoutes() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+  let {
+    matches: parentMatches
+  } = (0, import_react3.useContext)(RouteContext);
+  let routeMatch = parentMatches[parentMatches.length - 1];
+  let parentParams = routeMatch ? routeMatch.params : {};
+  let parentPathname = routeMatch ? routeMatch.pathname : "/";
+  let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
+  let parentRoute = routeMatch && routeMatch.route;
+  if (process.env.NODE_ENV !== "production") {
+    let parentPath = parentRoute && parentRoute.path || "";
+    warningOnce(parentPathname, !parentRoute || parentPath.endsWith("*"), "You rendered descendant <Routes> (or called `useRoutes()`) at " + ('"' + parentPathname + '" (under <Route path="' + parentPath + '">) but the ') + `parent route path has no trailing "*". This means if you navigate deeper, the parent won't match anymore and therefore the child routes will never render.
+
+` + ('Please change the parent <Route path="' + parentPath + '"> to <Route ') + ('path="' + (parentPath === "/" ? "*" : parentPath + "/*") + '">.'));
+  }
+  let locationFromContext = useLocation();
+  let location;
+  if (locationArg) {
+    var _parsedLocationArg$pa;
+    let parsedLocationArg = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+    !(parentPathnameBase === "/" || ((_parsedLocationArg$pa = parsedLocationArg.pathname) == null ? void 0 : _parsedLocationArg$pa.startsWith(parentPathnameBase))) ? process.env.NODE_ENV !== "production" ? invariant(false, "When overriding the location using `<Routes location>` or `useRoutes(routes, location)`, the location pathname must begin with the portion of the URL pathname that was " + ('matched by all parent routes. The current pathname base is "' + parentPathnameBase + '" ') + ('but pathname "' + parsedLocationArg.pathname + '" was given in the `location` prop.')) : invariant(false) : void 0;
+    location = parsedLocationArg;
+  } else {
+    location = locationFromContext;
+  }
+  let pathname = location.pathname || "/";
+  let remainingPathname = parentPathnameBase === "/" ? pathname : pathname.slice(parentPathnameBase.length) || "/";
+  let matches = matchRoutes(routes, {
+    pathname: remainingPathname
+  });
+  if (process.env.NODE_ENV !== "production") {
+    process.env.NODE_ENV !== "production" ? warning2(parentRoute || matches != null, 'No routes matched location "' + location.pathname + location.search + location.hash + '" ') : void 0;
+    process.env.NODE_ENV !== "production" ? warning2(matches == null || matches[matches.length - 1].route.element !== void 0, 'Matched leaf route at location "' + location.pathname + location.search + location.hash + '" does not have an element. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.') : void 0;
+  }
+  return _renderMatches(matches && matches.map((match) => Object.assign({}, match, {
+    params: Object.assign({}, parentParams, match.params),
+    pathname: joinPaths([parentPathnameBase, match.pathname]),
+    pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([parentPathnameBase, match.pathnameBase])
+  })), parentMatches);
+}
+function _renderMatches(matches, parentMatches) {
+  if (parentMatches === void 0) {
+    parentMatches = [];
+  }
+  if (matches == null)
+    return null;
+  return matches.reduceRight((outlet, match, index2) => {
+    return /* @__PURE__ */ (0, import_react3.createElement)(RouteContext.Provider, {
+      children: match.route.element !== void 0 ? match.route.element : outlet,
+      value: {
+        outlet,
+        matches: parentMatches.concat(matches.slice(0, index2 + 1))
+      }
+    });
+  }, null);
+}
+function Navigate(_ref2) {
+  let {
+    to,
+    replace,
+    state
+  } = _ref2;
+  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "<Navigate> may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+  process.env.NODE_ENV !== "production" ? warning2(!(0, import_react3.useContext)(NavigationContext).static, "<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.") : void 0;
+  let navigate = useNavigate();
+  (0, import_react3.useEffect)(() => {
+    navigate(to, {
+      replace,
+      state
+    });
+  });
+  return null;
+}
+function Route(_props) {
+  process.env.NODE_ENV !== "production" ? invariant(false, "A <Route> is only ever to be used as the child of <Routes> element, never rendered directly. Please wrap your <Route> in a <Routes>.") : invariant(false);
+}
+function Router(_ref3) {
+  let {
+    basename: basenameProp = "/",
+    children = null,
+    location: locationProp,
+    navigationType = Action.Pop,
+    navigator: navigator2,
+    static: staticProp = false
+  } = _ref3;
+  !!useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "You cannot render a <Router> inside another <Router>. You should never have more than one in your app.") : invariant(false) : void 0;
+  let basename = normalizePathname(basenameProp);
+  let navigationContext = (0, import_react3.useMemo)(() => ({
+    basename,
+    navigator: navigator2,
+    static: staticProp
+  }), [basename, navigator2, staticProp]);
+  if (typeof locationProp === "string") {
+    locationProp = parsePath(locationProp);
+  }
+  let {
+    pathname = "/",
+    search = "",
+    hash = "",
+    state = null,
+    key: key2 = "default"
+  } = locationProp;
+  let location = (0, import_react3.useMemo)(() => {
+    let trailingPathname = stripBasename(pathname, basename);
+    if (trailingPathname == null) {
+      return null;
+    }
+    return {
+      pathname: trailingPathname,
+      search,
+      hash,
+      state,
+      key: key2
+    };
+  }, [basename, pathname, search, hash, state, key2]);
+  process.env.NODE_ENV !== "production" ? warning2(location != null, '<Router basename="' + basename + '"> is not able to match the URL ' + ('"' + pathname + search + hash + '" because it does not start with the ') + "basename, so the <Router> won't render anything.") : void 0;
+  if (location == null) {
+    return null;
+  }
+  return /* @__PURE__ */ (0, import_react3.createElement)(NavigationContext.Provider, {
+    value: navigationContext
+  }, /* @__PURE__ */ (0, import_react3.createElement)(LocationContext.Provider, {
+    children,
+    value: {
+      location,
+      navigationType
+    }
+  }));
+}
+function Routes(_ref4) {
+  let {
+    children,
+    location
+  } = _ref4;
+  return useRoutes(createRoutesFromChildren(children), location);
+}
+function createRoutesFromChildren(children) {
+  let routes = [];
+  import_react3.Children.forEach(children, (element) => {
+    if (!/* @__PURE__ */ (0, import_react3.isValidElement)(element)) {
+      return;
+    }
+    if (element.type === import_react3.Fragment) {
+      routes.push.apply(routes, createRoutesFromChildren(element.props.children));
+      return;
+    }
+    !(element.type === Route) ? process.env.NODE_ENV !== "production" ? invariant(false, "[" + (typeof element.type === "string" ? element.type : element.type.name) + "] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>") : invariant(false) : void 0;
+    let route = {
+      caseSensitive: element.props.caseSensitive,
+      element: element.props.element,
+      index: element.props.index,
+      path: element.props.path
+    };
+    if (element.props.children) {
+      route.children = createRoutesFromChildren(element.props.children);
+    }
+    routes.push(route);
+  });
+  return routes;
+}
+
+// ../../node_modules/antd/es/index.js
+init_cjs_shims();
 
 // ../../node_modules/@babel/runtime/helpers/esm/defineProperty.js
 init_cjs_shims();
@@ -2890,12 +3659,12 @@ var React8 = __toESM(require("react"));
 
 // ../../node_modules/rc-util/es/Children/toArray.js
 init_cjs_shims();
-var import_react3 = __toESM(require("react"));
+var import_react4 = __toESM(require("react"));
 var import_react_is = __toESM(require_react_is());
 function toArray(children) {
   var option = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
   var ret = [];
-  import_react3.default.Children.forEach(children, function(child) {
+  import_react4.default.Children.forEach(children, function(child) {
     if ((child === void 0 || child === null) && !option.keepEmpty) {
       return;
     }
@@ -2913,7 +3682,7 @@ function toArray(children) {
 // ../../node_modules/rc-util/es/warning.js
 init_cjs_shims();
 var warned = {};
-function warning(valid, message) {
+function warning3(valid, message) {
   if (process.env.NODE_ENV !== "production" && !valid && console !== void 0) {
     console.error("Warning: ".concat(message));
   }
@@ -2924,10 +3693,10 @@ function call(method4, valid, message) {
     warned[message] = true;
   }
 }
-function warningOnce(valid, message) {
-  call(warning, valid, message);
+function warningOnce2(valid, message) {
+  call(warning3, valid, message);
 }
-var warning_default = warningOnce;
+var warning_default = warningOnce2;
 
 // ../../node_modules/rc-resize-observer/es/SingleObserver/index.js
 init_cjs_shims();
@@ -2939,7 +3708,7 @@ var import_react_is2 = __toESM(require_react_is());
 // ../../node_modules/rc-util/es/hooks/useMemo.js
 init_cjs_shims();
 var React4 = __toESM(require("react"));
-function useMemo2(getValue4, condition, shouldUpdate) {
+function useMemo3(getValue4, condition, shouldUpdate) {
   var cacheRef = React4.useRef({});
   if (!("value" in cacheRef.current) || shouldUpdate(cacheRef.current.condition, condition)) {
     cacheRef.current.value = getValue4();
@@ -3627,9 +4396,9 @@ function ResizeObserver2(props) {
   var childNodes = typeof children === "function" ? [children] : toArray(children);
   if (process.env.NODE_ENV !== "production") {
     if (childNodes.length > 1) {
-      warning(false, "Find more than one child node with `children` in ResizeObserver. Please use ResizeObserver.Collection instead.");
+      warning3(false, "Find more than one child node with `children` in ResizeObserver. Please use ResizeObserver.Collection instead.");
     } else if (childNodes.length === 0) {
-      warning(false, "`children` of ResizeObserver is empty. Nothing is in observe.");
+      warning3(false, "`children` of ResizeObserver is empty. Nothing is in observe.");
     }
   }
   return childNodes.map(function(child, index2) {
@@ -3648,8 +4417,8 @@ var React53 = __toESM(require("react"));
 
 // ../../node_modules/@ant-design/icons/es/components/Context.js
 init_cjs_shims();
-var import_react4 = require("react");
-var IconContext = /* @__PURE__ */ (0, import_react4.createContext)({});
+var import_react5 = require("react");
+var IconContext = /* @__PURE__ */ (0, import_react5.createContext)({});
 var Context_default = IconContext;
 
 // ../../node_modules/rc-field-form/es/index.js
@@ -3942,10 +4711,10 @@ function _wrapNativeSuper(Class) {
   return _wrapNativeSuper(Class);
 }
 var formatRegExp = /%[sdj%]/g;
-var warning2 = function warning3() {
+var warning4 = function warning5() {
 };
 if (typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production" && typeof window !== "undefined" && typeof document !== "undefined") {
-  warning2 = function warning7(type4, errors) {
+  warning4 = function warning7(type4, errors) {
     if (typeof console !== "undefined" && console.warn && typeof ASYNC_VALIDATOR_NO_WARNING === "undefined") {
       if (errors.every(function(e2) {
         return typeof e2 === "string";
@@ -4846,7 +5615,7 @@ Schema.register = function register(type4, validator) {
   }
   validators[type4] = validator;
 };
-Schema.warning = warning2;
+Schema.warning = warning4;
 Schema.messages = messages;
 Schema.validators = validators;
 
@@ -7159,8 +7928,8 @@ function changeConfirmLocale(newLocale) {
 
 // ../../node_modules/antd/es/locale-provider/context.js
 init_cjs_shims();
-var import_react5 = require("react");
-var LocaleContext = /* @__PURE__ */ (0, import_react5.createContext)(void 0);
+var import_react6 = require("react");
+var LocaleContext = /* @__PURE__ */ (0, import_react6.createContext)(void 0);
 var context_default = LocaleContext;
 
 // ../../node_modules/antd/es/locale-provider/index.js
@@ -7487,7 +8256,7 @@ init_cjs_shims();
 // ../../node_modules/rc-notification/es/Notification.js
 init_cjs_shims();
 var React36 = __toESM(require("react"));
-var import_react11 = require("react");
+var import_react12 = require("react");
 var import_react_dom3 = __toESM(require("react-dom"));
 var import_classnames4 = __toESM(require_classnames());
 
@@ -7497,7 +8266,7 @@ init_cjs_shims();
 // ../../node_modules/rc-motion/es/CSSMotion.js
 init_cjs_shims();
 var React32 = __toESM(require("react"));
-var import_react9 = require("react");
+var import_react10 = require("react");
 var import_classnames2 = __toESM(require_classnames());
 
 // ../../node_modules/rc-motion/es/util/motion.js
@@ -7592,7 +8361,7 @@ var STEP_ACTIVATED = "end";
 // ../../node_modules/rc-motion/es/hooks/useStatus.js
 init_cjs_shims();
 var React30 = __toESM(require("react"));
-var import_react8 = require("react");
+var import_react9 = require("react");
 
 // ../../node_modules/rc-util/es/hooks/useState.js
 init_cjs_shims();
@@ -7617,8 +8386,8 @@ function useSafeState(defaultValue) {
 
 // ../../node_modules/rc-motion/es/hooks/useIsomorphicLayoutEffect.js
 init_cjs_shims();
-var import_react6 = require("react");
-var useIsomorphicLayoutEffect = canUseDom() ? import_react6.useLayoutEffect : import_react6.useEffect;
+var import_react7 = require("react");
+var useIsomorphicLayoutEffect = canUseDom() ? import_react7.useLayoutEffect : import_react7.useEffect;
 var useIsomorphicLayoutEffect_default = useIsomorphicLayoutEffect;
 
 // ../../node_modules/rc-motion/es/hooks/useStepQueue.js
@@ -7751,10 +8520,10 @@ var useStepQueue_default = function(status, callback) {
 // ../../node_modules/rc-motion/es/hooks/useDomMotionEvents.js
 init_cjs_shims();
 var React29 = __toESM(require("react"));
-var import_react7 = require("react");
+var import_react8 = require("react");
 var useDomMotionEvents_default = function(callback) {
-  var cacheElementRef = (0, import_react7.useRef)();
-  var callbackRef = (0, import_react7.useRef)(callback);
+  var cacheElementRef = (0, import_react8.useRef)();
+  var callbackRef = (0, import_react8.useRef)(callback);
   callbackRef.current = callback;
   var onInternalMotionEnd = React29.useCallback(function(event) {
     callbackRef.current(event);
@@ -7789,12 +8558,12 @@ function useStatus(supportMotion, visible, getElement2, _ref) {
   var _useState = useSafeState(), _useState2 = _slicedToArray(_useState, 2), asyncVisible = _useState2[0], setAsyncVisible = _useState2[1];
   var _useState3 = useSafeState(STATUS_NONE), _useState4 = _slicedToArray(_useState3, 2), status = _useState4[0], setStatus = _useState4[1];
   var _useState5 = useSafeState(null), _useState6 = _slicedToArray(_useState5, 2), style2 = _useState6[0], setStyle = _useState6[1];
-  var mountedRef = (0, import_react8.useRef)(false);
-  var deadlineRef = (0, import_react8.useRef)(null);
+  var mountedRef = (0, import_react9.useRef)(false);
+  var deadlineRef = (0, import_react9.useRef)(null);
   function getDomElement() {
     return getElement2();
   }
-  var activeRef = (0, import_react8.useRef)(false);
+  var activeRef = (0, import_react9.useRef)(false);
   function onInternalMotionEnd(event) {
     var element = getDomElement();
     if (event && !event.deadline && event.target !== element) {
@@ -7877,18 +8646,18 @@ function useStatus(supportMotion, visible, getElement2, _ref) {
       startStep();
     }
   }, [visible]);
-  (0, import_react8.useEffect)(function() {
+  (0, import_react9.useEffect)(function() {
     if (status === STATUS_APPEAR && !motionAppear || status === STATUS_ENTER && !motionEnter || status === STATUS_LEAVE && !motionLeave) {
       setStatus(STATUS_NONE);
     }
   }, [motionAppear, motionEnter, motionLeave]);
-  (0, import_react8.useEffect)(function() {
+  (0, import_react9.useEffect)(function() {
     return function() {
       mountedRef.current = false;
       clearTimeout(deadlineRef.current);
     };
   }, []);
-  (0, import_react8.useEffect)(function() {
+  (0, import_react9.useEffect)(function() {
     if (asyncVisible !== void 0 && status === STATUS_NONE) {
       onVisibleChanged === null || onVisibleChanged === void 0 ? void 0 : onVisibleChanged(asyncVisible);
     }
@@ -7934,8 +8703,8 @@ function genCSSMotion(config) {
   var CSSMotion = /* @__PURE__ */ React32.forwardRef(function(props, ref) {
     var _props$visible = props.visible, visible = _props$visible === void 0 ? true : _props$visible, _props$removeOnLeave = props.removeOnLeave, removeOnLeave = _props$removeOnLeave === void 0 ? true : _props$removeOnLeave, forceRender = props.forceRender, children = props.children, motionName = props.motionName, leavedClassName = props.leavedClassName, eventProps = props.eventProps;
     var supportMotion = isSupportTransition(props);
-    var nodeRef = (0, import_react9.useRef)();
-    var wrapperNodeRef = (0, import_react9.useRef)();
+    var nodeRef = (0, import_react10.useRef)();
+    var wrapperNodeRef = (0, import_react10.useRef)();
     function getDomElement() {
       try {
         return nodeRef.current instanceof HTMLElement ? nodeRef.current : findDOMNode(wrapperNodeRef.current);
@@ -8191,7 +8960,7 @@ var es_default3 = CSSMotion_default;
 // ../../node_modules/rc-notification/es/Notice.js
 init_cjs_shims();
 var React34 = __toESM(require("react"));
-var import_react10 = require("react");
+var import_react11 = require("react");
 var import_react_dom2 = __toESM(require("react-dom"));
 var import_classnames3 = __toESM(require_classnames());
 var Notice = /* @__PURE__ */ function(_Component) {
@@ -8287,7 +9056,7 @@ var Notice = /* @__PURE__ */ function(_Component) {
     }
   }]);
   return Notice2;
-}(import_react10.Component);
+}(import_react11.Component);
 Notice.defaultProps = {
   onClose: function onClose() {
   },
@@ -8482,7 +9251,7 @@ var Notification = /* @__PURE__ */ function(_Component) {
     }
   }]);
   return Notification2;
-}(import_react11.Component);
+}(import_react12.Component);
 Notification.newInstance = void 0;
 Notification.defaultProps = {
   prefixCls: "rc-notification",
@@ -9638,7 +10407,7 @@ var magenta = presetPalettes.magenta;
 var grey = presetPalettes.grey;
 
 // ../../node_modules/@ant-design/icons/es/utils.js
-var import_react12 = __toESM(require("react"));
+var import_react13 = __toESM(require("react"));
 
 // ../../node_modules/rc-util/es/Dom/dynamicCSS.js
 init_cjs_shims();
@@ -9715,7 +10484,7 @@ function updateCSS(css3, key2) {
 }
 
 // ../../node_modules/@ant-design/icons/es/utils.js
-function warning4(valid, message) {
+function warning6(valid, message) {
   warning_default(valid, "[@ant-design/icons] ".concat(message));
 }
 function isIconDefinition(target) {
@@ -9738,13 +10507,13 @@ function normalizeAttrs() {
 }
 function generate2(node, key2, rootProps) {
   if (!rootProps) {
-    return /* @__PURE__ */ import_react12.default.createElement(node.tag, _objectSpread2({
+    return /* @__PURE__ */ import_react13.default.createElement(node.tag, _objectSpread2({
       key: key2
     }, normalizeAttrs(node.attrs)), (node.children || []).map(function(child, index2) {
       return generate2(child, "".concat(key2, "-").concat(node.tag, "-").concat(index2));
     }));
   }
-  return /* @__PURE__ */ import_react12.default.createElement(node.tag, _objectSpread2(_objectSpread2({
+  return /* @__PURE__ */ import_react13.default.createElement(node.tag, _objectSpread2(_objectSpread2({
     key: key2
   }, normalizeAttrs(node.attrs)), rootProps), (node.children || []).map(function(child, index2) {
     return generate2(child, "".concat(key2, "-").concat(node.tag, "-").concat(index2));
@@ -9762,8 +10531,8 @@ function normalizeTwoToneColors(twoToneColor) {
 var iconStyles = "\n.anticon {\n  display: inline-block;\n  color: inherit;\n  font-style: normal;\n  line-height: 0;\n  text-align: center;\n  text-transform: none;\n  vertical-align: -0.125em;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.anticon > * {\n  line-height: 1;\n}\n\n.anticon svg {\n  display: inline-block;\n}\n\n.anticon::before {\n  display: none;\n}\n\n.anticon .anticon-icon {\n  display: block;\n}\n\n.anticon[tabindex] {\n  cursor: pointer;\n}\n\n.anticon-spin::before,\n.anticon-spin {\n  display: inline-block;\n  -webkit-animation: loadingCircle 1s infinite linear;\n  animation: loadingCircle 1s infinite linear;\n}\n\n@-webkit-keyframes loadingCircle {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes loadingCircle {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n";
 var useInsertStyles = function useInsertStyles2() {
   var styleStr = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : iconStyles;
-  var _useContext = (0, import_react12.useContext)(Context_default), csp = _useContext.csp;
-  (0, import_react12.useEffect)(function() {
+  var _useContext = (0, import_react13.useContext)(Context_default), csp = _useContext.csp;
+  (0, import_react13.useEffect)(function() {
     updateCSS(styleStr, "@ant-design-icons", {
       prepend: true,
       csp
@@ -9797,7 +10566,7 @@ var IconBase = function IconBase2(props) {
     };
   }
   useInsertStyles();
-  warning4(isIconDefinition(icon), "icon should be icon definiton, but got ".concat(icon));
+  warning6(isIconDefinition(icon), "icon should be icon definiton, but got ".concat(icon));
   if (!isIconDefinition(icon)) {
     return null;
   }
@@ -10730,7 +11499,7 @@ var ProviderChildren = function ProviderChildren2(props) {
       config[propName] = propValue;
     }
   });
-  var memoedConfig = useMemo2(function() {
+  var memoedConfig = useMemo3(function() {
     return config;
   }, config, function(prevConfig, currentConfig) {
     var prevKeys = Object.keys(prevConfig);
@@ -11055,8 +11824,8 @@ var isMobile_default = function() {
 // ../../node_modules/rc-util/es/hooks/useLayoutEffect.js
 init_cjs_shims();
 var React55 = __toESM(require("react"));
-var useLayoutEffect3 = process.env.NODE_ENV !== "test" && canUseDom() ? React55.useLayoutEffect : React55.useEffect;
-var useLayoutEffect_default = useLayoutEffect3;
+var useLayoutEffect4 = process.env.NODE_ENV !== "test" && canUseDom() ? React55.useLayoutEffect : React55.useEffect;
+var useLayoutEffect_default = useLayoutEffect4;
 
 // ../../node_modules/rc-trigger/es/index.js
 init_cjs_shims();
@@ -11074,25 +11843,25 @@ function contains(root, n2) {
 
 // ../../node_modules/rc-util/es/Portal.js
 init_cjs_shims();
-var import_react13 = require("react");
+var import_react14 = require("react");
 var import_react_dom5 = __toESM(require("react-dom"));
-var Portal = /* @__PURE__ */ (0, import_react13.forwardRef)(function(props, ref) {
+var Portal = /* @__PURE__ */ (0, import_react14.forwardRef)(function(props, ref) {
   var didUpdate = props.didUpdate, getContainer3 = props.getContainer, children = props.children;
-  var parentRef = (0, import_react13.useRef)();
-  var containerRef = (0, import_react13.useRef)();
-  (0, import_react13.useImperativeHandle)(ref, function() {
+  var parentRef = (0, import_react14.useRef)();
+  var containerRef = (0, import_react14.useRef)();
+  (0, import_react14.useImperativeHandle)(ref, function() {
     return {};
   });
-  var initRef = (0, import_react13.useRef)(false);
+  var initRef = (0, import_react14.useRef)(false);
   if (!initRef.current && canUseDom()) {
     containerRef.current = getContainer3();
     parentRef.current = containerRef.current.parentNode;
     initRef.current = true;
   }
-  (0, import_react13.useEffect)(function() {
+  (0, import_react14.useEffect)(function() {
     didUpdate === null || didUpdate === void 0 ? void 0 : didUpdate(props);
   });
-  (0, import_react13.useEffect)(function() {
+  (0, import_react14.useEffect)(function() {
     if (containerRef.current.parentNode === null && parentRef.current !== null) {
       parentRef.current.appendChild(containerRef.current);
     }
@@ -11135,7 +11904,7 @@ function getAlignPopupClassName(builtinPlacements, prefixCls, align, isAlignPoin
 // ../../node_modules/rc-trigger/es/Popup/index.js
 init_cjs_shims();
 var React62 = __toESM(require("react"));
-var import_react18 = require("react");
+var import_react19 = require("react");
 
 // ../../node_modules/rc-trigger/es/Popup/Mask.js
 init_cjs_shims();
@@ -11196,14 +11965,14 @@ function Mask(props) {
 // ../../node_modules/rc-trigger/es/Popup/PopupInner.js
 init_cjs_shims();
 var React60 = __toESM(require("react"));
-var import_react17 = require("react");
+var import_react18 = require("react");
 
 // ../../node_modules/rc-align/es/index.js
 init_cjs_shims();
 
 // ../../node_modules/rc-align/es/Align.js
 init_cjs_shims();
-var import_react15 = __toESM(require("react"));
+var import_react16 = __toESM(require("react"));
 
 // ../../node_modules/rc-util/es/Dom/isVisible.js
 init_cjs_shims();
@@ -12249,10 +13018,10 @@ function monitorResize(element, callback) {
 
 // ../../node_modules/rc-align/es/hooks/useBuffer.js
 init_cjs_shims();
-var import_react14 = __toESM(require("react"));
+var import_react15 = __toESM(require("react"));
 var useBuffer_default = function(callback, buffer) {
-  var calledRef = import_react14.default.useRef(false);
-  var timeoutRef = import_react14.default.useRef(null);
+  var calledRef = import_react15.default.useRef(false);
+  var timeoutRef = import_react15.default.useRef(null);
   function cancelTrigger() {
     window.clearTimeout(timeoutRef.current);
   }
@@ -12293,10 +13062,10 @@ function getPoint(point) {
 }
 var Align = function Align2(_ref, ref) {
   var children = _ref.children, disabled = _ref.disabled, target = _ref.target, align = _ref.align, onAlign = _ref.onAlign, monitorWindowResize = _ref.monitorWindowResize, _ref$monitorBufferTim = _ref.monitorBufferTime, monitorBufferTime = _ref$monitorBufferTim === void 0 ? 0 : _ref$monitorBufferTim;
-  var cacheRef = import_react15.default.useRef({});
-  var nodeRef = import_react15.default.useRef();
-  var childNode = import_react15.default.Children.only(children);
-  var forceAlignPropsRef = import_react15.default.useRef({});
+  var cacheRef = import_react16.default.useRef({});
+  var nodeRef = import_react16.default.useRef();
+  var childNode = import_react16.default.Children.only(children);
+  var forceAlignPropsRef = import_react16.default.useRef({});
   forceAlignPropsRef.current.disabled = disabled;
   forceAlignPropsRef.current.target = target;
   forceAlignPropsRef.current.align = align;
@@ -12325,15 +13094,15 @@ var Align = function Align2(_ref, ref) {
     }
     return false;
   }, monitorBufferTime), _useBuffer2 = _slicedToArray(_useBuffer, 2), _forceAlign = _useBuffer2[0], cancelForceAlign = _useBuffer2[1];
-  var resizeMonitor = import_react15.default.useRef({
+  var resizeMonitor = import_react16.default.useRef({
     cancel: function cancel2() {
     }
   });
-  var sourceResizeMonitor = import_react15.default.useRef({
+  var sourceResizeMonitor = import_react16.default.useRef({
     cancel: function cancel2() {
     }
   });
-  import_react15.default.useEffect(function() {
+  import_react16.default.useEffect(function() {
     var element = getElement(target);
     var point = getPoint(target);
     if (nodeRef.current !== sourceResizeMonitor.current.element) {
@@ -12350,15 +13119,15 @@ var Align = function Align2(_ref, ref) {
       }
     }
   });
-  import_react15.default.useEffect(function() {
+  import_react16.default.useEffect(function() {
     if (!disabled) {
       _forceAlign();
     } else {
       cancelForceAlign();
     }
   }, [disabled]);
-  var winResizeRef = import_react15.default.useRef(null);
-  import_react15.default.useEffect(function() {
+  var winResizeRef = import_react16.default.useRef(null);
+  import_react16.default.useEffect(function() {
     if (monitorWindowResize) {
       if (!winResizeRef.current) {
         winResizeRef.current = addEventListenerWrap(window, "resize", _forceAlign);
@@ -12368,7 +13137,7 @@ var Align = function Align2(_ref, ref) {
       winResizeRef.current = null;
     }
   }, [monitorWindowResize]);
-  import_react15.default.useEffect(function() {
+  import_react16.default.useEffect(function() {
     return function() {
       resizeMonitor.current.cancel();
       sourceResizeMonitor.current.cancel();
@@ -12377,21 +13146,21 @@ var Align = function Align2(_ref, ref) {
       cancelForceAlign();
     };
   }, []);
-  import_react15.default.useImperativeHandle(ref, function() {
+  import_react16.default.useImperativeHandle(ref, function() {
     return {
       forceAlign: function forceAlign() {
         return _forceAlign(true);
       }
     };
   });
-  if (/* @__PURE__ */ import_react15.default.isValidElement(childNode)) {
-    childNode = /* @__PURE__ */ import_react15.default.cloneElement(childNode, {
+  if (/* @__PURE__ */ import_react16.default.isValidElement(childNode)) {
+    childNode = /* @__PURE__ */ import_react16.default.cloneElement(childNode, {
       ref: composeRef(childNode.ref, nodeRef)
     });
   }
   return childNode;
 };
-var RcAlign = /* @__PURE__ */ import_react15.default.forwardRef(Align);
+var RcAlign = /* @__PURE__ */ import_react16.default.forwardRef(Align);
 RcAlign.displayName = "Align";
 var Align_default = RcAlign;
 
@@ -12404,11 +13173,11 @@ var import_classnames9 = __toESM(require_classnames());
 // ../../node_modules/rc-trigger/es/Popup/useVisibleStatus.js
 init_cjs_shims();
 var import_regenerator3 = __toESM(require_regenerator());
-var import_react16 = require("react");
+var import_react17 = require("react");
 var StatusQueue = ["measure", "align", null, "motion"];
 var useVisibleStatus_default = function(visible, doMeasure) {
   var _useState = useSafeState(null), _useState2 = _slicedToArray(_useState, 2), status = _useState2[0], setInternalStatus = _useState2[1];
-  var rafRef = (0, import_react16.useRef)();
+  var rafRef = (0, import_react17.useRef)();
   function setStatus(nextStatus) {
     setInternalStatus(nextStatus, true);
   }
@@ -12431,10 +13200,10 @@ var useVisibleStatus_default = function(visible, doMeasure) {
       callback === null || callback === void 0 ? void 0 : callback();
     });
   }
-  (0, import_react16.useEffect)(function() {
+  (0, import_react17.useEffect)(function() {
     setStatus("measure");
   }, [visible]);
-  (0, import_react16.useEffect)(function() {
+  (0, import_react17.useEffect)(function() {
     switch (status) {
       case "measure":
         doMeasure();
@@ -12462,7 +13231,7 @@ var useVisibleStatus_default = function(visible, doMeasure) {
       })));
     }
   }, [status]);
-  (0, import_react16.useEffect)(function() {
+  (0, import_react17.useEffect)(function() {
     return function() {
       cancelRaf();
     };
@@ -12507,9 +13276,9 @@ var useStretchStyle_default = function(stretch) {
 // ../../node_modules/rc-trigger/es/Popup/PopupInner.js
 var PopupInner = /* @__PURE__ */ React60.forwardRef(function(props, ref) {
   var visible = props.visible, prefixCls = props.prefixCls, className = props.className, style2 = props.style, children = props.children, zIndex = props.zIndex, stretch = props.stretch, destroyPopupOnHide = props.destroyPopupOnHide, forceRender = props.forceRender, align = props.align, point = props.point, getRootDomNode = props.getRootDomNode, getClassNameFromAlign = props.getClassNameFromAlign, onAlign = props.onAlign, onMouseEnter = props.onMouseEnter, onMouseLeave = props.onMouseLeave, onMouseDown = props.onMouseDown, onTouchStart = props.onTouchStart;
-  var alignRef = (0, import_react17.useRef)();
-  var elementRef = (0, import_react17.useRef)();
-  var _useState = (0, import_react17.useState)(), _useState2 = _slicedToArray(_useState, 2), alignedClassName = _useState2[0], setAlignedClassName = _useState2[1];
+  var alignRef = (0, import_react18.useRef)();
+  var elementRef = (0, import_react18.useRef)();
+  var _useState = (0, import_react18.useState)(), _useState2 = _slicedToArray(_useState, 2), alignedClassName = _useState2[0], setAlignedClassName = _useState2[1];
   var _useStretchStyle = useStretchStyle_default(stretch), _useStretchStyle2 = _slicedToArray(_useStretchStyle, 2), stretchStyle = _useStretchStyle2[0], measureStretchStyle = _useStretchStyle2[1];
   function doMeasure() {
     if (stretch) {
@@ -12517,8 +13286,8 @@ var PopupInner = /* @__PURE__ */ React60.forwardRef(function(props, ref) {
     }
   }
   var _useVisibleStatus = useVisibleStatus_default(visible, doMeasure), _useVisibleStatus2 = _slicedToArray(_useVisibleStatus, 2), status = _useVisibleStatus2[0], goNextStatus = _useVisibleStatus2[1];
-  var _useState3 = (0, import_react17.useState)(null), _useState4 = _slicedToArray(_useState3, 2), alignInfo = _useState4[0], setAlignInfo = _useState4[1];
-  var prepareResolveRef = (0, import_react17.useRef)();
+  var _useState3 = (0, import_react18.useState)(null), _useState4 = _slicedToArray(_useState3, 2), alignInfo = _useState4[0], setAlignInfo = _useState4[1];
+  var prepareResolveRef = (0, import_react18.useRef)();
   function getAlignTarget() {
     if (point) {
       return point;
@@ -12678,12 +13447,12 @@ var MobilePopupInner_default = MobilePopupInner;
 var _excluded7 = ["visible", "mobile"];
 var Popup = /* @__PURE__ */ React62.forwardRef(function(_ref, ref) {
   var visible = _ref.visible, mobile = _ref.mobile, props = _objectWithoutProperties(_ref, _excluded7);
-  var _useState = (0, import_react18.useState)(visible), _useState2 = _slicedToArray(_useState, 2), innerVisible = _useState2[0], serInnerVisible = _useState2[1];
-  var _useState3 = (0, import_react18.useState)(false), _useState4 = _slicedToArray(_useState3, 2), inMobile = _useState4[0], setInMobile = _useState4[1];
+  var _useState = (0, import_react19.useState)(visible), _useState2 = _slicedToArray(_useState, 2), innerVisible = _useState2[0], serInnerVisible = _useState2[1];
+  var _useState3 = (0, import_react19.useState)(false), _useState4 = _slicedToArray(_useState3, 2), inMobile = _useState4[0], setInMobile = _useState4[1];
   var cloneProps = _objectSpread2(_objectSpread2({}, props), {}, {
     visible: innerVisible
   });
-  (0, import_react18.useEffect)(function() {
+  (0, import_react19.useEffect)(function() {
     serInnerVisible(visible);
     if (visible && mobile) {
       setInMobile(isMobile_default());
@@ -13295,7 +14064,7 @@ init_cjs_shims();
 // ../../node_modules/rc-overflow/es/Overflow.js
 init_cjs_shims();
 var React67 = __toESM(require("react"));
-var import_react20 = require("react");
+var import_react21 = require("react");
 var import_classnames14 = __toESM(require_classnames());
 
 // ../../node_modules/rc-overflow/es/Item.js
@@ -13353,10 +14122,10 @@ var Item_default = Item;
 
 // ../../node_modules/rc-overflow/es/hooks/useBatchFrameState.js
 init_cjs_shims();
-var import_react19 = require("react");
+var import_react20 = require("react");
 function useBatchFrameState() {
   var _useState = useSafeState({}), _useState2 = _slicedToArray(_useState, 2), forceUpdate = _useState2[1];
-  var statesRef = (0, import_react19.useRef)([]);
+  var statesRef = (0, import_react20.useRef)([]);
   var walkingIndex = 0;
   var beforeFrameId = 0;
   function createState(defaultValue) {
@@ -13424,21 +14193,21 @@ function Overflow(props, ref) {
   var _createUseState5 = createUseState(0), _createUseState6 = _slicedToArray(_createUseState5, 2), prevRestWidth = _createUseState6[0], setPrevRestWidth = _createUseState6[1];
   var _createUseState7 = createUseState(0), _createUseState8 = _slicedToArray(_createUseState7, 2), restWidth = _createUseState8[0], setRestWidth = _createUseState8[1];
   var _createUseState9 = createUseState(0), _createUseState10 = _slicedToArray(_createUseState9, 2), suffixWidth = _createUseState10[0], setSuffixWidth = _createUseState10[1];
-  var _useState = (0, import_react20.useState)(null), _useState2 = _slicedToArray(_useState, 2), suffixFixedStart = _useState2[0], setSuffixFixedStart = _useState2[1];
-  var _useState3 = (0, import_react20.useState)(null), _useState4 = _slicedToArray(_useState3, 2), displayCount = _useState4[0], setDisplayCount = _useState4[1];
+  var _useState = (0, import_react21.useState)(null), _useState2 = _slicedToArray(_useState, 2), suffixFixedStart = _useState2[0], setSuffixFixedStart = _useState2[1];
+  var _useState3 = (0, import_react21.useState)(null), _useState4 = _slicedToArray(_useState3, 2), displayCount = _useState4[0], setDisplayCount = _useState4[1];
   var mergedDisplayCount = React67.useMemo(function() {
     if (displayCount === null && fullySSR) {
       return Number.MAX_SAFE_INTEGER;
     }
     return displayCount || 0;
   }, [displayCount, containerWidth]);
-  var _useState5 = (0, import_react20.useState)(false), _useState6 = _slicedToArray(_useState5, 2), restReady = _useState6[0], setRestReady = _useState6[1];
+  var _useState5 = (0, import_react21.useState)(false), _useState6 = _slicedToArray(_useState5, 2), restReady = _useState6[0], setRestReady = _useState6[1];
   var itemPrefixCls = "".concat(prefixCls, "-item");
   var mergedRestWidth = Math.max(prevRestWidth, restWidth);
   var isResponsive = data.length && maxCount3 === RESPONSIVE;
   var invalidate = maxCount3 === INVALIDATE;
   var showRest = isResponsive || typeof maxCount3 === "number" && data.length > maxCount3;
-  var mergedData = (0, import_react20.useMemo)(function() {
+  var mergedData = (0, import_react21.useMemo)(function() {
     var items = data;
     if (isResponsive) {
       if (containerWidth === null && fullySSR) {
@@ -13451,20 +14220,20 @@ function Overflow(props, ref) {
     }
     return items;
   }, [data, itemWidth, containerWidth, maxCount3, isResponsive]);
-  var omittedItems = (0, import_react20.useMemo)(function() {
+  var omittedItems = (0, import_react21.useMemo)(function() {
     if (isResponsive) {
       return data.slice(mergedDisplayCount + 1);
     }
     return data.slice(mergedData.length);
   }, [data, mergedData, isResponsive, mergedDisplayCount]);
-  var getKey = (0, import_react20.useCallback)(function(item, index2) {
+  var getKey = (0, import_react21.useCallback)(function(item, index2) {
     var _ref;
     if (typeof itemKey === "function") {
       return itemKey(item);
     }
     return (_ref = itemKey && (item === null || item === void 0 ? void 0 : item[itemKey])) !== null && _ref !== void 0 ? _ref : index2;
   }, [itemKey]);
-  var mergedRenderItem = (0, import_react20.useCallback)(renderItem || function(item) {
+  var mergedRenderItem = (0, import_react21.useCallback)(renderItem || function(item) {
     return item;
   }, [renderItem]);
   function updateDisplayCount(count, notReady) {
@@ -13633,7 +14402,7 @@ var SearchOutlined_default2 = /* @__PURE__ */ React68.forwardRef(SearchOutlined2
 
 // ../../node_modules/antd/es/_util/statusUtils.js
 init_cjs_shims();
-var import_react21 = __toESM(require("react"));
+var import_react22 = __toESM(require("react"));
 var import_classnames15 = __toESM(require_classnames());
 
 // ../../node_modules/antd/es/_util/type.js
@@ -13655,9 +14424,9 @@ var iconMap = {
 };
 var getFeedbackIcon = function getFeedbackIcon2(prefixCls, status) {
   var IconNode = status && iconMap[status];
-  return IconNode ? /* @__PURE__ */ import_react21.default.createElement("span", {
+  return IconNode ? /* @__PURE__ */ import_react22.default.createElement("span", {
     className: "".concat(prefixCls, "-feedback-icon")
-  }, /* @__PURE__ */ import_react21.default.createElement(IconNode, null)) : null;
+  }, /* @__PURE__ */ import_react22.default.createElement(IconNode, null)) : null;
 };
 function getStatusClassNames(prefixCls, status, hasFeedback) {
   var _classNames;
@@ -13670,7 +14439,7 @@ var getMergedStatus = function getMergedStatus2(contextStatus, customStatus) {
 // ../../node_modules/antd/es/form/context.js
 init_cjs_shims();
 var React70 = __toESM(require("react"));
-var import_react22 = require("react");
+var import_react23 = require("react");
 var FormContext2 = /* @__PURE__ */ React70.createContext({
   labelAlign: "right",
   vertical: false,
@@ -13688,7 +14457,7 @@ var FormItemPrefixContext = /* @__PURE__ */ React70.createContext({
 var FormItemStatusContext = /* @__PURE__ */ React70.createContext({});
 var NoFormStatus = function NoFormStatus2(_ref) {
   var children = _ref.children;
-  var emptyContext = (0, import_react22.useMemo)(function() {
+  var emptyContext = (0, import_react23.useMemo)(function() {
     return {};
   }, []);
   return /* @__PURE__ */ React70.createElement(FormItemStatusContext.Provider, {
@@ -13744,9 +14513,9 @@ var motion_default = collapseMotion;
 // ../../node_modules/antd/es/_util/reactNode.js
 init_cjs_shims();
 var React71 = __toESM(require("react"));
-var isValidElement5 = React71.isValidElement;
+var isValidElement6 = React71.isValidElement;
 function replaceElement(element, replacement, props) {
-  if (!isValidElement5(element))
+  if (!isValidElement6(element))
     return replacement;
   return /* @__PURE__ */ React71.cloneElement(element, typeof props === "function" ? props(element.props || {}) : props);
 }
@@ -13829,7 +14598,7 @@ init_cjs_shims();
 // ../../node_modules/rc-tooltip/es/Tooltip.js
 init_cjs_shims();
 var React73 = __toESM(require("react"));
-var import_react23 = require("react");
+var import_react24 = require("react");
 
 // ../../node_modules/rc-tooltip/es/placements.js
 init_cjs_shims();
@@ -13930,8 +14699,8 @@ var Content_default = Content;
 // ../../node_modules/rc-tooltip/es/Tooltip.js
 var Tooltip = function Tooltip2(props, ref) {
   var overlayClassName = props.overlayClassName, _props$trigger = props.trigger, trigger = _props$trigger === void 0 ? ["hover"] : _props$trigger, _props$mouseEnterDela = props.mouseEnterDelay, mouseEnterDelay = _props$mouseEnterDela === void 0 ? 0 : _props$mouseEnterDela, _props$mouseLeaveDela = props.mouseLeaveDelay, mouseLeaveDelay = _props$mouseLeaveDela === void 0 ? 0.1 : _props$mouseLeaveDela, overlayStyle = props.overlayStyle, _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-tooltip" : _props$prefixCls, children = props.children, onVisibleChange = props.onVisibleChange, afterVisibleChange = props.afterVisibleChange, transitionName2 = props.transitionName, animation = props.animation, motion = props.motion, _props$placement = props.placement, placement = _props$placement === void 0 ? "right" : _props$placement, _props$align = props.align, align = _props$align === void 0 ? {} : _props$align, _props$destroyTooltip = props.destroyTooltipOnHide, destroyTooltipOnHide = _props$destroyTooltip === void 0 ? false : _props$destroyTooltip, defaultVisible = props.defaultVisible, getTooltipContainer = props.getTooltipContainer, overlayInnerStyle = props.overlayInnerStyle, restProps = _objectWithoutProperties(props, ["overlayClassName", "trigger", "mouseEnterDelay", "mouseLeaveDelay", "overlayStyle", "prefixCls", "children", "onVisibleChange", "afterVisibleChange", "transitionName", "animation", "motion", "placement", "align", "destroyTooltipOnHide", "defaultVisible", "getTooltipContainer", "overlayInnerStyle"]);
-  var domRef = (0, import_react23.useRef)(null);
-  (0, import_react23.useImperativeHandle)(ref, function() {
+  var domRef = (0, import_react24.useRef)(null);
+  (0, import_react24.useImperativeHandle)(ref, function() {
     return domRef.current;
   });
   var extraProps = _objectSpread2({}, restProps);
@@ -13983,7 +14752,7 @@ var Tooltip = function Tooltip2(props, ref) {
     mouseEnterDelay
   }, extraProps), children);
 };
-var Tooltip_default = /* @__PURE__ */ (0, import_react23.forwardRef)(Tooltip);
+var Tooltip_default = /* @__PURE__ */ (0, import_react24.forwardRef)(Tooltip);
 
 // ../../node_modules/rc-tooltip/es/index.js
 var es_default8 = Tooltip_default;
@@ -14195,7 +14964,7 @@ var Tooltip3 = /* @__PURE__ */ React74.forwardRef(function(props, ref) {
   if (!("visible" in props) && isNoTitle()) {
     tempVisible = false;
   }
-  var child = getDisabledCompatibleChildren(isValidElement5(children) ? children : /* @__PURE__ */ React74.createElement("span", null, children), prefixCls);
+  var child = getDisabledCompatibleChildren(isValidElement6(children) ? children : /* @__PURE__ */ React74.createElement("span", null, children), prefixCls);
   var childProps = child.props;
   var childCls = (0, import_classnames16.default)(childProps.className, _defineProperty({}, openClassName || "".concat(prefixCls, "-open"), true));
   var customOverlayClassName = (0, import_classnames16.default)(overlayClassName, (_classNames2 = {}, _defineProperty(_classNames2, "".concat(prefixCls, "-rtl"), direction === "rtl"), _defineProperty(_classNames2, "".concat(prefixCls, "-").concat(color), color && PresetColorRegex.test(color)), _classNames2));
@@ -14789,7 +15558,7 @@ Wave.contextType = ConfigContext;
 
 // ../../node_modules/antd/es/button/LoadingIcon.js
 init_cjs_shims();
-var import_react24 = __toESM(require("react"));
+var import_react25 = __toESM(require("react"));
 var getCollapsedWidth = function getCollapsedWidth2() {
   return {
     width: 0,
@@ -14808,11 +15577,11 @@ var LoadingIcon = function LoadingIcon2(_ref) {
   var prefixCls = _ref.prefixCls, loading = _ref.loading, existIcon = _ref.existIcon;
   var visible = !!loading;
   if (existIcon) {
-    return /* @__PURE__ */ import_react24.default.createElement("span", {
+    return /* @__PURE__ */ import_react25.default.createElement("span", {
       className: "".concat(prefixCls, "-loading-icon")
-    }, /* @__PURE__ */ import_react24.default.createElement(LoadingOutlined_default2, null));
+    }, /* @__PURE__ */ import_react25.default.createElement(LoadingOutlined_default2, null));
   }
-  return /* @__PURE__ */ import_react24.default.createElement(es_default3, {
+  return /* @__PURE__ */ import_react25.default.createElement(es_default3, {
     visible,
     motionName: "".concat(prefixCls, "-loading-icon-motion"),
     removeOnLeave: true,
@@ -14824,11 +15593,11 @@ var LoadingIcon = function LoadingIcon2(_ref) {
     onLeaveActive: getCollapsedWidth
   }, function(_ref2, ref) {
     var className = _ref2.className, style2 = _ref2.style;
-    return /* @__PURE__ */ import_react24.default.createElement("span", {
+    return /* @__PURE__ */ import_react25.default.createElement("span", {
       className: "".concat(prefixCls, "-loading-icon"),
       style: style2,
       ref
-    }, /* @__PURE__ */ import_react24.default.createElement(LoadingOutlined_default2, {
+    }, /* @__PURE__ */ import_react25.default.createElement(LoadingOutlined_default2, {
       className
     }));
   });
@@ -15037,7 +15806,7 @@ function mergeProps(origin, target) {
 function InheritableContextProvider(_ref) {
   var children = _ref.children, locked = _ref.locked, restProps = _objectWithoutProperties(_ref, _excluded12);
   var context = React83.useContext(MenuContext);
-  var inheritableContext = useMemo2(function() {
+  var inheritableContext = useMemo3(function() {
     return mergeProps(context, restProps);
   }, [context, restProps], function(prev, next) {
     return !locked && (prev[0] !== next[0] || !(0, import_shallowequal.default)(prev[1], next[1]));
@@ -15951,7 +16720,7 @@ function useUUID(id2) {
 // ../../node_modules/rc-menu/es/hooks/useKeyRecords.js
 init_cjs_shims();
 var React99 = __toESM(require("react"));
-var import_react25 = require("react");
+var import_react26 = require("react");
 
 // ../../node_modules/rc-menu/es/utils/timeUtil.js
 init_cjs_shims();
@@ -15970,17 +16739,17 @@ var getPathKeys = function getPathKeys2(keyPathStr) {
 var OVERFLOW_KEY = "rc-menu-more";
 function useKeyRecords() {
   var _React$useState = React99.useState({}), _React$useState2 = _slicedToArray(_React$useState, 2), internalForceUpdate = _React$useState2[1];
-  var key2pathRef = (0, import_react25.useRef)(/* @__PURE__ */ new Map());
-  var path2keyRef = (0, import_react25.useRef)(/* @__PURE__ */ new Map());
+  var key2pathRef = (0, import_react26.useRef)(/* @__PURE__ */ new Map());
+  var path2keyRef = (0, import_react26.useRef)(/* @__PURE__ */ new Map());
   var _React$useState3 = React99.useState([]), _React$useState4 = _slicedToArray(_React$useState3, 2), overflowKeys = _React$useState4[0], setOverflowKeys = _React$useState4[1];
-  var updateRef = (0, import_react25.useRef)(0);
-  var destroyRef = (0, import_react25.useRef)(false);
+  var updateRef = (0, import_react26.useRef)(0);
+  var destroyRef = (0, import_react26.useRef)(false);
   var forceUpdate = function forceUpdate2() {
     if (!destroyRef.current) {
       internalForceUpdate({});
     }
   };
-  var registerPath = (0, import_react25.useCallback)(function(key2, keyPath) {
+  var registerPath = (0, import_react26.useCallback)(function(key2, keyPath) {
     if (process.env.NODE_ENV !== "production") {
       warning_default(!key2pathRef.current.has(key2), "Duplicated key '".concat(key2, "' used in Menu by path [").concat(keyPath.join(" > "), "]"));
     }
@@ -15995,15 +16764,15 @@ function useKeyRecords() {
       }
     });
   }, []);
-  var unregisterPath = (0, import_react25.useCallback)(function(key2, keyPath) {
+  var unregisterPath = (0, import_react26.useCallback)(function(key2, keyPath) {
     var connectedPath = getPathStr(keyPath);
     path2keyRef.current.delete(connectedPath);
     key2pathRef.current.delete(key2);
   }, []);
-  var refreshOverflowKeys = (0, import_react25.useCallback)(function(keys) {
+  var refreshOverflowKeys = (0, import_react26.useCallback)(function(keys) {
     setOverflowKeys(keys);
   }, []);
-  var getKeyPath = (0, import_react25.useCallback)(function(eventKey, includeOverflow) {
+  var getKeyPath = (0, import_react26.useCallback)(function(eventKey, includeOverflow) {
     var fullPath = key2pathRef.current.get(eventKey) || "";
     var keys = getPathKeys(fullPath);
     if (includeOverflow && overflowKeys.includes(keys[0])) {
@@ -16011,7 +16780,7 @@ function useKeyRecords() {
     }
     return keys;
   }, [overflowKeys]);
-  var isSubPathKey = (0, import_react25.useCallback)(function(pathKeys, eventKey) {
+  var isSubPathKey = (0, import_react26.useCallback)(function(pathKeys, eventKey) {
     return pathKeys.some(function(pathKey) {
       var pathKeyList = getKeyPath(pathKey, true);
       return pathKeyList.includes(eventKey);
@@ -16024,7 +16793,7 @@ function useKeyRecords() {
     }
     return keys;
   };
-  var getSubPathKeys = (0, import_react25.useCallback)(function(key2) {
+  var getSubPathKeys = (0, import_react26.useCallback)(function(key2) {
     var connectedPath = "".concat(key2pathRef.current.get(key2)).concat(PATH_SPLIT);
     var pathKeys = /* @__PURE__ */ new Set();
     _toConsumableArray(path2keyRef.current.keys()).forEach(function(pathKey) {
@@ -16354,8 +17123,8 @@ var import_classnames27 = __toESM(require_classnames());
 
 // ../../node_modules/antd/es/menu/MenuContext.js
 init_cjs_shims();
-var import_react26 = require("react");
-var MenuContext2 = /* @__PURE__ */ (0, import_react26.createContext)({
+var import_react27 = require("react");
+var MenuContext2 = /* @__PURE__ */ (0, import_react27.createContext)({
   prefixCls: "",
   firstLevel: true,
   inlineCollapsed: false
@@ -16377,9 +17146,9 @@ function SubMenu2(props) {
       className: "".concat(prefixCls, "-title-content")
     }, title);
   } else {
-    var titleIsSpan = isValidElement5(title) && title.type === "span";
+    var titleIsSpan = isValidElement6(title) && title.type === "span";
     titleNode = /* @__PURE__ */ React103.createElement(React103.Fragment, null, cloneElement6(icon, {
-      className: (0, import_classnames27.default)(isValidElement5(icon) ? (_a = icon.props) === null || _a === void 0 ? void 0 : _a.className : "", "".concat(prefixCls, "-item-icon"))
+      className: (0, import_classnames27.default)(isValidElement6(icon) ? (_a = icon.props) === null || _a === void 0 ? void 0 : _a.className : "", "".concat(prefixCls, "-item-icon"))
     }), titleIsSpan ? title : /* @__PURE__ */ React103.createElement("span", {
       className: "".concat(prefixCls, "-title-content")
     }, title));
@@ -16406,7 +17175,7 @@ var import_classnames30 = __toESM(require_classnames());
 // ../../node_modules/antd/es/layout/Sider.js
 init_cjs_shims();
 var React107 = __toESM(require("react"));
-var import_react27 = require("react");
+var import_react28 = require("react");
 var import_classnames29 = __toESM(require_classnames());
 
 // ../../node_modules/@ant-design/icons/es/icons/BarsOutlined.js
@@ -16593,10 +17362,10 @@ var generateId = function() {
 }();
 var Sider = /* @__PURE__ */ React107.forwardRef(function(_a, ref) {
   var customizePrefixCls = _a.prefixCls, className = _a.className, trigger = _a.trigger, children = _a.children, _a$defaultCollapsed = _a.defaultCollapsed, defaultCollapsed = _a$defaultCollapsed === void 0 ? false : _a$defaultCollapsed, _a$theme = _a.theme, theme = _a$theme === void 0 ? "dark" : _a$theme, _a$style = _a.style, style2 = _a$style === void 0 ? {} : _a$style, _a$collapsible = _a.collapsible, collapsible = _a$collapsible === void 0 ? false : _a$collapsible, _a$reverseArrow = _a.reverseArrow, reverseArrow = _a$reverseArrow === void 0 ? false : _a$reverseArrow, _a$width = _a.width, width = _a$width === void 0 ? 200 : _a$width, _a$collapsedWidth = _a.collapsedWidth, collapsedWidth = _a$collapsedWidth === void 0 ? 80 : _a$collapsedWidth, zeroWidthTriggerStyle = _a.zeroWidthTriggerStyle, breakpoint = _a.breakpoint, onCollapse = _a.onCollapse, onBreakpoint = _a.onBreakpoint, props = __rest6(_a, ["prefixCls", "className", "trigger", "children", "defaultCollapsed", "theme", "style", "collapsible", "reverseArrow", "width", "collapsedWidth", "zeroWidthTriggerStyle", "breakpoint", "onCollapse", "onBreakpoint"]);
-  var _useContext = (0, import_react27.useContext)(LayoutContext), siderHook = _useContext.siderHook;
-  var _useState = (0, import_react27.useState)("collapsed" in props ? props.collapsed : defaultCollapsed), _useState2 = _slicedToArray(_useState, 2), collapsed = _useState2[0], setCollapsed = _useState2[1];
-  var _useState3 = (0, import_react27.useState)(false), _useState4 = _slicedToArray(_useState3, 2), below = _useState4[0], setBelow = _useState4[1];
-  (0, import_react27.useEffect)(function() {
+  var _useContext = (0, import_react28.useContext)(LayoutContext), siderHook = _useContext.siderHook;
+  var _useState = (0, import_react28.useState)("collapsed" in props ? props.collapsed : defaultCollapsed), _useState2 = _slicedToArray(_useState, 2), collapsed = _useState2[0], setCollapsed = _useState2[1];
+  var _useState3 = (0, import_react28.useState)(false), _useState4 = _slicedToArray(_useState3, 2), below = _useState4[0], setBelow = _useState4[1];
+  (0, import_react28.useEffect)(function() {
     if ("collapsed" in props) {
       setCollapsed(props.collapsed);
     }
@@ -16607,7 +17376,7 @@ var Sider = /* @__PURE__ */ React107.forwardRef(function(_a, ref) {
     }
     onCollapse === null || onCollapse === void 0 ? void 0 : onCollapse(value, type4);
   };
-  var responsiveHandlerRef = (0, import_react27.useRef)();
+  var responsiveHandlerRef = (0, import_react28.useRef)();
   responsiveHandlerRef.current = function(mql) {
     setBelow(mql.matches);
     onBreakpoint === null || onBreakpoint === void 0 ? void 0 : onBreakpoint(mql.matches);
@@ -16615,7 +17384,7 @@ var Sider = /* @__PURE__ */ React107.forwardRef(function(_a, ref) {
       handleSetCollapsed(mql.matches, "responsive");
     }
   };
-  (0, import_react27.useEffect)(function() {
+  (0, import_react28.useEffect)(function() {
     function responsiveHandler(mql2) {
       return responsiveHandlerRef.current(mql2);
     }
@@ -16640,7 +17409,7 @@ var Sider = /* @__PURE__ */ React107.forwardRef(function(_a, ref) {
       }
     };
   }, [breakpoint]);
-  (0, import_react27.useEffect)(function() {
+  (0, import_react28.useEffect)(function() {
     var uniqueId = generateId("ant-sider-");
     siderHook.addSider(uniqueId);
     return function() {
@@ -16650,7 +17419,7 @@ var Sider = /* @__PURE__ */ React107.forwardRef(function(_a, ref) {
   var toggle = function toggle2() {
     handleSetCollapsed(!collapsed, "clickTrigger");
   };
-  var _useContext2 = (0, import_react27.useContext)(ConfigContext), getPrefixCls = _useContext2.getPrefixCls;
+  var _useContext2 = (0, import_react28.useContext)(ConfigContext), getPrefixCls = _useContext2.getPrefixCls;
   var renderSider = function renderSider2() {
     var _classNames;
     var prefixCls = getPrefixCls("layout-sider", customizePrefixCls);
@@ -16749,7 +17518,7 @@ var MenuItem2 = /* @__PURE__ */ function(_React$Component) {
         className: (0, import_classnames30.default)((_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-item-danger"), danger), _defineProperty(_classNames, "".concat(prefixCls, "-item-only-child"), (icon ? childrenLength + 1 : childrenLength) === 1), _classNames), className),
         title: typeof title === "string" ? title : void 0
       }), cloneElement6(icon, {
-        className: (0, import_classnames30.default)(isValidElement5(icon) ? (_a = icon.props) === null || _a === void 0 ? void 0 : _a.className : "", "".concat(prefixCls, "-item-icon"))
+        className: (0, import_classnames30.default)(isValidElement6(icon) ? (_a = icon.props) === null || _a === void 0 ? void 0 : _a.className : "", "".concat(prefixCls, "-item-icon"))
       }), _this.renderItemChildren(inlineCollapsed));
       if (!disableMenuItemTitleTooltip) {
         returnNode = /* @__PURE__ */ React108.createElement(tooltip_default, _extends({}, tooltipProps, {
@@ -16769,7 +17538,7 @@ var MenuItem2 = /* @__PURE__ */ function(_React$Component) {
       var wrapNode = /* @__PURE__ */ React108.createElement("span", {
         className: "".concat(prefixCls, "-title-content")
       }, children);
-      if (!icon || isValidElement5(children) && children.type === "span") {
+      if (!icon || isValidElement6(children) && children.type === "span") {
         if (children && inlineCollapsed && firstLevel && typeof children === "string") {
           return /* @__PURE__ */ React108.createElement("div", {
             className: "".concat(prefixCls, "-inline-collapsed-noicon")
@@ -16992,21 +17761,21 @@ init_cjs_shims();
 // ../../node_modules/rc-tabs/es/Tabs.js
 init_cjs_shims();
 var React122 = __toESM(require("react"));
-var import_react36 = require("react");
+var import_react37 = require("react");
 var import_classnames40 = __toESM(require_classnames());
 
 // ../../node_modules/rc-tabs/es/TabNavList/index.js
 init_cjs_shims();
 var React119 = __toESM(require("react"));
-var import_react35 = require("react");
+var import_react36 = require("react");
 var import_classnames37 = __toESM(require_classnames());
 
 // ../../node_modules/rc-tabs/es/hooks/useRaf.js
 init_cjs_shims();
-var import_react28 = require("react");
+var import_react29 = require("react");
 function useRaf(callback) {
-  var rafRef = (0, import_react28.useRef)();
-  var removedRef = (0, import_react28.useRef)(false);
+  var rafRef = (0, import_react29.useRef)();
+  var removedRef = (0, import_react29.useRef)(false);
   function trigger() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
@@ -17018,7 +17787,7 @@ function useRaf(callback) {
       });
     }
   }
-  (0, import_react28.useEffect)(function() {
+  (0, import_react29.useEffect)(function() {
     return function() {
       removedRef.current = true;
       wrapperRaf.cancel(rafRef.current);
@@ -17027,9 +17796,9 @@ function useRaf(callback) {
   return trigger;
 }
 function useRafState(defaultState) {
-  var batchRef = (0, import_react28.useRef)([]);
-  var _useState = (0, import_react28.useState)({}), _useState2 = _slicedToArray(_useState, 2), forceUpdate = _useState2[1];
-  var state = (0, import_react28.useRef)(typeof defaultState === "function" ? defaultState() : defaultState);
+  var batchRef = (0, import_react29.useRef)([]);
+  var _useState = (0, import_react29.useState)({}), _useState2 = _slicedToArray(_useState, 2), forceUpdate = _useState2[1];
+  var state = (0, import_react29.useRef)(typeof defaultState === "function" ? defaultState() : defaultState);
   var flushUpdate = useRaf(function() {
     var current = state.current;
     batchRef.current.forEach(function(callback) {
@@ -17113,7 +17882,7 @@ var TabNode_default = /* @__PURE__ */ React113.forwardRef(TabNode);
 
 // ../../node_modules/rc-tabs/es/hooks/useOffsets.js
 init_cjs_shims();
-var import_react29 = require("react");
+var import_react30 = require("react");
 var DEFAULT_SIZE = {
   width: 0,
   height: 0,
@@ -17121,7 +17890,7 @@ var DEFAULT_SIZE = {
   top: 0
 };
 function useOffsets(tabs, tabSizes, holderScrollWidth) {
-  return (0, import_react29.useMemo)(function() {
+  return (0, import_react30.useMemo)(function() {
     var _tabs$;
     var map = /* @__PURE__ */ new Map();
     var lastOffset = tabSizes.get((_tabs$ = tabs[0]) === null || _tabs$ === void 0 ? void 0 : _tabs$.key) || DEFAULT_SIZE;
@@ -17145,7 +17914,7 @@ function useOffsets(tabs, tabSizes, holderScrollWidth) {
 
 // ../../node_modules/rc-tabs/es/hooks/useVisibleRange.js
 init_cjs_shims();
-var import_react30 = require("react");
+var import_react31 = require("react");
 var DEFAULT_SIZE2 = {
   width: 0,
   height: 0,
@@ -17174,7 +17943,7 @@ function useVisibleRange(tabOffsets, containerSize, tabContentNodeSize, addNodeS
   if (tabContentSize + addSize > basicSize && tabContentSize < basicSize) {
     mergedBasicSize = basicSize - addSize;
   }
-  return (0, import_react30.useMemo)(function() {
+  return (0, import_react31.useMemo)(function() {
     if (!tabs.length) {
       return [0, 0];
     }
@@ -17205,7 +17974,7 @@ function useVisibleRange(tabOffsets, containerSize, tabContentNodeSize, addNodeS
 init_cjs_shims();
 var React115 = __toESM(require("react"));
 var import_classnames36 = __toESM(require_classnames());
-var import_react31 = require("react");
+var import_react32 = require("react");
 
 // ../../node_modules/rc-tabs/es/TabNavList/AddButton.js
 init_cjs_shims();
@@ -17233,8 +18002,8 @@ var AddButton_default = /* @__PURE__ */ React114.forwardRef(AddButton);
 // ../../node_modules/rc-tabs/es/TabNavList/OperationNode.js
 function OperationNode(_ref, ref) {
   var prefixCls = _ref.prefixCls, id2 = _ref.id, tabs = _ref.tabs, locale4 = _ref.locale, mobile = _ref.mobile, _ref$moreIcon = _ref.moreIcon, moreIcon = _ref$moreIcon === void 0 ? "More" : _ref$moreIcon, moreTransitionName = _ref.moreTransitionName, style2 = _ref.style, className = _ref.className, editable = _ref.editable, tabBarGutter = _ref.tabBarGutter, rtl3 = _ref.rtl, removeAriaLabel = _ref.removeAriaLabel, onTabClick = _ref.onTabClick;
-  var _useState = (0, import_react31.useState)(false), _useState2 = _slicedToArray(_useState, 2), open = _useState2[0], setOpen = _useState2[1];
-  var _useState3 = (0, import_react31.useState)(null), _useState4 = _slicedToArray(_useState3, 2), selectedKey = _useState4[0], setSelectedKey = _useState4[1];
+  var _useState = (0, import_react32.useState)(false), _useState2 = _slicedToArray(_useState, 2), open = _useState2[0], setOpen = _useState2[1];
+  var _useState3 = (0, import_react32.useState)(null), _useState4 = _slicedToArray(_useState3, 2), selectedKey = _useState4[0], setSelectedKey = _useState4[1];
   var popupId = "".concat(id2, "-more-popup");
   var dropdownPrefix = "".concat(prefixCls, "-dropdown");
   var selectedItemId = selectedKey !== null ? "".concat(popupId, "-").concat(selectedKey) : null;
@@ -17323,13 +18092,13 @@ function OperationNode(_ref, ref) {
         break;
     }
   }
-  (0, import_react31.useEffect)(function() {
+  (0, import_react32.useEffect)(function() {
     var ele = document.getElementById(selectedItemId);
     if (ele && ele.scrollIntoView) {
       ele.scrollIntoView(false);
     }
   }, [selectedKey]);
-  (0, import_react31.useEffect)(function() {
+  (0, import_react32.useEffect)(function() {
     if (!open) {
       setSelectedKey(null);
     }
@@ -17378,23 +18147,23 @@ var OperationNode_default = /* @__PURE__ */ React115.memo(/* @__PURE__ */ React1
 
 // ../../node_modules/rc-tabs/es/TabContext.js
 init_cjs_shims();
-var import_react32 = require("react");
-var TabContext_default = /* @__PURE__ */ (0, import_react32.createContext)(null);
+var import_react33 = require("react");
+var TabContext_default = /* @__PURE__ */ (0, import_react33.createContext)(null);
 
 // ../../node_modules/rc-tabs/es/hooks/useTouchMove.js
 init_cjs_shims();
 var React116 = __toESM(require("react"));
-var import_react33 = require("react");
+var import_react34 = require("react");
 var MIN_SWIPE_DISTANCE = 0.1;
 var STOP_SWIPE_DISTANCE = 0.01;
 var REFRESH_INTERVAL = 20;
 var SPEED_OFF_MULTIPLE = Math.pow(0.995, REFRESH_INTERVAL);
 function useTouchMove(ref, onOffset) {
-  var _useState = (0, import_react33.useState)(), _useState2 = _slicedToArray(_useState, 2), touchPosition = _useState2[0], setTouchPosition = _useState2[1];
-  var _useState3 = (0, import_react33.useState)(0), _useState4 = _slicedToArray(_useState3, 2), lastTimestamp = _useState4[0], setLastTimestamp = _useState4[1];
-  var _useState5 = (0, import_react33.useState)(0), _useState6 = _slicedToArray(_useState5, 2), lastTimeDiff = _useState6[0], setLastTimeDiff = _useState6[1];
-  var _useState7 = (0, import_react33.useState)(), _useState8 = _slicedToArray(_useState7, 2), lastOffset = _useState8[0], setLastOffset = _useState8[1];
-  var motionRef = (0, import_react33.useRef)();
+  var _useState = (0, import_react34.useState)(), _useState2 = _slicedToArray(_useState, 2), touchPosition = _useState2[0], setTouchPosition = _useState2[1];
+  var _useState3 = (0, import_react34.useState)(0), _useState4 = _slicedToArray(_useState3, 2), lastTimestamp = _useState4[0], setLastTimestamp = _useState4[1];
+  var _useState5 = (0, import_react34.useState)(0), _useState6 = _slicedToArray(_useState5, 2), lastTimeDiff = _useState6[0], setLastTimeDiff = _useState6[1];
+  var _useState7 = (0, import_react34.useState)(), _useState8 = _slicedToArray(_useState7, 2), lastOffset = _useState8[0], setLastOffset = _useState8[1];
+  var motionRef = (0, import_react34.useRef)();
   function onTouchStart(e2) {
     var _e$touches$ = e2.touches[0], screenX = _e$touches$.screenX, screenY = _e$touches$.screenY;
     setTouchPosition({
@@ -17448,7 +18217,7 @@ function useTouchMove(ref, onOffset) {
       }, REFRESH_INTERVAL);
     }
   }
-  var lastWheelDirectionRef = (0, import_react33.useRef)();
+  var lastWheelDirectionRef = (0, import_react34.useRef)();
   function onWheel(e2) {
     var deltaX = e2.deltaX, deltaY = e2.deltaY;
     var mixed = 0;
@@ -17467,7 +18236,7 @@ function useTouchMove(ref, onOffset) {
       e2.preventDefault();
     }
   }
-  var touchEventsRef = (0, import_react33.useRef)(null);
+  var touchEventsRef = (0, import_react34.useRef)(null);
   touchEventsRef.current = {
     onTouchStart,
     onTouchMove,
@@ -17507,9 +18276,9 @@ function useTouchMove(ref, onOffset) {
 // ../../node_modules/rc-tabs/es/hooks/useRefs.js
 init_cjs_shims();
 var React117 = __toESM(require("react"));
-var import_react34 = require("react");
+var import_react35 = require("react");
 function useRefs() {
-  var cacheRefs = (0, import_react34.useRef)(/* @__PURE__ */ new Map());
+  var cacheRefs = (0, import_react35.useRef)(/* @__PURE__ */ new Map());
   function getRef(key2) {
     if (!cacheRefs.current.has(key2)) {
       cacheRefs.current.set(key2, /* @__PURE__ */ React117.createRef());
@@ -17565,10 +18334,10 @@ function TabNavList(props, ref) {
   var _classNames;
   var _React$useContext = React119.useContext(TabContext_default), prefixCls = _React$useContext.prefixCls, tabs = _React$useContext.tabs;
   var className = props.className, style2 = props.style, id2 = props.id, animated = props.animated, activeKey = props.activeKey, rtl3 = props.rtl, extra = props.extra, editable = props.editable, locale4 = props.locale, tabPosition = props.tabPosition, tabBarGutter = props.tabBarGutter, children = props.children, onTabClick = props.onTabClick, onTabScroll = props.onTabScroll;
-  var tabsWrapperRef = (0, import_react35.useRef)();
-  var tabListRef = (0, import_react35.useRef)();
-  var operationsRef = (0, import_react35.useRef)();
-  var innerAddButtonRef = (0, import_react35.useRef)();
+  var tabsWrapperRef = (0, import_react36.useRef)();
+  var tabListRef = (0, import_react36.useRef)();
+  var operationsRef = (0, import_react36.useRef)();
+  var innerAddButtonRef = (0, import_react36.useRef)();
   var _useRefs = useRefs(), _useRefs2 = _slicedToArray(_useRefs, 2), getBtnRef = _useRefs2[0], removeBtnRef = _useRefs2[1];
   var tabPositionTopOrBottom = tabPosition === "top" || tabPosition === "bottom";
   var _useSyncState = useSyncState(0, function(next, prev) {
@@ -17585,12 +18354,12 @@ function TabNavList(props, ref) {
       });
     }
   }), _useSyncState4 = _slicedToArray(_useSyncState3, 2), transformTop = _useSyncState4[0], setTransformTop = _useSyncState4[1];
-  var _useState = (0, import_react35.useState)(0), _useState2 = _slicedToArray(_useState, 2), wrapperScrollWidth = _useState2[0], setWrapperScrollWidth = _useState2[1];
-  var _useState3 = (0, import_react35.useState)(0), _useState4 = _slicedToArray(_useState3, 2), wrapperScrollHeight = _useState4[0], setWrapperScrollHeight = _useState4[1];
-  var _useState5 = (0, import_react35.useState)(null), _useState6 = _slicedToArray(_useState5, 2), wrapperWidth = _useState6[0], setWrapperWidth = _useState6[1];
-  var _useState7 = (0, import_react35.useState)(null), _useState8 = _slicedToArray(_useState7, 2), wrapperHeight = _useState8[0], setWrapperHeight = _useState8[1];
-  var _useState9 = (0, import_react35.useState)(0), _useState10 = _slicedToArray(_useState9, 2), addWidth = _useState10[0], setAddWidth = _useState10[1];
-  var _useState11 = (0, import_react35.useState)(0), _useState12 = _slicedToArray(_useState11, 2), addHeight = _useState12[0], setAddHeight = _useState12[1];
+  var _useState = (0, import_react36.useState)(0), _useState2 = _slicedToArray(_useState, 2), wrapperScrollWidth = _useState2[0], setWrapperScrollWidth = _useState2[1];
+  var _useState3 = (0, import_react36.useState)(0), _useState4 = _slicedToArray(_useState3, 2), wrapperScrollHeight = _useState4[0], setWrapperScrollHeight = _useState4[1];
+  var _useState5 = (0, import_react36.useState)(null), _useState6 = _slicedToArray(_useState5, 2), wrapperWidth = _useState6[0], setWrapperWidth = _useState6[1];
+  var _useState7 = (0, import_react36.useState)(null), _useState8 = _slicedToArray(_useState7, 2), wrapperHeight = _useState8[0], setWrapperHeight = _useState8[1];
+  var _useState9 = (0, import_react36.useState)(0), _useState10 = _slicedToArray(_useState9, 2), addWidth = _useState10[0], setAddWidth = _useState10[1];
+  var _useState11 = (0, import_react36.useState)(0), _useState12 = _slicedToArray(_useState11, 2), addHeight = _useState12[0], setAddHeight = _useState12[1];
   var _useRafState = useRafState(/* @__PURE__ */ new Map()), _useRafState2 = _slicedToArray(_useRafState, 2), tabSizes = _useRafState2[0], setTabSizes = _useRafState2[1];
   var tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
   var operationsHiddenClassName = "".concat(prefixCls, "-nav-operations-hidden");
@@ -17615,8 +18384,8 @@ function TabNavList(props, ref) {
     }
     return value;
   }
-  var touchMovingRef = (0, import_react35.useRef)();
-  var _useState13 = (0, import_react35.useState)(), _useState14 = _slicedToArray(_useState13, 2), lockAnimation = _useState14[0], setLockAnimation = _useState14[1];
+  var touchMovingRef = (0, import_react36.useRef)();
+  var _useState13 = (0, import_react36.useState)(), _useState14 = _slicedToArray(_useState13, 2), lockAnimation = _useState14[0], setLockAnimation = _useState14[1];
   function doLockAnimation() {
     setLockAnimation(Date.now());
   }
@@ -17645,7 +18414,7 @@ function TabNavList(props, ref) {
     doLockAnimation();
     return true;
   });
-  (0, import_react35.useEffect)(function() {
+  (0, import_react36.useEffect)(function() {
     clearTouchMoving();
     if (lockAnimation) {
       touchMovingRef.current = window.setTimeout(function() {
@@ -17776,13 +18545,13 @@ function TabNavList(props, ref) {
   var startHiddenTabs = tabs.slice(0, visibleStart);
   var endHiddenTabs = tabs.slice(visibleEnd + 1);
   var hiddenTabs = [].concat(_toConsumableArray(startHiddenTabs), _toConsumableArray(endHiddenTabs));
-  var _useState15 = (0, import_react35.useState)(), _useState16 = _slicedToArray(_useState15, 2), inkStyle = _useState16[0], setInkStyle = _useState16[1];
+  var _useState15 = (0, import_react36.useState)(), _useState16 = _slicedToArray(_useState15, 2), inkStyle = _useState16[0], setInkStyle = _useState16[1];
   var activeTabOffset = tabOffsets.get(activeKey);
-  var inkBarRafRef = (0, import_react35.useRef)();
+  var inkBarRafRef = (0, import_react36.useRef)();
   function cleanInkBarRaf() {
     wrapperRaf.cancel(inkBarRafRef.current);
   }
-  (0, import_react35.useEffect)(function() {
+  (0, import_react36.useEffect)(function() {
     var newInkStyle = {};
     if (activeTabOffset) {
       if (tabPositionTopOrBottom) {
@@ -17803,10 +18572,10 @@ function TabNavList(props, ref) {
     });
     return cleanInkBarRaf;
   }, [activeTabOffset, tabPositionTopOrBottom, rtl3]);
-  (0, import_react35.useEffect)(function() {
+  (0, import_react36.useEffect)(function() {
     scrollToTab();
   }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
-  (0, import_react35.useEffect)(function() {
+  (0, import_react36.useEffect)(function() {
     onListHolderResize();
   }, [rtl3, tabBarGutter, activeKey, tabs.map(function(tab) {
     return tab.key;
@@ -17988,8 +18757,8 @@ function Tabs(_ref, ref) {
       tabPane: false
     }, _typeof(animated) === "object" ? animated : {});
   }
-  var _useState = (0, import_react36.useState)(false), _useState2 = _slicedToArray(_useState, 2), mobile = _useState2[0], setMobile = _useState2[1];
-  (0, import_react36.useEffect)(function() {
+  var _useState = (0, import_react37.useState)(false), _useState2 = _slicedToArray(_useState, 2), mobile = _useState2[0], setMobile = _useState2[1];
+  (0, import_react37.useEffect)(function() {
     setMobile(isMobile_default());
   }, []);
   var _useMergedState = useMergedState(function() {
@@ -17999,12 +18768,12 @@ function Tabs(_ref, ref) {
     value: activeKey,
     defaultValue: defaultActiveKey
   }), _useMergedState2 = _slicedToArray(_useMergedState, 2), mergedActiveKey = _useMergedState2[0], setMergedActiveKey = _useMergedState2[1];
-  var _useState3 = (0, import_react36.useState)(function() {
+  var _useState3 = (0, import_react37.useState)(function() {
     return tabs.findIndex(function(tab) {
       return tab.key === mergedActiveKey;
     });
   }), _useState4 = _slicedToArray(_useState3, 2), activeIndex = _useState4[0], setActiveIndex = _useState4[1];
-  (0, import_react36.useEffect)(function() {
+  (0, import_react37.useEffect)(function() {
     var newActiveIndex = tabs.findIndex(function(tab) {
       return tab.key === mergedActiveKey;
     });
@@ -18024,7 +18793,7 @@ function Tabs(_ref, ref) {
   if (mobile && !["left", "right"].includes(tabPosition)) {
     mergedTabPosition = "top";
   }
-  (0, import_react36.useEffect)(function() {
+  (0, import_react37.useEffect)(function() {
     if (!id2) {
       setMergedId("rc-tabs-".concat(process.env.NODE_ENV === "test" ? "test" : uuid));
       uuid += 1;
@@ -18171,8 +18940,8 @@ var import_classnames42 = __toESM(require_classnames());
 
 // ../../node_modules/antd/es/grid/RowContext.js
 init_cjs_shims();
-var import_react37 = require("react");
-var RowContext = /* @__PURE__ */ (0, import_react37.createContext)({});
+var import_react38 = require("react");
+var RowContext = /* @__PURE__ */ (0, import_react38.createContext)({});
 var RowContext_default = RowContext;
 
 // ../../node_modules/antd/es/_util/hooks/useFlexGapSupport.js
@@ -18533,7 +19302,7 @@ init_cjs_shims();
 // ../../node_modules/antd/es/form/Form.js
 init_cjs_shims();
 var React130 = __toESM(require("react"));
-var import_react38 = require("react");
+var import_react39 = require("react");
 var import_classnames45 = __toESM(require_classnames());
 
 // ../../node_modules/antd/es/form/hooks/useForm.js
@@ -18735,7 +19504,7 @@ var InternalForm2 = function InternalForm3(props, ref) {
   var contextSize = React130.useContext(SizeContext_default);
   var _React$useContext = React130.useContext(ConfigContext), getPrefixCls = _React$useContext.getPrefixCls, direction = _React$useContext.direction, contextForm = _React$useContext.form;
   var customizePrefixCls = props.prefixCls, _props$className = props.className, className = _props$className === void 0 ? "" : _props$className, _props$size = props.size, size = _props$size === void 0 ? contextSize : _props$size, form = props.form, colon = props.colon, labelAlign = props.labelAlign, labelWrap = props.labelWrap, labelCol = props.labelCol, wrapperCol = props.wrapperCol, hideRequiredMark = props.hideRequiredMark, _props$layout = props.layout, layout = _props$layout === void 0 ? "horizontal" : _props$layout, scrollToFirstError = props.scrollToFirstError, requiredMark = props.requiredMark, onFinishFailed = props.onFinishFailed, name = props.name, restFormProps = __rest16(props, ["prefixCls", "className", "size", "form", "colon", "labelAlign", "labelWrap", "labelCol", "wrapperCol", "hideRequiredMark", "layout", "scrollToFirstError", "requiredMark", "onFinishFailed", "name"]);
-  var mergedRequiredMark = (0, import_react38.useMemo)(function() {
+  var mergedRequiredMark = (0, import_react39.useMemo)(function() {
     if (requiredMark !== void 0) {
       return requiredMark;
     }
@@ -18753,7 +19522,7 @@ var InternalForm2 = function InternalForm3(props, ref) {
   var _useForm = useForm2(form), _useForm2 = _slicedToArray(_useForm, 1), wrapForm = _useForm2[0];
   var __INTERNAL__ = wrapForm.__INTERNAL__;
   __INTERNAL__.name = name;
-  var formContextValue = (0, import_react38.useMemo)(function() {
+  var formContextValue = (0, import_react39.useMemo)(function() {
     return {
       name,
       labelAlign,
@@ -18800,7 +19569,7 @@ var Form_default2 = Form3;
 // ../../node_modules/antd/es/form/FormItem.js
 init_cjs_shims();
 var React138 = __toESM(require("react"));
-var import_react40 = require("react");
+var import_react41 = require("react");
 var import_classnames49 = __toESM(require_classnames());
 
 // ../../node_modules/antd/es/form/FormItemLabel.js
@@ -19018,12 +19787,12 @@ var FormItemInput_default = FormItemInput;
 // ../../node_modules/antd/es/form/hooks/useFrameState.js
 init_cjs_shims();
 var React135 = __toESM(require("react"));
-var import_react39 = require("react");
+var import_react40 = require("react");
 function useFrameState(defaultValue) {
   var _React$useState = React135.useState(defaultValue), _React$useState2 = _slicedToArray(_React$useState, 2), value = _React$useState2[0], setValue2 = _React$useState2[1];
-  var frameRef = (0, import_react39.useRef)(null);
-  var batchRef = (0, import_react39.useRef)([]);
-  var destroyRef = (0, import_react39.useRef)(false);
+  var frameRef = (0, import_react40.useRef)(null);
+  var batchRef = (0, import_react40.useRef)([]);
+  var destroyRef = (0, import_react40.useRef)(false);
   React135.useEffect(function() {
     return function() {
       destroyRef.current = true;
@@ -19126,11 +19895,11 @@ function genEmptyMeta() {
 }
 function FormItem(props) {
   var name = props.name, noStyle = props.noStyle, dependencies = props.dependencies, customizePrefixCls = props.prefixCls, style2 = props.style, className = props.className, shouldUpdate = props.shouldUpdate, hasFeedback = props.hasFeedback, help = props.help, rules2 = props.rules, validateStatus = props.validateStatus, children = props.children, required4 = props.required, label = props.label, messageVariables = props.messageVariables, _props$trigger = props.trigger, trigger = _props$trigger === void 0 ? "onChange" : _props$trigger, validateTrigger = props.validateTrigger, hidden = props.hidden, restProps = __rest18(props, ["name", "noStyle", "dependencies", "prefixCls", "style", "className", "shouldUpdate", "hasFeedback", "help", "rules", "validateStatus", "children", "required", "label", "messageVariables", "trigger", "validateTrigger", "hidden"]);
-  var _useContext = (0, import_react40.useContext)(ConfigContext), getPrefixCls = _useContext.getPrefixCls;
-  var _useContext2 = (0, import_react40.useContext)(FormContext2), formName = _useContext2.name, requiredMark = _useContext2.requiredMark;
+  var _useContext = (0, import_react41.useContext)(ConfigContext), getPrefixCls = _useContext.getPrefixCls;
+  var _useContext2 = (0, import_react41.useContext)(FormContext2), formName = _useContext2.name, requiredMark = _useContext2.requiredMark;
   var isRenderProps = typeof children === "function";
-  var notifyParentMetaChange = (0, import_react40.useContext)(NoStyleItemContext);
-  var _useContext3 = (0, import_react40.useContext)(FieldContext_default), contextValidateTrigger = _useContext3.validateTrigger;
+  var notifyParentMetaChange = (0, import_react41.useContext)(NoStyleItemContext);
+  var _useContext3 = (0, import_react41.useContext)(FieldContext_default), contextValidateTrigger = _useContext3.validateTrigger;
   var mergedValidateTrigger = validateTrigger !== void 0 ? validateTrigger : contextValidateTrigger;
   var hasName = hasValidName(name);
   var prefixCls = getPrefixCls("form", customizePrefixCls);
@@ -19194,7 +19963,7 @@ function FormItem(props) {
   } else if (meta === null || meta === void 0 ? void 0 : meta.touched) {
     mergedValidateStatus = "success";
   }
-  var formItemStatusContext = (0, import_react40.useMemo)(function() {
+  var formItemStatusContext = (0, import_react41.useMemo)(function() {
     return {
       status: mergedValidateStatus,
       hasFeedback
@@ -19269,7 +20038,7 @@ function FormItem(props) {
       devWarning_default(!hasName, "Form.Item", "Do not use `name` with `children` of render props since it's not a field.");
     } else if (dependencies && !isRenderProps && !hasName) {
       devWarning_default(false, "Form.Item", "Must set `name` or use render props when `dependencies` is set.");
-    } else if (isValidElement5(children)) {
+    } else if (isValidElement6(children)) {
       devWarning_default(children.props.defaultValue === void 0, "Form.Item", "`defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.");
       var childProps = _extends(_extends({}, children.props), mergedControl);
       if (!childProps.id) {
@@ -19364,14 +20133,14 @@ init_cjs_shims();
 
 // ../../node_modules/antd/es/input/Input.js
 init_cjs_shims();
-var import_react43 = __toESM(require("react"));
+var import_react44 = __toESM(require("react"));
 
 // ../../node_modules/rc-input/es/index.js
 init_cjs_shims();
 
 // ../../node_modules/rc-input/es/BaseInput.js
 init_cjs_shims();
-var import_react41 = __toESM(require("react"));
+var import_react42 = __toESM(require("react"));
 var import_classnames50 = __toESM(require_classnames());
 
 // ../../node_modules/rc-input/es/utils/commonUtils.js
@@ -19445,7 +20214,7 @@ function fixControlledValue(value) {
 // ../../node_modules/rc-input/es/BaseInput.js
 var BaseInput = function BaseInput2(props) {
   var inputElement = props.inputElement, prefixCls = props.prefixCls, prefix = props.prefix, suffix = props.suffix, addonBefore = props.addonBefore, addonAfter = props.addonAfter, className = props.className, style2 = props.style, affixWrapperClassName = props.affixWrapperClassName, groupClassName = props.groupClassName, wrapperClassName = props.wrapperClassName, disabled = props.disabled, readOnly2 = props.readOnly, focused = props.focused, triggerFocus3 = props.triggerFocus, allowClear = props.allowClear, value = props.value, handleReset = props.handleReset, hidden = props.hidden;
-  var containerRef = (0, import_react41.useRef)(null);
+  var containerRef = (0, import_react42.useRef)(null);
   var onInputMouseUp = function onInputMouseUp2(e2) {
     var _containerRef$current;
     if ((_containerRef$current = containerRef.current) === null || _containerRef$current === void 0 ? void 0 : _containerRef$current.contains(e2.target)) {
@@ -19460,7 +20229,7 @@ var BaseInput = function BaseInput2(props) {
     var needClear = !disabled && !readOnly2 && value;
     var clearIconCls = "".concat(prefixCls, "-clear-icon");
     var iconNode = _typeof(allowClear) === "object" && (allowClear === null || allowClear === void 0 ? void 0 : allowClear.clearIcon) ? allowClear.clearIcon : "\u2716";
-    return /* @__PURE__ */ import_react41.default.createElement("span", {
+    return /* @__PURE__ */ import_react42.default.createElement("span", {
       onClick: handleReset,
       onMouseDown: function onMouseDown(e2) {
         return e2.preventDefault();
@@ -19470,7 +20239,7 @@ var BaseInput = function BaseInput2(props) {
       tabIndex: -1
     }, iconNode);
   };
-  var element = /* @__PURE__ */ (0, import_react41.cloneElement)(inputElement, {
+  var element = /* @__PURE__ */ (0, import_react42.cloneElement)(inputElement, {
     value,
     hidden
   });
@@ -19478,18 +20247,18 @@ var BaseInput = function BaseInput2(props) {
     var _classNames2;
     var affixWrapperPrefixCls = "".concat(prefixCls, "-affix-wrapper");
     var affixWrapperCls = (0, import_classnames50.default)(affixWrapperPrefixCls, (_classNames2 = {}, _defineProperty(_classNames2, "".concat(affixWrapperPrefixCls, "-disabled"), disabled), _defineProperty(_classNames2, "".concat(affixWrapperPrefixCls, "-focused"), focused), _defineProperty(_classNames2, "".concat(affixWrapperPrefixCls, "-readonly"), readOnly2), _defineProperty(_classNames2, "".concat(affixWrapperPrefixCls, "-input-with-clear-btn"), suffix && allowClear && value), _classNames2), !hasAddon(props) && className, affixWrapperClassName);
-    var suffixNode = (suffix || allowClear) && /* @__PURE__ */ import_react41.default.createElement("span", {
+    var suffixNode = (suffix || allowClear) && /* @__PURE__ */ import_react42.default.createElement("span", {
       className: "".concat(prefixCls, "-suffix")
     }, getClearIcon(), suffix);
-    element = /* @__PURE__ */ import_react41.default.createElement("span", {
+    element = /* @__PURE__ */ import_react42.default.createElement("span", {
       className: affixWrapperCls,
       style: style2,
       hidden: !hasAddon(props) && hidden,
       onMouseUp: onInputMouseUp,
       ref: containerRef
-    }, prefix && /* @__PURE__ */ import_react41.default.createElement("span", {
+    }, prefix && /* @__PURE__ */ import_react42.default.createElement("span", {
       className: "".concat(prefixCls, "-prefix")
-    }, prefix), /* @__PURE__ */ (0, import_react41.cloneElement)(inputElement, {
+    }, prefix), /* @__PURE__ */ (0, import_react42.cloneElement)(inputElement, {
       style: null,
       value,
       hidden: null
@@ -19500,18 +20269,18 @@ var BaseInput = function BaseInput2(props) {
     var addonCls = "".concat(wrapperCls, "-addon");
     var mergedWrapperClassName = (0, import_classnames50.default)("".concat(prefixCls, "-wrapper"), wrapperCls, wrapperClassName);
     var mergedGroupClassName = (0, import_classnames50.default)("".concat(prefixCls, "-group-wrapper"), className, groupClassName);
-    return /* @__PURE__ */ import_react41.default.createElement("span", {
+    return /* @__PURE__ */ import_react42.default.createElement("span", {
       className: mergedGroupClassName,
       style: style2,
       hidden
-    }, /* @__PURE__ */ import_react41.default.createElement("span", {
+    }, /* @__PURE__ */ import_react42.default.createElement("span", {
       className: mergedWrapperClassName
-    }, addonBefore && /* @__PURE__ */ import_react41.default.createElement("span", {
+    }, addonBefore && /* @__PURE__ */ import_react42.default.createElement("span", {
       className: addonCls
-    }, addonBefore), /* @__PURE__ */ (0, import_react41.cloneElement)(element, {
+    }, addonBefore), /* @__PURE__ */ (0, import_react42.cloneElement)(element, {
       style: null,
       hidden: null
-    }), addonAfter && /* @__PURE__ */ import_react41.default.createElement("span", {
+    }), addonAfter && /* @__PURE__ */ import_react42.default.createElement("span", {
       className: addonCls
     }, addonAfter)));
   }
@@ -19521,22 +20290,22 @@ var BaseInput_default = BaseInput;
 
 // ../../node_modules/rc-input/es/Input.js
 init_cjs_shims();
-var import_react42 = __toESM(require("react"));
+var import_react43 = __toESM(require("react"));
 var import_classnames51 = __toESM(require_classnames());
 var _excluded20 = ["autoComplete", "onChange", "onFocus", "onBlur", "onPressEnter", "onKeyDown", "prefixCls", "disabled", "htmlSize", "className", "maxLength", "suffix", "showCount", "type", "inputClassName"];
-var Input = /* @__PURE__ */ (0, import_react42.forwardRef)(function(props, ref) {
+var Input = /* @__PURE__ */ (0, import_react43.forwardRef)(function(props, ref) {
   var autoComplete = props.autoComplete, onChange = props.onChange, onFocus = props.onFocus, onBlur = props.onBlur, onPressEnter = props.onPressEnter, onKeyDown = props.onKeyDown, _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-input" : _props$prefixCls, disabled = props.disabled, htmlSize = props.htmlSize, className = props.className, maxLength = props.maxLength, suffix = props.suffix, showCount = props.showCount, _props$type = props.type, type4 = _props$type === void 0 ? "text" : _props$type, inputClassName = props.inputClassName, rest = _objectWithoutProperties(props, _excluded20);
   var _useMergedState = useMergedState(props.defaultValue, {
     value: props.value
   }), _useMergedState2 = _slicedToArray(_useMergedState, 2), value = _useMergedState2[0], setValue2 = _useMergedState2[1];
-  var _useState = (0, import_react42.useState)(false), _useState2 = _slicedToArray(_useState, 2), focused = _useState2[0], setFocused = _useState2[1];
-  var inputRef = (0, import_react42.useRef)(null);
+  var _useState = (0, import_react43.useState)(false), _useState2 = _slicedToArray(_useState, 2), focused = _useState2[0], setFocused = _useState2[1];
+  var inputRef = (0, import_react43.useRef)(null);
   var focus = function focus2(option) {
     if (inputRef.current) {
       triggerFocus(inputRef.current, option);
     }
   };
-  (0, import_react42.useImperativeHandle)(ref, function() {
+  (0, import_react43.useImperativeHandle)(ref, function() {
     return {
       focus,
       blur: function blur() {
@@ -19554,7 +20323,7 @@ var Input = /* @__PURE__ */ (0, import_react42.forwardRef)(function(props, ref) 
       input: inputRef.current
     };
   });
-  (0, import_react42.useEffect)(function() {
+  (0, import_react43.useEffect)(function() {
     setFocused(function(prev) {
       return prev && disabled ? false : prev;
     });
@@ -19605,7 +20374,7 @@ var Input = /* @__PURE__ */ (0, import_react42.forwardRef)(function(props, ref) 
       "wrapperClassName",
       "htmlSize"
     ]);
-    return /* @__PURE__ */ import_react42.default.createElement("input", _objectSpread2(_objectSpread2({
+    return /* @__PURE__ */ import_react43.default.createElement("input", _objectSpread2(_objectSpread2({
       autoComplete
     }, otherProps), {}, {
       onChange: handleChange,
@@ -19626,13 +20395,13 @@ var Input = /* @__PURE__ */ (0, import_react42.forwardRef)(function(props, ref) 
         count: valueLength,
         maxLength
       }) : "".concat(valueLength).concat(hasMaxLength ? " / ".concat(maxLength) : "");
-      return /* @__PURE__ */ import_react42.default.createElement(import_react42.default.Fragment, null, !!showCount && /* @__PURE__ */ import_react42.default.createElement("span", {
+      return /* @__PURE__ */ import_react43.default.createElement(import_react43.default.Fragment, null, !!showCount && /* @__PURE__ */ import_react43.default.createElement("span", {
         className: (0, import_classnames51.default)("".concat(prefixCls, "-show-count-suffix"), _defineProperty({}, "".concat(prefixCls, "-show-count-has-suffix"), !!suffix))
       }, dataCount), suffix);
     }
     return null;
   };
-  return /* @__PURE__ */ import_react42.default.createElement(BaseInput_default, _objectSpread2(_objectSpread2({}, rest), {}, {
+  return /* @__PURE__ */ import_react43.default.createElement(BaseInput_default, _objectSpread2(_objectSpread2({}, rest), {}, {
     prefixCls,
     className,
     inputElement: getInputElement(),
@@ -19731,26 +20500,26 @@ function triggerFocus2(element, option) {
     }
   }
 }
-var Input2 = /* @__PURE__ */ (0, import_react43.forwardRef)(function(props, ref) {
+var Input2 = /* @__PURE__ */ (0, import_react44.forwardRef)(function(props, ref) {
   var _classNames, _classNames2, _classNames4;
   var customizePrefixCls = props.prefixCls, _props$bordered = props.bordered, bordered = _props$bordered === void 0 ? true : _props$bordered, customStatus = props.status, customSize = props.size, onBlur = props.onBlur, onFocus = props.onFocus, suffix = props.suffix, allowClear = props.allowClear, addonAfter = props.addonAfter, addonBefore = props.addonBefore, rest = __rest20(props, ["prefixCls", "bordered", "status", "size", "onBlur", "onFocus", "suffix", "allowClear", "addonAfter", "addonBefore"]);
-  var _React$useContext = import_react43.default.useContext(ConfigContext), getPrefixCls = _React$useContext.getPrefixCls, direction = _React$useContext.direction, input = _React$useContext.input;
+  var _React$useContext = import_react44.default.useContext(ConfigContext), getPrefixCls = _React$useContext.getPrefixCls, direction = _React$useContext.direction, input = _React$useContext.input;
   var prefixCls = getPrefixCls("input", customizePrefixCls);
-  var inputRef = (0, import_react43.useRef)(null);
-  var size = import_react43.default.useContext(SizeContext_default);
+  var inputRef = (0, import_react44.useRef)(null);
+  var size = import_react44.default.useContext(SizeContext_default);
   var mergedSize = customSize || size;
-  var _useContext = (0, import_react43.useContext)(FormItemStatusContext), contextStatus = _useContext.status, hasFeedback = _useContext.hasFeedback;
+  var _useContext = (0, import_react44.useContext)(FormItemStatusContext), contextStatus = _useContext.status, hasFeedback = _useContext.hasFeedback;
   var mergedStatus = getMergedStatus(contextStatus, customStatus);
   var inputHasPrefixSuffix = hasPrefixSuffix2(props) || !!hasFeedback;
-  var prevHasPrefixSuffix = (0, import_react43.useRef)(inputHasPrefixSuffix);
-  (0, import_react43.useEffect)(function() {
+  var prevHasPrefixSuffix = (0, import_react44.useRef)(inputHasPrefixSuffix);
+  (0, import_react44.useEffect)(function() {
     var _a;
     if (inputHasPrefixSuffix && !prevHasPrefixSuffix.current) {
       devWarning_default(document.activeElement === ((_a = inputRef.current) === null || _a === void 0 ? void 0 : _a.input), "Input", "When Input is focused, dynamic add or remove prefix / suffix will make it lose focus caused by dom structure change. Read more: https://ant.design/components/input/#FAQ");
     }
     prevHasPrefixSuffix.current = inputHasPrefixSuffix;
   }, [inputHasPrefixSuffix]);
-  var removePasswordTimeoutRef = (0, import_react43.useRef)([]);
+  var removePasswordTimeoutRef = (0, import_react44.useRef)([]);
   var removePasswordTimeout = function removePasswordTimeout2() {
     removePasswordTimeoutRef.current.push(window.setTimeout(function() {
       var _a, _b, _c, _d;
@@ -19759,7 +20528,7 @@ var Input2 = /* @__PURE__ */ (0, import_react43.forwardRef)(function(props, ref)
       }
     }));
   };
-  (0, import_react43.useEffect)(function() {
+  (0, import_react44.useEffect)(function() {
     removePasswordTimeout();
     return function() {
       return removePasswordTimeoutRef.current.forEach(function(item) {
@@ -19775,16 +20544,16 @@ var Input2 = /* @__PURE__ */ (0, import_react43.forwardRef)(function(props, ref)
     removePasswordTimeout();
     onFocus === null || onFocus === void 0 ? void 0 : onFocus(e2);
   };
-  var suffixNode = (hasFeedback || suffix) && /* @__PURE__ */ import_react43.default.createElement(import_react43.default.Fragment, null, suffix, hasFeedback && getFeedbackIcon(prefixCls, mergedStatus));
+  var suffixNode = (hasFeedback || suffix) && /* @__PURE__ */ import_react44.default.createElement(import_react44.default.Fragment, null, suffix, hasFeedback && getFeedbackIcon(prefixCls, mergedStatus));
   var mergedAllowClear;
   if (_typeof(allowClear) === "object" && (allowClear === null || allowClear === void 0 ? void 0 : allowClear.clearIcon)) {
     mergedAllowClear = allowClear;
   } else if (allowClear) {
     mergedAllowClear = {
-      clearIcon: /* @__PURE__ */ import_react43.default.createElement(CloseCircleFilled_default2, null)
+      clearIcon: /* @__PURE__ */ import_react44.default.createElement(CloseCircleFilled_default2, null)
     };
   }
-  return /* @__PURE__ */ import_react43.default.createElement(es_default13, _extends({
+  return /* @__PURE__ */ import_react44.default.createElement(es_default13, _extends({
     ref: composeRef(ref, inputRef),
     prefixCls,
     autoComplete: input === null || input === void 0 ? void 0 : input.autoComplete
@@ -19793,8 +20562,8 @@ var Input2 = /* @__PURE__ */ (0, import_react43.forwardRef)(function(props, ref)
     onFocus: handleFocus,
     suffix: suffixNode,
     allowClear: mergedAllowClear,
-    addonAfter: addonAfter && /* @__PURE__ */ import_react43.default.createElement(NoFormStatus, null, addonAfter),
-    addonBefore: addonBefore && /* @__PURE__ */ import_react43.default.createElement(NoFormStatus, null, addonBefore),
+    addonAfter: addonAfter && /* @__PURE__ */ import_react44.default.createElement(NoFormStatus, null, addonAfter),
+    addonBefore: addonBefore && /* @__PURE__ */ import_react44.default.createElement(NoFormStatus, null, addonBefore),
     inputClassName: (0, import_classnames52.default)((_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-sm"), mergedSize === "small"), _defineProperty(_classNames, "".concat(prefixCls, "-lg"), mergedSize === "large"), _defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === "rtl"), _defineProperty(_classNames, "".concat(prefixCls, "-borderless"), !bordered), _classNames), !inputHasPrefixSuffix && getStatusClassNames(prefixCls, mergedStatus)),
     affixWrapperClassName: (0, import_classnames52.default)((_classNames2 = {}, _defineProperty(_classNames2, "".concat(prefixCls, "-affix-wrapper-sm"), mergedSize === "small"), _defineProperty(_classNames2, "".concat(prefixCls, "-affix-wrapper-lg"), mergedSize === "large"), _defineProperty(_classNames2, "".concat(prefixCls, "-affix-wrapper-rtl"), direction === "rtl"), _defineProperty(_classNames2, "".concat(prefixCls, "-affix-wrapper-borderless"), !bordered), _classNames2), getStatusClassNames("".concat(prefixCls, "-affix-wrapper"), mergedStatus, hasFeedback)),
     wrapperClassName: (0, import_classnames52.default)(_defineProperty({}, "".concat(prefixCls, "-group-rtl"), direction === "rtl")),
@@ -19806,11 +20575,11 @@ var Input_default2 = Input2;
 // ../../node_modules/antd/es/input/Group.js
 init_cjs_shims();
 var React143 = __toESM(require("react"));
-var import_react44 = require("react");
+var import_react45 = require("react");
 var import_classnames53 = __toESM(require_classnames());
 var Group = function Group2(props) {
   var _classNames;
-  var _useContext = (0, import_react44.useContext)(ConfigContext), getPrefixCls = _useContext.getPrefixCls, direction = _useContext.direction;
+  var _useContext = (0, import_react45.useContext)(ConfigContext), getPrefixCls = _useContext.getPrefixCls, direction = _useContext.direction;
   var customizePrefixCls = props.prefixCls, _props$className = props.className, className = _props$className === void 0 ? "" : _props$className;
   var prefixCls = getPrefixCls("input-group", customizePrefixCls);
   var cls = (0, import_classnames53.default)(prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-lg"), props.size === "large"), _defineProperty(_classNames, "".concat(prefixCls, "-sm"), props.size === "small"), _defineProperty(_classNames, "".concat(prefixCls, "-compact"), props.compact), _defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === "rtl"), _classNames), className);
@@ -20490,7 +21259,7 @@ EyeInvisibleOutlined2.displayName = "EyeInvisibleOutlined";
 var EyeInvisibleOutlined_default2 = /* @__PURE__ */ React150.forwardRef(EyeInvisibleOutlined2);
 
 // ../../node_modules/antd/es/input/Password.js
-var import_react45 = require("react");
+var import_react46 = require("react");
 var __rest23 = function(s, e2) {
   var t2 = {};
   for (var p in s) {
@@ -20509,7 +21278,7 @@ var ActionMap = {
   hover: "onMouseOver"
 };
 var Password = /* @__PURE__ */ React151.forwardRef(function(props, ref) {
-  var _useState = (0, import_react45.useState)(false), _useState2 = _slicedToArray(_useState, 2), visible = _useState2[0], setVisible = _useState2[1];
+  var _useState = (0, import_react46.useState)(false), _useState2 = _slicedToArray(_useState, 2), visible = _useState2[0], setVisible = _useState2[1];
   var onVisibleChange = function onVisibleChange2() {
     var disabled = props.disabled;
     if (disabled) {
@@ -20606,11 +21375,13 @@ var EyeTwoTone_default2 = /* @__PURE__ */ React152.forwardRef(EyeTwoTone2);
 
 // src/auth/LoginForm.tsx
 var LoginForm = ({ callback, cardClassName }) => {
-  const { login, loginRequest } = (0, import_react46.useContext)(AuthContext);
+  const { login, loginRequest } = (0, import_react47.useContext)(AuthContext);
+  const navigate = useNavigate();
   const onFinish = async (data) => {
     try {
       const creds = await loginRequest(data.username, data.password);
       login(creds);
+      navigate("/");
       if (callback)
         callback();
     } catch {
@@ -20619,32 +21390,32 @@ var LoginForm = ({ callback, cardClassName }) => {
   const test = () => {
     requestHandler_default.request.get("https://dev.hamrah-mechanic.com/api/v1/membership/connect/userinfo");
   };
-  return /* @__PURE__ */ import_react46.default.createElement(card_default, {
+  return /* @__PURE__ */ import_react47.default.createElement(card_default, {
     className: `${cardClassName} d-flex flex-column`,
     title: "\u0648\u0631\u0648\u062F \u0628\u0647 \u0633\u06CC\u0633\u062A\u0645"
-  }, /* @__PURE__ */ import_react46.default.createElement(form_default, {
+  }, /* @__PURE__ */ import_react47.default.createElement(form_default, {
     name: "basic",
     initialValues: { remember: true },
     onFinish,
     autoComplete: "off"
-  }, /* @__PURE__ */ import_react46.default.createElement(form_default.Item, {
+  }, /* @__PURE__ */ import_react47.default.createElement(form_default.Item, {
     name: "username",
     rules: [{ required: true, message: "\u0646\u0627\u0645 \u06A9\u0627\u0631\u0628\u0631\u06CC \u0631\u0627 \u0644\u0637\u0641\u0627 \u0648\u0627\u0631\u062F \u0646\u0645\u0627\u06CC\u06CC\u062F!" }]
-  }, /* @__PURE__ */ import_react46.default.createElement(input_default, {
+  }, /* @__PURE__ */ import_react47.default.createElement(input_default, {
     placeholder: "\u0646\u0627\u0645 \u06A9\u0627\u0631\u0628\u0631\u06CC"
-  })), /* @__PURE__ */ import_react46.default.createElement(form_default.Item, {
+  })), /* @__PURE__ */ import_react47.default.createElement(form_default.Item, {
     name: "password",
     rules: [{ required: true, message: "\u0631\u0645\u0632 \u0639\u0628\u0648\u0631 \u0631\u0627 \u0644\u0637\u0641\u0627 \u0648\u0627\u0631\u062F \u0646\u0645\u0627\u06CC\u06CC\u062F!" }],
     className: "my-4"
-  }, /* @__PURE__ */ import_react46.default.createElement(input_default.Password, {
+  }, /* @__PURE__ */ import_react47.default.createElement(input_default.Password, {
     placeholder: "\u0631\u0645\u0632 \u0639\u0628\u0648\u0631",
-    iconRender: (visible) => visible ? /* @__PURE__ */ import_react46.default.createElement(EyeTwoTone_default2, null) : /* @__PURE__ */ import_react46.default.createElement(EyeInvisibleOutlined_default2, null)
-  })), /* @__PURE__ */ import_react46.default.createElement(form_default.Item, null, /* @__PURE__ */ import_react46.default.createElement(import_hm_components.SimpleButton, {
+    iconRender: (visible) => visible ? /* @__PURE__ */ import_react47.default.createElement(EyeTwoTone_default2, null) : /* @__PURE__ */ import_react47.default.createElement(EyeInvisibleOutlined_default2, null)
+  })), /* @__PURE__ */ import_react47.default.createElement(form_default.Item, null, /* @__PURE__ */ import_react47.default.createElement(import_hm_components.SimpleButton, {
     htmlType: "submit",
     title: "Welcome",
     type: "primary",
     block: true
-  }))), /* @__PURE__ */ import_react46.default.createElement("button", {
+  }))), /* @__PURE__ */ import_react47.default.createElement("button", {
     onClick: test
   }, "test"));
 };
@@ -20702,773 +21473,6 @@ var import_react52 = __toESM(require("react"));
 // ../../node_modules/react-router-dom/index.js
 init_cjs_shims();
 var import_react48 = require("react");
-
-// ../../node_modules/history/index.js
-init_cjs_shims();
-var Action;
-(function(Action2) {
-  Action2["Pop"] = "POP";
-  Action2["Push"] = "PUSH";
-  Action2["Replace"] = "REPLACE";
-})(Action || (Action = {}));
-var readOnly = process.env.NODE_ENV !== "production" ? function(obj) {
-  return Object.freeze(obj);
-} : function(obj) {
-  return obj;
-};
-function warning5(cond, message) {
-  if (!cond) {
-    if (typeof console !== "undefined")
-      console.warn(message);
-    try {
-      throw new Error(message);
-    } catch (e2) {
-    }
-  }
-}
-var BeforeUnloadEventType = "beforeunload";
-var PopStateEventType = "popstate";
-function createBrowserHistory(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _options = options, _options$window = _options.window, window2 = _options$window === void 0 ? document.defaultView : _options$window;
-  var globalHistory = window2.history;
-  function getIndexAndLocation() {
-    var _window$location = window2.location, pathname = _window$location.pathname, search = _window$location.search, hash = _window$location.hash;
-    var state = globalHistory.state || {};
-    return [state.idx, readOnly({
-      pathname,
-      search,
-      hash,
-      state: state.usr || null,
-      key: state.key || "default"
-    })];
-  }
-  var blockedPopTx = null;
-  function handlePop() {
-    if (blockedPopTx) {
-      blockers.call(blockedPopTx);
-      blockedPopTx = null;
-    } else {
-      var nextAction = Action.Pop;
-      var _getIndexAndLocation = getIndexAndLocation(), nextIndex = _getIndexAndLocation[0], nextLocation = _getIndexAndLocation[1];
-      if (blockers.length) {
-        if (nextIndex != null) {
-          var delta = index2 - nextIndex;
-          if (delta) {
-            blockedPopTx = {
-              action: nextAction,
-              location: nextLocation,
-              retry: function retry() {
-                go(delta * -1);
-              }
-            };
-            go(delta);
-          }
-        } else {
-          process.env.NODE_ENV !== "production" ? warning5(false, "You are trying to block a POP navigation to a location that was not created by the history library. The block will fail silently in production, but in general you should do all navigation with the history library (instead of using window.history.pushState directly) to avoid this situation.") : void 0;
-        }
-      } else {
-        applyTx(nextAction);
-      }
-    }
-  }
-  window2.addEventListener(PopStateEventType, handlePop);
-  var action = Action.Pop;
-  var _getIndexAndLocation2 = getIndexAndLocation(), index2 = _getIndexAndLocation2[0], location = _getIndexAndLocation2[1];
-  var listeners = createEvents();
-  var blockers = createEvents();
-  if (index2 == null) {
-    index2 = 0;
-    globalHistory.replaceState(_extends({}, globalHistory.state, {
-      idx: index2
-    }), "");
-  }
-  function createHref(to) {
-    return typeof to === "string" ? to : createPath(to);
-  }
-  function getNextLocation(to, state) {
-    if (state === void 0) {
-      state = null;
-    }
-    return readOnly(_extends({
-      pathname: location.pathname,
-      hash: "",
-      search: ""
-    }, typeof to === "string" ? parsePath(to) : to, {
-      state,
-      key: createKey()
-    }));
-  }
-  function getHistoryStateAndUrl(nextLocation, index3) {
-    return [{
-      usr: nextLocation.state,
-      key: nextLocation.key,
-      idx: index3
-    }, createHref(nextLocation)];
-  }
-  function allowTx(action2, location2, retry) {
-    return !blockers.length || (blockers.call({
-      action: action2,
-      location: location2,
-      retry
-    }), false);
-  }
-  function applyTx(nextAction) {
-    action = nextAction;
-    var _getIndexAndLocation3 = getIndexAndLocation();
-    index2 = _getIndexAndLocation3[0];
-    location = _getIndexAndLocation3[1];
-    listeners.call({
-      action,
-      location
-    });
-  }
-  function push(to, state) {
-    var nextAction = Action.Push;
-    var nextLocation = getNextLocation(to, state);
-    function retry() {
-      push(to, state);
-    }
-    if (allowTx(nextAction, nextLocation, retry)) {
-      var _getHistoryStateAndUr = getHistoryStateAndUrl(nextLocation, index2 + 1), historyState = _getHistoryStateAndUr[0], url2 = _getHistoryStateAndUr[1];
-      try {
-        globalHistory.pushState(historyState, "", url2);
-      } catch (error) {
-        window2.location.assign(url2);
-      }
-      applyTx(nextAction);
-    }
-  }
-  function replace(to, state) {
-    var nextAction = Action.Replace;
-    var nextLocation = getNextLocation(to, state);
-    function retry() {
-      replace(to, state);
-    }
-    if (allowTx(nextAction, nextLocation, retry)) {
-      var _getHistoryStateAndUr2 = getHistoryStateAndUrl(nextLocation, index2), historyState = _getHistoryStateAndUr2[0], url2 = _getHistoryStateAndUr2[1];
-      globalHistory.replaceState(historyState, "", url2);
-      applyTx(nextAction);
-    }
-  }
-  function go(delta) {
-    globalHistory.go(delta);
-  }
-  var history = {
-    get action() {
-      return action;
-    },
-    get location() {
-      return location;
-    },
-    createHref,
-    push,
-    replace,
-    go,
-    back: function back() {
-      go(-1);
-    },
-    forward: function forward() {
-      go(1);
-    },
-    listen: function listen(listener) {
-      return listeners.push(listener);
-    },
-    block: function block(blocker) {
-      var unblock = blockers.push(blocker);
-      if (blockers.length === 1) {
-        window2.addEventListener(BeforeUnloadEventType, promptBeforeUnload);
-      }
-      return function() {
-        unblock();
-        if (!blockers.length) {
-          window2.removeEventListener(BeforeUnloadEventType, promptBeforeUnload);
-        }
-      };
-    }
-  };
-  return history;
-}
-function promptBeforeUnload(event) {
-  event.preventDefault();
-  event.returnValue = "";
-}
-function createEvents() {
-  var handlers = [];
-  return {
-    get length() {
-      return handlers.length;
-    },
-    push: function push(fn) {
-      handlers.push(fn);
-      return function() {
-        handlers = handlers.filter(function(handler) {
-          return handler !== fn;
-        });
-      };
-    },
-    call: function call2(arg) {
-      handlers.forEach(function(fn) {
-        return fn && fn(arg);
-      });
-    }
-  };
-}
-function createKey() {
-  return Math.random().toString(36).substr(2, 8);
-}
-function createPath(_ref) {
-  var _ref$pathname = _ref.pathname, pathname = _ref$pathname === void 0 ? "/" : _ref$pathname, _ref$search = _ref.search, search = _ref$search === void 0 ? "" : _ref$search, _ref$hash = _ref.hash, hash = _ref$hash === void 0 ? "" : _ref$hash;
-  if (search && search !== "?")
-    pathname += search.charAt(0) === "?" ? search : "?" + search;
-  if (hash && hash !== "#")
-    pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
-  return pathname;
-}
-function parsePath(path) {
-  var parsedPath = {};
-  if (path) {
-    var hashIndex = path.indexOf("#");
-    if (hashIndex >= 0) {
-      parsedPath.hash = path.substr(hashIndex);
-      path = path.substr(0, hashIndex);
-    }
-    var searchIndex = path.indexOf("?");
-    if (searchIndex >= 0) {
-      parsedPath.search = path.substr(searchIndex);
-      path = path.substr(0, searchIndex);
-    }
-    if (path) {
-      parsedPath.pathname = path;
-    }
-  }
-  return parsedPath;
-}
-
-// ../../node_modules/react-router/index.js
-init_cjs_shims();
-var import_react47 = require("react");
-var NavigationContext = /* @__PURE__ */ (0, import_react47.createContext)(null);
-if (process.env.NODE_ENV !== "production") {
-  NavigationContext.displayName = "Navigation";
-}
-var LocationContext = /* @__PURE__ */ (0, import_react47.createContext)(null);
-if (process.env.NODE_ENV !== "production") {
-  LocationContext.displayName = "Location";
-}
-var RouteContext = /* @__PURE__ */ (0, import_react47.createContext)({
-  outlet: null,
-  matches: []
-});
-if (process.env.NODE_ENV !== "production") {
-  RouteContext.displayName = "Route";
-}
-function invariant(cond, message) {
-  if (!cond)
-    throw new Error(message);
-}
-function warning6(cond, message) {
-  if (!cond) {
-    if (typeof console !== "undefined")
-      console.warn(message);
-    try {
-      throw new Error(message);
-    } catch (e2) {
-    }
-  }
-}
-var alreadyWarned = {};
-function warningOnce2(key2, cond, message) {
-  if (!cond && !alreadyWarned[key2]) {
-    alreadyWarned[key2] = true;
-    process.env.NODE_ENV !== "production" ? warning6(false, message) : void 0;
-  }
-}
-function matchRoutes(routes, locationArg, basename) {
-  if (basename === void 0) {
-    basename = "/";
-  }
-  let location = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
-  let pathname = stripBasename(location.pathname || "/", basename);
-  if (pathname == null) {
-    return null;
-  }
-  let branches = flattenRoutes(routes);
-  rankRouteBranches(branches);
-  let matches = null;
-  for (let i = 0; matches == null && i < branches.length; ++i) {
-    matches = matchRouteBranch(branches[i], pathname);
-  }
-  return matches;
-}
-function flattenRoutes(routes, branches, parentsMeta, parentPath) {
-  if (branches === void 0) {
-    branches = [];
-  }
-  if (parentsMeta === void 0) {
-    parentsMeta = [];
-  }
-  if (parentPath === void 0) {
-    parentPath = "";
-  }
-  routes.forEach((route, index2) => {
-    let meta = {
-      relativePath: route.path || "",
-      caseSensitive: route.caseSensitive === true,
-      childrenIndex: index2,
-      route
-    };
-    if (meta.relativePath.startsWith("/")) {
-      !meta.relativePath.startsWith(parentPath) ? process.env.NODE_ENV !== "production" ? invariant(false, 'Absolute route path "' + meta.relativePath + '" nested under path ' + ('"' + parentPath + '" is not valid. An absolute child route path ') + "must start with the combined path of all its parent routes.") : invariant(false) : void 0;
-      meta.relativePath = meta.relativePath.slice(parentPath.length);
-    }
-    let path = joinPaths([parentPath, meta.relativePath]);
-    let routesMeta = parentsMeta.concat(meta);
-    if (route.children && route.children.length > 0) {
-      !(route.index !== true) ? process.env.NODE_ENV !== "production" ? invariant(false, "Index routes must not have child routes. Please remove " + ('all child routes from route path "' + path + '".')) : invariant(false) : void 0;
-      flattenRoutes(route.children, branches, routesMeta, path);
-    }
-    if (route.path == null && !route.index) {
-      return;
-    }
-    branches.push({
-      path,
-      score: computeScore(path, route.index),
-      routesMeta
-    });
-  });
-  return branches;
-}
-function rankRouteBranches(branches) {
-  branches.sort((a, b) => a.score !== b.score ? b.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b.routesMeta.map((meta) => meta.childrenIndex)));
-}
-var paramRe = /^:\w+$/;
-var dynamicSegmentValue = 3;
-var indexRouteValue = 2;
-var emptySegmentValue = 1;
-var staticSegmentValue = 10;
-var splatPenalty = -2;
-var isSplat = (s) => s === "*";
-function computeScore(path, index2) {
-  let segments = path.split("/");
-  let initialScore = segments.length;
-  if (segments.some(isSplat)) {
-    initialScore += splatPenalty;
-  }
-  if (index2) {
-    initialScore += indexRouteValue;
-  }
-  return segments.filter((s) => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
-}
-function compareIndexes(a, b) {
-  let siblings = a.length === b.length && a.slice(0, -1).every((n2, i) => n2 === b[i]);
-  return siblings ? a[a.length - 1] - b[b.length - 1] : 0;
-}
-function matchRouteBranch(branch, pathname) {
-  let {
-    routesMeta
-  } = branch;
-  let matchedParams = {};
-  let matchedPathname = "/";
-  let matches = [];
-  for (let i = 0; i < routesMeta.length; ++i) {
-    let meta = routesMeta[i];
-    let end = i === routesMeta.length - 1;
-    let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
-    let match = matchPath({
-      path: meta.relativePath,
-      caseSensitive: meta.caseSensitive,
-      end
-    }, remainingPathname);
-    if (!match)
-      return null;
-    Object.assign(matchedParams, match.params);
-    let route = meta.route;
-    matches.push({
-      params: matchedParams,
-      pathname: joinPaths([matchedPathname, match.pathname]),
-      pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
-      route
-    });
-    if (match.pathnameBase !== "/") {
-      matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
-    }
-  }
-  return matches;
-}
-function matchPath(pattern4, pathname) {
-  if (typeof pattern4 === "string") {
-    pattern4 = {
-      path: pattern4,
-      caseSensitive: false,
-      end: true
-    };
-  }
-  let [matcher, paramNames] = compilePath(pattern4.path, pattern4.caseSensitive, pattern4.end);
-  let match = pathname.match(matcher);
-  if (!match)
-    return null;
-  let matchedPathname = match[0];
-  let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
-  let captureGroups = match.slice(1);
-  let params = paramNames.reduce((memo3, paramName, index2) => {
-    if (paramName === "*") {
-      let splatValue = captureGroups[index2] || "";
-      pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
-    }
-    memo3[paramName] = safelyDecodeURIComponent(captureGroups[index2] || "", paramName);
-    return memo3;
-  }, {});
-  return {
-    params,
-    pathname: matchedPathname,
-    pathnameBase,
-    pattern: pattern4
-  };
-}
-function compilePath(path, caseSensitive, end) {
-  if (caseSensitive === void 0) {
-    caseSensitive = false;
-  }
-  if (end === void 0) {
-    end = true;
-  }
-  process.env.NODE_ENV !== "production" ? warning6(path === "*" || !path.endsWith("*") || path.endsWith("/*"), 'Route path "' + path + '" will be treated as if it were ' + ('"' + path.replace(/\*$/, "/*") + '" because the `*` character must ') + "always follow a `/` in the pattern. To get rid of this warning, " + ('please change the route path to "' + path.replace(/\*$/, "/*") + '".')) : void 0;
-  let paramNames = [];
-  let regexpSource = "^" + path.replace(/\/*\*?$/, "").replace(/^\/*/, "/").replace(/[\\.*+^$?{}|()[\]]/g, "\\$&").replace(/:(\w+)/g, (_, paramName) => {
-    paramNames.push(paramName);
-    return "([^\\/]+)";
-  });
-  if (path.endsWith("*")) {
-    paramNames.push("*");
-    regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
-  } else {
-    regexpSource += end ? "\\/*$" : "(?:(?=[.~-]|%[0-9A-F]{2})|\\b|\\/|$)";
-  }
-  let matcher = new RegExp(regexpSource, caseSensitive ? void 0 : "i");
-  return [matcher, paramNames];
-}
-function safelyDecodeURIComponent(value, paramName) {
-  try {
-    return decodeURIComponent(value);
-  } catch (error) {
-    process.env.NODE_ENV !== "production" ? warning6(false, 'The value for the URL param "' + paramName + '" will not be decoded because' + (' the string "' + value + '" is a malformed URL segment. This is probably') + (" due to a bad percent encoding (" + error + ").")) : void 0;
-    return value;
-  }
-}
-function resolvePath(to, fromPathname) {
-  if (fromPathname === void 0) {
-    fromPathname = "/";
-  }
-  let {
-    pathname: toPathname,
-    search = "",
-    hash = ""
-  } = typeof to === "string" ? parsePath(to) : to;
-  let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
-  return {
-    pathname,
-    search: normalizeSearch(search),
-    hash: normalizeHash(hash)
-  };
-}
-function resolvePathname(relativePath, fromPathname) {
-  let segments = fromPathname.replace(/\/+$/, "").split("/");
-  let relativeSegments = relativePath.split("/");
-  relativeSegments.forEach((segment) => {
-    if (segment === "..") {
-      if (segments.length > 1)
-        segments.pop();
-    } else if (segment !== ".") {
-      segments.push(segment);
-    }
-  });
-  return segments.length > 1 ? segments.join("/") : "/";
-}
-function resolveTo(toArg, routePathnames, locationPathname) {
-  let to = typeof toArg === "string" ? parsePath(toArg) : toArg;
-  let toPathname = toArg === "" || to.pathname === "" ? "/" : to.pathname;
-  let from;
-  if (toPathname == null) {
-    from = locationPathname;
-  } else {
-    let routePathnameIndex = routePathnames.length - 1;
-    if (toPathname.startsWith("..")) {
-      let toSegments = toPathname.split("/");
-      while (toSegments[0] === "..") {
-        toSegments.shift();
-        routePathnameIndex -= 1;
-      }
-      to.pathname = toSegments.join("/");
-    }
-    from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
-  }
-  let path = resolvePath(to, from);
-  if (toPathname && toPathname !== "/" && toPathname.endsWith("/") && !path.pathname.endsWith("/")) {
-    path.pathname += "/";
-  }
-  return path;
-}
-function getToPathname(to) {
-  return to === "" || to.pathname === "" ? "/" : typeof to === "string" ? parsePath(to).pathname : to.pathname;
-}
-function stripBasename(pathname, basename) {
-  if (basename === "/")
-    return pathname;
-  if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
-    return null;
-  }
-  let nextChar = pathname.charAt(basename.length);
-  if (nextChar && nextChar !== "/") {
-    return null;
-  }
-  return pathname.slice(basename.length) || "/";
-}
-var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
-var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
-var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
-var normalizeHash = (hash) => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash;
-function useHref(to) {
-  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useHref() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
-  let {
-    basename,
-    navigator: navigator2
-  } = (0, import_react47.useContext)(NavigationContext);
-  let {
-    hash,
-    pathname,
-    search
-  } = useResolvedPath(to);
-  let joinedPathname = pathname;
-  if (basename !== "/") {
-    let toPathname = getToPathname(to);
-    let endsWithSlash = toPathname != null && toPathname.endsWith("/");
-    joinedPathname = pathname === "/" ? basename + (endsWithSlash ? "/" : "") : joinPaths([basename, pathname]);
-  }
-  return navigator2.createHref({
-    pathname: joinedPathname,
-    search,
-    hash
-  });
-}
-function useInRouterContext() {
-  return (0, import_react47.useContext)(LocationContext) != null;
-}
-function useLocation() {
-  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useLocation() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
-  return (0, import_react47.useContext)(LocationContext).location;
-}
-function useNavigate() {
-  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useNavigate() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
-  let {
-    basename,
-    navigator: navigator2
-  } = (0, import_react47.useContext)(NavigationContext);
-  let {
-    matches
-  } = (0, import_react47.useContext)(RouteContext);
-  let {
-    pathname: locationPathname
-  } = useLocation();
-  let routePathnamesJson = JSON.stringify(matches.map((match) => match.pathnameBase));
-  let activeRef = (0, import_react47.useRef)(false);
-  (0, import_react47.useEffect)(() => {
-    activeRef.current = true;
-  });
-  let navigate = (0, import_react47.useCallback)(function(to, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    process.env.NODE_ENV !== "production" ? warning6(activeRef.current, "You should call navigate() in a React.useEffect(), not when your component is first rendered.") : void 0;
-    if (!activeRef.current)
-      return;
-    if (typeof to === "number") {
-      navigator2.go(to);
-      return;
-    }
-    let path = resolveTo(to, JSON.parse(routePathnamesJson), locationPathname);
-    if (basename !== "/") {
-      path.pathname = joinPaths([basename, path.pathname]);
-    }
-    (!!options.replace ? navigator2.replace : navigator2.push)(path, options.state);
-  }, [basename, navigator2, routePathnamesJson, locationPathname]);
-  return navigate;
-}
-function useResolvedPath(to) {
-  let {
-    matches
-  } = (0, import_react47.useContext)(RouteContext);
-  let {
-    pathname: locationPathname
-  } = useLocation();
-  let routePathnamesJson = JSON.stringify(matches.map((match) => match.pathnameBase));
-  return (0, import_react47.useMemo)(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname), [to, routePathnamesJson, locationPathname]);
-}
-function useRoutes(routes, locationArg) {
-  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "useRoutes() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
-  let {
-    matches: parentMatches
-  } = (0, import_react47.useContext)(RouteContext);
-  let routeMatch = parentMatches[parentMatches.length - 1];
-  let parentParams = routeMatch ? routeMatch.params : {};
-  let parentPathname = routeMatch ? routeMatch.pathname : "/";
-  let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
-  let parentRoute = routeMatch && routeMatch.route;
-  if (process.env.NODE_ENV !== "production") {
-    let parentPath = parentRoute && parentRoute.path || "";
-    warningOnce2(parentPathname, !parentRoute || parentPath.endsWith("*"), "You rendered descendant <Routes> (or called `useRoutes()`) at " + ('"' + parentPathname + '" (under <Route path="' + parentPath + '">) but the ') + `parent route path has no trailing "*". This means if you navigate deeper, the parent won't match anymore and therefore the child routes will never render.
-
-` + ('Please change the parent <Route path="' + parentPath + '"> to <Route ') + ('path="' + (parentPath === "/" ? "*" : parentPath + "/*") + '">.'));
-  }
-  let locationFromContext = useLocation();
-  let location;
-  if (locationArg) {
-    var _parsedLocationArg$pa;
-    let parsedLocationArg = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
-    !(parentPathnameBase === "/" || ((_parsedLocationArg$pa = parsedLocationArg.pathname) == null ? void 0 : _parsedLocationArg$pa.startsWith(parentPathnameBase))) ? process.env.NODE_ENV !== "production" ? invariant(false, "When overriding the location using `<Routes location>` or `useRoutes(routes, location)`, the location pathname must begin with the portion of the URL pathname that was " + ('matched by all parent routes. The current pathname base is "' + parentPathnameBase + '" ') + ('but pathname "' + parsedLocationArg.pathname + '" was given in the `location` prop.')) : invariant(false) : void 0;
-    location = parsedLocationArg;
-  } else {
-    location = locationFromContext;
-  }
-  let pathname = location.pathname || "/";
-  let remainingPathname = parentPathnameBase === "/" ? pathname : pathname.slice(parentPathnameBase.length) || "/";
-  let matches = matchRoutes(routes, {
-    pathname: remainingPathname
-  });
-  if (process.env.NODE_ENV !== "production") {
-    process.env.NODE_ENV !== "production" ? warning6(parentRoute || matches != null, 'No routes matched location "' + location.pathname + location.search + location.hash + '" ') : void 0;
-    process.env.NODE_ENV !== "production" ? warning6(matches == null || matches[matches.length - 1].route.element !== void 0, 'Matched leaf route at location "' + location.pathname + location.search + location.hash + '" does not have an element. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.') : void 0;
-  }
-  return _renderMatches(matches && matches.map((match) => Object.assign({}, match, {
-    params: Object.assign({}, parentParams, match.params),
-    pathname: joinPaths([parentPathnameBase, match.pathname]),
-    pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([parentPathnameBase, match.pathnameBase])
-  })), parentMatches);
-}
-function _renderMatches(matches, parentMatches) {
-  if (parentMatches === void 0) {
-    parentMatches = [];
-  }
-  if (matches == null)
-    return null;
-  return matches.reduceRight((outlet, match, index2) => {
-    return /* @__PURE__ */ (0, import_react47.createElement)(RouteContext.Provider, {
-      children: match.route.element !== void 0 ? match.route.element : outlet,
-      value: {
-        outlet,
-        matches: parentMatches.concat(matches.slice(0, index2 + 1))
-      }
-    });
-  }, null);
-}
-function Navigate(_ref2) {
-  let {
-    to,
-    replace,
-    state
-  } = _ref2;
-  !useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "<Navigate> may be used only in the context of a <Router> component.") : invariant(false) : void 0;
-  process.env.NODE_ENV !== "production" ? warning6(!(0, import_react47.useContext)(NavigationContext).static, "<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.") : void 0;
-  let navigate = useNavigate();
-  (0, import_react47.useEffect)(() => {
-    navigate(to, {
-      replace,
-      state
-    });
-  });
-  return null;
-}
-function Route(_props) {
-  process.env.NODE_ENV !== "production" ? invariant(false, "A <Route> is only ever to be used as the child of <Routes> element, never rendered directly. Please wrap your <Route> in a <Routes>.") : invariant(false);
-}
-function Router(_ref3) {
-  let {
-    basename: basenameProp = "/",
-    children = null,
-    location: locationProp,
-    navigationType = Action.Pop,
-    navigator: navigator2,
-    static: staticProp = false
-  } = _ref3;
-  !!useInRouterContext() ? process.env.NODE_ENV !== "production" ? invariant(false, "You cannot render a <Router> inside another <Router>. You should never have more than one in your app.") : invariant(false) : void 0;
-  let basename = normalizePathname(basenameProp);
-  let navigationContext = (0, import_react47.useMemo)(() => ({
-    basename,
-    navigator: navigator2,
-    static: staticProp
-  }), [basename, navigator2, staticProp]);
-  if (typeof locationProp === "string") {
-    locationProp = parsePath(locationProp);
-  }
-  let {
-    pathname = "/",
-    search = "",
-    hash = "",
-    state = null,
-    key: key2 = "default"
-  } = locationProp;
-  let location = (0, import_react47.useMemo)(() => {
-    let trailingPathname = stripBasename(pathname, basename);
-    if (trailingPathname == null) {
-      return null;
-    }
-    return {
-      pathname: trailingPathname,
-      search,
-      hash,
-      state,
-      key: key2
-    };
-  }, [basename, pathname, search, hash, state, key2]);
-  process.env.NODE_ENV !== "production" ? warning6(location != null, '<Router basename="' + basename + '"> is not able to match the URL ' + ('"' + pathname + search + hash + '" because it does not start with the ') + "basename, so the <Router> won't render anything.") : void 0;
-  if (location == null) {
-    return null;
-  }
-  return /* @__PURE__ */ (0, import_react47.createElement)(NavigationContext.Provider, {
-    value: navigationContext
-  }, /* @__PURE__ */ (0, import_react47.createElement)(LocationContext.Provider, {
-    children,
-    value: {
-      location,
-      navigationType
-    }
-  }));
-}
-function Routes(_ref4) {
-  let {
-    children,
-    location
-  } = _ref4;
-  return useRoutes(createRoutesFromChildren(children), location);
-}
-function createRoutesFromChildren(children) {
-  let routes = [];
-  import_react47.Children.forEach(children, (element) => {
-    if (!/* @__PURE__ */ (0, import_react47.isValidElement)(element)) {
-      return;
-    }
-    if (element.type === import_react47.Fragment) {
-      routes.push.apply(routes, createRoutesFromChildren(element.props.children));
-      return;
-    }
-    !(element.type === Route) ? process.env.NODE_ENV !== "production" ? invariant(false, "[" + (typeof element.type === "string" ? element.type : element.type.name) + "] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>") : invariant(false) : void 0;
-    let route = {
-      caseSensitive: element.props.caseSensitive,
-      element: element.props.element,
-      index: element.props.index,
-      path: element.props.path
-    };
-    if (element.props.children) {
-      route.children = createRoutesFromChildren(element.props.children);
-    }
-    routes.push(route);
-  });
-  return routes;
-}
-
-// ../../node_modules/react-router-dom/index.js
 function _extends3() {
   _extends3 = Object.assign || function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -21853,6 +21857,7 @@ var ResourceNavigator_default = ResourceNavigator;
 
 // src/core/Resource.tsx
 var Resource = ({ components, entityName }) => {
+  const navigate = useNavigate();
   const { root } = (0, import_react57.useContext)(GlobalContext_default);
   const [list, setList] = (0, import_react57.useState)([]);
   const [selectedItem, setSelectedItem] = (0, import_react57.useState)(null);
@@ -21886,7 +21891,8 @@ var Resource = ({ components, entityName }) => {
       selectedItem,
       update,
       create,
-      entityName
+      entityName,
+      navigate
     });
   };
   return /* @__PURE__ */ import_react57.default.createElement(ResourceProvider, {

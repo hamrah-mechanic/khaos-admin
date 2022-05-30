@@ -1,6 +1,6 @@
 {
   "name": "hm-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index",
   "private": true,
   "files": [
@@ -17,7 +17,7 @@
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
     "axios": "^0.26.1",
-    "hm-components": "0.1.0",
+    "hm-components": "0.1.5",
     "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
     "react": "^18.0.0",

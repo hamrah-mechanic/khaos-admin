@@ -1,10 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
 import { SimpleButton } from 'hm-components';
 import { Form, Input } from 'antd';
 
-const UserCreate = ({ create, entityName }) => {
-  const navigate = useNavigate();
+const UserCreate = ({ create, entityName, navigate }) => {
   const formFields = [
     {
       placeholder: 'نام و نام خانوادگی',

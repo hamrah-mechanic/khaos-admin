@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { SimpleButton } from 'hm-components';
+import { useNavigate } from 'react-router';
 import { Card, Form, Input } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { AuthContext } from './AuthContext';
@@ -17,11 +18,12 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ callback, cardClassName }) => {
   const { login, loginRequest } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const onFinish = async (data: FormData) => {
     try {
       const creds = await loginRequest(data.username, data.password);
       login(creds);
+      navigate('/');
       if (callback) callback();
     } catch {}
   };

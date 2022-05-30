@@ -1,5 +1,6 @@
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
 import { SimpleButtonProps } from 'hm-components/src/components/buttons/SimpleButton';
 import request from '../api/requestHandler';
@@ -14,6 +15,7 @@ interface ResourceProps {
 }
 
 const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
+  const navigate = useNavigate();
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -55,6 +57,7 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
       update,
       create,
       entityName,
+      navigate,
     });
   };
 

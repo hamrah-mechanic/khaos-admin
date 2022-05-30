@@ -1,13 +1,10 @@
 import React from 'react';
 
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { SimpleButton } from 'hm-components';
 import { Form, Input } from 'antd';
 
-const UserEdit = ({ selectedItem: id, update, entityName }) => {
-  const navigate = useNavigate();
-
+const UserEdit = ({ selectedItem: id, update, entityName, navigate }) => {
   useEffect(() => {
     !id && navigate(`/${entityName}/list`);
   }, [id]);

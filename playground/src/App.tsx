@@ -5,6 +5,8 @@ import { renewAccessToken, loginRequest } from './auth/api';
 import { ConfigProvider } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { UserCreate, UserEdit, UserList } from './module/user';
+import { OrderList } from './module/order';
+
 import logo from './assets/hm-logo/new-logo.svg';
 
 const App: React.FC = () => {
@@ -14,9 +16,9 @@ const App: React.FC = () => {
         login={<Login />}
         loginRequest={loginRequest}
         refreshRequest={renewAccessToken}
-        appConfig={{ root: 'https://jsonplaceholder.typicode.com', logo }}
+        appConfig={{ root: 'https://dev.hamrah-mechanic.com/api/v1/admin', logo }}
       >
-        <Resource
+        {/* <Resource
           name="لیست کاربران"
           sidebarLink="list"
           entityName="users"
@@ -40,6 +42,12 @@ const App: React.FC = () => {
               },
             },
           ]}
+        /> */}
+        <Resource
+          name="لیست سفارش ها"
+          sidebarLink=""
+          entityName="sellorder/orders"
+          components={[{ component: OrderList, path: '/', name: 'لیست سفارش' }]}
         />
       </Khaos>
     </ConfigProvider>
