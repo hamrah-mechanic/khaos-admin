@@ -48,10 +48,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ callback, cardClassName }) => {
           />
         </Form.Item>
         <Form.Item>
-          <SimpleButton htmlType="submit" title="Welcome" type="primary" block />
+          <SimpleButton htmlType="submit" title="ورود" type="primary" block />
         </Form.Item>
       </Form>
-      <button onClick={test}>test</button>
     </Card>
   );
 };

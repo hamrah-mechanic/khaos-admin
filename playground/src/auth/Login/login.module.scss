@@ -2,7 +2,7 @@
 
 .login {
     &__card {
-        margin: auto;
+        margin: auto !important;
         flex: 1;
         max-width: 31.25rem;
         box-shadow: 3px 3px 18px 2px #cac9c9;
