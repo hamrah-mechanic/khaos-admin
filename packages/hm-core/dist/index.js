@@ -21657,10 +21657,13 @@ var import_react51 = __toESM(require("react"));
 
 // src/layouts/Page/page.module.scss
 init_cjs_shims();
-var css2 = `._layout_1lyuz_1 ._header_1lyuz_1 {
+var css2 = `._layout_wrp01_1 {
+  min-height: 100vh;
+}
+._layout_wrp01_1 ._header_wrp01_4 {
   padding: 0;
 }
-._layout_1lyuz_1 ._logo_1lyuz_4 {
+._layout_wrp01_1 ._logo_wrp01_7 {
   height: 100%;
   background: white;
   width: 200px;
@@ -21668,26 +21671,26 @@ var css2 = `._layout_1lyuz_1 ._header_1lyuz_1 {
   align-items: center;
   justify-content: center;
 }
-._layout_1lyuz_1 ._logo__image_1lyuz_12 {
+._layout_wrp01_1 ._logo__image_wrp01_15 {
   width: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-._layout__content_1lyuz_18 {
+._layout__content_wrp01_21 {
   padding: 2.4rem;
 }
-._layout__sidebar_1lyuz_21 {
+._layout__sidebar_wrp01_24 {
   box-shadow: 0 0.1rem 0.4rem -0.1rem rgba(0, 0, 0, 0.15);
 }`;
 document.head.appendChild(document.createElement("style")).appendChild(document.createTextNode(css2));
 var page_module_default = {
-  "layout": "_layout_1lyuz_1",
-  "header": "_header_1lyuz_1",
-  "logo": "_logo_1lyuz_4",
-  "logo__image": "_logo__image_1lyuz_12",
-  "layout__content": "_layout__content_1lyuz_18",
-  "layout__sidebar": "_layout__sidebar_1lyuz_21"
+  "layout": "_layout_wrp01_1",
+  "header": "_header_wrp01_4",
+  "logo": "_logo_wrp01_7",
+  "logo__image": "_logo__image_wrp01_15",
+  "layout__content": "_layout__content_wrp01_21",
+  "layout__sidebar": "_layout__sidebar_wrp01_24"
 };
 
 // src/layouts/Page/index.tsx
@@ -21860,9 +21863,10 @@ var Resource = ({ components, entityName }) => {
   const navigate = useNavigate();
   const { root } = (0, import_react57.useContext)(GlobalContext_default);
   const [list, setList] = (0, import_react57.useState)([]);
+  const [total, setTotal] = (0, import_react57.useState)(null);
   const [selectedItem, setSelectedItem] = (0, import_react57.useState)(null);
   (0, import_react57.useEffect)(() => {
-    show();
+    get2();
   }, []);
   const selectItem = (item) => {
     setSelectedItem(item);
@@ -21871,8 +21875,8 @@ var Resource = ({ components, entityName }) => {
     const { data } = await requestHandler_default.request.post(`${root}/${entityName}`, formData);
     setList([...list, data]);
   };
-  const show = async () => {
-    const { data } = await requestHandler_default.request.get(`${root}/${entityName}`);
+  const get2 = async (page = 1, resultsPerPage = 20) => {
+    const { data } = await requestHandler_default.request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
     setList(data);
   };
   const update = async (id2, formData) => {
@@ -21885,7 +21889,8 @@ var Resource = ({ components, entityName }) => {
   };
   const withPropsComponent = (component) => {
     return import_react57.default.cloneElement(component, {
-      usersList: list,
+      list,
+      get: get2,
       remove,
       selectItem,
       selectedItem,

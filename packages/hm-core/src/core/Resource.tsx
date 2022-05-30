@@ -18,9 +18,10 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   const navigate = useNavigate();
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
+  const [total, setTotal] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   useEffect(() => {
-    show();
+    get();
   }, []);
 
   const selectItem = item => {
@@ -32,8 +33,8 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
     setList([...list, data]);
   };
 
-  const show = async () => {
-    const { data } = await request.request.get(`${root}/${entityName}`);
+  const get = async (page = 1, resultsPerPage = 20) => {
+    const { data } = await request.request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
     //FIXME: correct types from backend api instead any
     setList(data as Array<any>);
   };
@@ -50,7 +51,8 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
 
   const withPropsComponent = component => {
     return React.cloneElement(component, {
-      usersList: list,
+      list,
+      get,
       remove,
       selectItem,
       selectedItem,
