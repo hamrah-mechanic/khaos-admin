@@ -5,18 +5,18 @@ import React from 'react';
 
 const UserList = ({ list, selectItem, get }) => {
   const [selectedRow, setSelectedRow] = useState<number[]>([]);
-  console.log('result', list);
   const titleCol = list.sellOrderList && Object.keys(list.sellOrderList[0]);
   const persianCol = {
     id: 'شناسه',
     name: 'نام',
     orderType: 'نوع سفارش',
     carName: 'نام خودرو',
-    username: 'نام کاربری',
+    price: 'قیمت',
     lastModifyDate: 'تاریخ تغییر',
     insertDate: 'تاریخ ایجاد',
     phoneNumber: 'شماره تلفن',
   };
+
   const data =
     list.sellOrderList &&
     list.sellOrderList.map(data => {
