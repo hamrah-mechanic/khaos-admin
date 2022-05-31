@@ -3,7 +3,7 @@ FROM node
 WORKDIR /app
 COPY package.json /app
 COPY .npmrc /app
-COPY package-lock.json /app
+RUN npm cache clean --force 
 RUN npm install  --userconfig=/app/.npmrc
 
 

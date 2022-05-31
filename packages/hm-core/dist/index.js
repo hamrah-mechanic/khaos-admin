@@ -21412,12 +21412,10 @@ var LoginForm = ({ callback, cardClassName }) => {
     iconRender: (visible) => visible ? /* @__PURE__ */ import_react47.default.createElement(EyeTwoTone_default2, null) : /* @__PURE__ */ import_react47.default.createElement(EyeInvisibleOutlined_default2, null)
   })), /* @__PURE__ */ import_react47.default.createElement(form_default.Item, null, /* @__PURE__ */ import_react47.default.createElement(import_hm_components.SimpleButton, {
     htmlType: "submit",
-    title: "Welcome",
+    title: "\u0648\u0631\u0648\u062F",
     type: "primary",
     block: true
-  }))), /* @__PURE__ */ import_react47.default.createElement("button", {
-    onClick: test
-  }, "test"));
+  }))));
 };
 var LoginForm_default = LoginForm;
 

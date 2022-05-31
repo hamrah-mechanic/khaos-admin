@@ -1,8 +1,7 @@
 {
   "name": "hm-components",
-  "version": "0.1.5",
+  "version": "2.0.1",
   "main": "dist/index",
-  "private": true,
   "files": [
     "dist",
     "src"
