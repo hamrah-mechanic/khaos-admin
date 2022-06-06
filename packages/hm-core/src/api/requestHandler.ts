@@ -41,20 +41,3 @@ const request = {
 };
 
 export default { request, api };
-
-//FIXME: This shall be removed later
-const renewAccessToken = async (): Promise<any> => {
-  const params = new URLSearchParams();
-  const token = Cookies.get('refresh_token') as string;
-  params.append('client_id', 'backoffice');
-  params.append('grant_type', 'refresh_token');
-  params.append('client_secret', 'secret');
-  params.append('scope', 'offline_access');
-  params.append('refresh_token', token);
-  const data = await request.post('https://dev.hamrah-mechanic.com/api/v1/membership/connect/token', params, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
-  return data.data;
-};
