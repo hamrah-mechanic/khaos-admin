@@ -4,7 +4,7 @@
     "examples/hm-app",
     "playground/*"
   ],
-  "version": "1.0.0",
-  "useWorkspaces":true,
-  "stream":true
+  "version": "2.0.0",
+  "useWorkspaces": true,
+  "stream": true
 }
