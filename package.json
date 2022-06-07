@@ -34,12 +34,13 @@
   },
   "name": "back-office",
   "scripts": {
-    "start": "lerna exec --scope app -- npm start",
     "build": "lerna run build",
     "prepare": "husky install",
     "lint": "lint-staged",
     "e2e-test": "cypress open",
-    "watch": "lerna run --parallel watch"
+    "watch": "lerna run --parallel watch",
+    "update-version": "npx lerna version",
+    "publish": "lerna publish"
   },
   "private": true,
   "workspaces": {

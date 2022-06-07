@@ -390,54 +390,107 @@ var require_react_is = __commonJS({
   }
 });
 
-// ../../node_modules/regenerator-runtime/runtime.js
-var require_runtime = __commonJS({
-  "../../node_modules/regenerator-runtime/runtime.js"(exports, module2) {
+// ../../node_modules/@babel/runtime/helpers/typeof.js
+var require_typeof = __commonJS({
+  "../../node_modules/@babel/runtime/helpers/typeof.js"(exports, module2) {
     init_cjs_shims();
-    var runtime = function(exports2) {
+    function _typeof2(obj) {
+      "@babel/helpers - typeof";
+      return module2.exports = _typeof2 = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(obj2) {
+        return typeof obj2;
+      } : function(obj2) {
+        return obj2 && typeof Symbol == "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+      }, module2.exports.__esModule = true, module2.exports["default"] = module2.exports, _typeof2(obj);
+    }
+    module2.exports = _typeof2, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
+  }
+});
+
+// ../../node_modules/@babel/runtime/helpers/regeneratorRuntime.js
+var require_regeneratorRuntime = __commonJS({
+  "../../node_modules/@babel/runtime/helpers/regeneratorRuntime.js"(exports, module2) {
+    init_cjs_shims();
+    var _typeof2 = require_typeof()["default"];
+    function _regeneratorRuntime3() {
       "use strict";
-      var Op = Object.prototype;
-      var hasOwn = Op.hasOwnProperty;
-      var undefined2;
-      var $Symbol = typeof Symbol === "function" ? Symbol : {};
-      var iteratorSymbol = $Symbol.iterator || "@@iterator";
-      var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-      var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+      module2.exports = _regeneratorRuntime3 = function _regeneratorRuntime4() {
+        return exports2;
+      }, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
+      var exports2 = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = typeof Symbol == "function" ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
       function define2(obj, key2, value) {
-        Object.defineProperty(obj, key2, {
+        return Object.defineProperty(obj, key2, {
           value,
           enumerable: true,
           configurable: true,
           writable: true
-        });
-        return obj[key2];
+        }), obj[key2];
       }
       try {
         define2({}, "");
       } catch (err) {
-        define2 = function(obj, key2, value) {
+        define2 = function define3(obj, key2, value) {
           return obj[key2] = value;
         };
       }
       function wrap(innerFn, outerFn, self, tryLocsList) {
-        var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-        var generator = Object.create(protoGenerator.prototype);
-        var context = new Context2(tryLocsList || []);
-        generator._invoke = makeInvokeMethod(innerFn, self, context);
-        return generator;
+        var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context2(tryLocsList || []);
+        return generator._invoke = function(innerFn2, self2, context2) {
+          var state = "suspendedStart";
+          return function(method4, arg) {
+            if (state === "executing")
+              throw new Error("Generator is already running");
+            if (state === "completed") {
+              if (method4 === "throw")
+                throw arg;
+              return doneResult();
+            }
+            for (context2.method = method4, context2.arg = arg; ; ) {
+              var delegate = context2.delegate;
+              if (delegate) {
+                var delegateResult = maybeInvokeDelegate(delegate, context2);
+                if (delegateResult) {
+                  if (delegateResult === ContinueSentinel)
+                    continue;
+                  return delegateResult;
+                }
+              }
+              if (context2.method === "next")
+                context2.sent = context2._sent = context2.arg;
+              else if (context2.method === "throw") {
+                if (state === "suspendedStart")
+                  throw state = "completed", context2.arg;
+                context2.dispatchException(context2.arg);
+              } else
+                context2.method === "return" && context2.abrupt("return", context2.arg);
+              state = "executing";
+              var record = tryCatch(innerFn2, self2, context2);
+              if (record.type === "normal") {
+                if (state = context2.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel)
+                  continue;
+                return {
+                  value: record.arg,
+                  done: context2.done
+                };
+              }
+              record.type === "throw" && (state = "completed", context2.method = "throw", context2.arg = record.arg);
+            }
+          };
+        }(innerFn, self, context), generator;
       }
-      exports2.wrap = wrap;
       function tryCatch(fn, obj, arg) {
         try {
-          return { type: "normal", arg: fn.call(obj, arg) };
+          return {
+            type: "normal",
+            arg: fn.call(obj, arg)
+          };
         } catch (err) {
-          return { type: "throw", arg: err };
+          return {
+            type: "throw",
+            arg: err
+          };
         }
       }
-      var GenStateSuspendedStart = "suspendedStart";
-      var GenStateSuspendedYield = "suspendedYield";
-      var GenStateExecuting = "executing";
-      var GenStateCompleted = "completed";
+      exports2.wrap = wrap;
       var ContinueSentinel = {};
       function Generator() {
       }
@@ -449,16 +502,9 @@ var require_runtime = __commonJS({
       define2(IteratorPrototype, iteratorSymbol, function() {
         return this;
       });
-      var getProto = Object.getPrototypeOf;
-      var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-      if (NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-        IteratorPrototype = NativeIteratorPrototype;
-      }
+      var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+      NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
       var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-      GeneratorFunction.prototype = GeneratorFunctionPrototype;
-      define2(Gp, "constructor", GeneratorFunctionPrototype);
-      define2(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
-      GeneratorFunction.displayName = define2(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction");
       function defineIteratorMethods(prototype) {
         ["next", "throw", "return"].forEach(function(method4) {
           define2(prototype, method4, function(arg) {
@@ -466,322 +512,172 @@ var require_runtime = __commonJS({
           });
         });
       }
-      exports2.isGeneratorFunction = function(genFun) {
-        var ctor = typeof genFun === "function" && genFun.constructor;
-        return ctor ? ctor === GeneratorFunction || (ctor.displayName || ctor.name) === "GeneratorFunction" : false;
-      };
-      exports2.mark = function(genFun) {
-        if (Object.setPrototypeOf) {
-          Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-        } else {
-          genFun.__proto__ = GeneratorFunctionPrototype;
-          define2(genFun, toStringTagSymbol, "GeneratorFunction");
-        }
-        genFun.prototype = Object.create(Gp);
-        return genFun;
-      };
-      exports2.awrap = function(arg) {
-        return { __await: arg };
-      };
       function AsyncIterator(generator, PromiseImpl) {
         function invoke(method4, arg, resolve, reject) {
           var record = tryCatch(generator[method4], generator, arg);
-          if (record.type === "throw") {
-            reject(record.arg);
-          } else {
-            var result = record.arg;
-            var value = result.value;
-            if (value && typeof value === "object" && hasOwn.call(value, "__await")) {
-              return PromiseImpl.resolve(value.__await).then(function(value2) {
-                invoke("next", value2, resolve, reject);
-              }, function(err) {
-                invoke("throw", err, resolve, reject);
-              });
-            }
-            return PromiseImpl.resolve(value).then(function(unwrapped) {
-              result.value = unwrapped;
-              resolve(result);
+          if (record.type !== "throw") {
+            var result = record.arg, value = result.value;
+            return value && _typeof2(value) == "object" && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function(value2) {
+              invoke("next", value2, resolve, reject);
+            }, function(err) {
+              invoke("throw", err, resolve, reject);
+            }) : PromiseImpl.resolve(value).then(function(unwrapped) {
+              result.value = unwrapped, resolve(result);
             }, function(error) {
               return invoke("throw", error, resolve, reject);
             });
           }
+          reject(record.arg);
         }
         var previousPromise;
-        function enqueue(method4, arg) {
+        this._invoke = function(method4, arg) {
           function callInvokeWithMethodAndArg() {
             return new PromiseImpl(function(resolve, reject) {
               invoke(method4, arg, resolve, reject);
             });
           }
           return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-        }
-        this._invoke = enqueue;
-      }
-      defineIteratorMethods(AsyncIterator.prototype);
-      define2(AsyncIterator.prototype, asyncIteratorSymbol, function() {
-        return this;
-      });
-      exports2.AsyncIterator = AsyncIterator;
-      exports2.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-        if (PromiseImpl === void 0)
-          PromiseImpl = Promise;
-        var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-        return exports2.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-      };
-      function makeInvokeMethod(innerFn, self, context) {
-        var state = GenStateSuspendedStart;
-        return function invoke(method4, arg) {
-          if (state === GenStateExecuting) {
-            throw new Error("Generator is already running");
-          }
-          if (state === GenStateCompleted) {
-            if (method4 === "throw") {
-              throw arg;
-            }
-            return doneResult();
-          }
-          context.method = method4;
-          context.arg = arg;
-          while (true) {
-            var delegate = context.delegate;
-            if (delegate) {
-              var delegateResult = maybeInvokeDelegate(delegate, context);
-              if (delegateResult) {
-                if (delegateResult === ContinueSentinel)
-                  continue;
-                return delegateResult;
-              }
-            }
-            if (context.method === "next") {
-              context.sent = context._sent = context.arg;
-            } else if (context.method === "throw") {
-              if (state === GenStateSuspendedStart) {
-                state = GenStateCompleted;
-                throw context.arg;
-              }
-              context.dispatchException(context.arg);
-            } else if (context.method === "return") {
-              context.abrupt("return", context.arg);
-            }
-            state = GenStateExecuting;
-            var record = tryCatch(innerFn, self, context);
-            if (record.type === "normal") {
-              state = context.done ? GenStateCompleted : GenStateSuspendedYield;
-              if (record.arg === ContinueSentinel) {
-                continue;
-              }
-              return {
-                value: record.arg,
-                done: context.done
-              };
-            } else if (record.type === "throw") {
-              state = GenStateCompleted;
-              context.method = "throw";
-              context.arg = record.arg;
-            }
-          }
         };
       }
       function maybeInvokeDelegate(delegate, context) {
         var method4 = delegate.iterator[context.method];
-        if (method4 === undefined2) {
-          context.delegate = null;
-          if (context.method === "throw") {
-            if (delegate.iterator["return"]) {
-              context.method = "return";
-              context.arg = undefined2;
-              maybeInvokeDelegate(delegate, context);
-              if (context.method === "throw") {
-                return ContinueSentinel;
-              }
-            }
-            context.method = "throw";
-            context.arg = new TypeError("The iterator does not provide a 'throw' method");
+        if (method4 === void 0) {
+          if (context.delegate = null, context.method === "throw") {
+            if (delegate.iterator["return"] && (context.method = "return", context.arg = void 0, maybeInvokeDelegate(delegate, context), context.method === "throw"))
+              return ContinueSentinel;
+            context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
           }
           return ContinueSentinel;
         }
         var record = tryCatch(method4, delegate.iterator, context.arg);
-        if (record.type === "throw") {
-          context.method = "throw";
-          context.arg = record.arg;
-          context.delegate = null;
-          return ContinueSentinel;
-        }
+        if (record.type === "throw")
+          return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
         var info = record.arg;
-        if (!info) {
-          context.method = "throw";
-          context.arg = new TypeError("iterator result is not an object");
-          context.delegate = null;
-          return ContinueSentinel;
-        }
-        if (info.done) {
-          context[delegate.resultName] = info.value;
-          context.next = delegate.nextLoc;
-          if (context.method !== "return") {
-            context.method = "next";
-            context.arg = undefined2;
-          }
-        } else {
-          return info;
-        }
-        context.delegate = null;
-        return ContinueSentinel;
+        return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, context.method !== "return" && (context.method = "next", context.arg = void 0), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
       }
-      defineIteratorMethods(Gp);
-      define2(Gp, toStringTagSymbol, "Generator");
-      define2(Gp, iteratorSymbol, function() {
-        return this;
-      });
-      define2(Gp, "toString", function() {
-        return "[object Generator]";
-      });
       function pushTryEntry(locs) {
-        var entry = { tryLoc: locs[0] };
-        if (1 in locs) {
-          entry.catchLoc = locs[1];
-        }
-        if (2 in locs) {
-          entry.finallyLoc = locs[2];
-          entry.afterLoc = locs[3];
-        }
-        this.tryEntries.push(entry);
+        var entry = {
+          tryLoc: locs[0]
+        };
+        1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
       }
       function resetTryEntry(entry) {
         var record = entry.completion || {};
-        record.type = "normal";
-        delete record.arg;
-        entry.completion = record;
+        record.type = "normal", delete record.arg, entry.completion = record;
       }
       function Context2(tryLocsList) {
-        this.tryEntries = [{ tryLoc: "root" }];
-        tryLocsList.forEach(pushTryEntry, this);
-        this.reset(true);
+        this.tryEntries = [{
+          tryLoc: "root"
+        }], tryLocsList.forEach(pushTryEntry, this), this.reset(true);
       }
-      exports2.keys = function(object4) {
-        var keys = [];
-        for (var key2 in object4) {
-          keys.push(key2);
-        }
-        keys.reverse();
-        return function next() {
-          while (keys.length) {
-            var key3 = keys.pop();
-            if (key3 in object4) {
-              next.value = key3;
-              next.done = false;
-              return next;
-            }
-          }
-          next.done = true;
-          return next;
-        };
-      };
       function values(iterable) {
         if (iterable) {
           var iteratorMethod = iterable[iteratorSymbol];
-          if (iteratorMethod) {
+          if (iteratorMethod)
             return iteratorMethod.call(iterable);
-          }
-          if (typeof iterable.next === "function") {
+          if (typeof iterable.next == "function")
             return iterable;
-          }
           if (!isNaN(iterable.length)) {
             var i = -1, next = function next2() {
-              while (++i < iterable.length) {
-                if (hasOwn.call(iterable, i)) {
-                  next2.value = iterable[i];
-                  next2.done = false;
-                  return next2;
-                }
+              for (; ++i < iterable.length; ) {
+                if (hasOwn.call(iterable, i))
+                  return next2.value = iterable[i], next2.done = false, next2;
               }
-              next2.value = undefined2;
-              next2.done = true;
-              return next2;
+              return next2.value = void 0, next2.done = true, next2;
             };
             return next.next = next;
           }
         }
-        return { next: doneResult };
+        return {
+          next: doneResult
+        };
       }
-      exports2.values = values;
       function doneResult() {
-        return { value: undefined2, done: true };
+        return {
+          value: void 0,
+          done: true
+        };
       }
-      Context2.prototype = {
+      return GeneratorFunction.prototype = GeneratorFunctionPrototype, define2(Gp, "constructor", GeneratorFunctionPrototype), define2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define2(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports2.isGeneratorFunction = function(genFun) {
+        var ctor = typeof genFun == "function" && genFun.constructor;
+        return !!ctor && (ctor === GeneratorFunction || (ctor.displayName || ctor.name) === "GeneratorFunction");
+      }, exports2.mark = function(genFun) {
+        return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define2(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+      }, exports2.awrap = function(arg) {
+        return {
+          __await: arg
+        };
+      }, defineIteratorMethods(AsyncIterator.prototype), define2(AsyncIterator.prototype, asyncIteratorSymbol, function() {
+        return this;
+      }), exports2.AsyncIterator = AsyncIterator, exports2.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+        PromiseImpl === void 0 && (PromiseImpl = Promise);
+        var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+        return exports2.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+      }, defineIteratorMethods(Gp), define2(Gp, toStringTagSymbol, "Generator"), define2(Gp, iteratorSymbol, function() {
+        return this;
+      }), define2(Gp, "toString", function() {
+        return "[object Generator]";
+      }), exports2.keys = function(object4) {
+        var keys = [];
+        for (var key2 in object4) {
+          keys.push(key2);
+        }
+        return keys.reverse(), function next() {
+          for (; keys.length; ) {
+            var key3 = keys.pop();
+            if (key3 in object4)
+              return next.value = key3, next.done = false, next;
+          }
+          return next.done = true, next;
+        };
+      }, exports2.values = values, Context2.prototype = {
         constructor: Context2,
-        reset: function(skipTempReset) {
-          this.prev = 0;
-          this.next = 0;
-          this.sent = this._sent = undefined2;
-          this.done = false;
-          this.delegate = null;
-          this.method = "next";
-          this.arg = undefined2;
-          this.tryEntries.forEach(resetTryEntry);
-          if (!skipTempReset) {
+        reset: function reset(skipTempReset) {
+          if (this.prev = 0, this.next = 0, this.sent = this._sent = void 0, this.done = false, this.delegate = null, this.method = "next", this.arg = void 0, this.tryEntries.forEach(resetTryEntry), !skipTempReset)
             for (var name in this) {
-              if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
-                this[name] = undefined2;
-              }
+              name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = void 0);
             }
-          }
         },
-        stop: function() {
+        stop: function stop() {
           this.done = true;
-          var rootEntry = this.tryEntries[0];
-          var rootRecord = rootEntry.completion;
-          if (rootRecord.type === "throw") {
+          var rootRecord = this.tryEntries[0].completion;
+          if (rootRecord.type === "throw")
             throw rootRecord.arg;
-          }
           return this.rval;
         },
-        dispatchException: function(exception) {
-          if (this.done) {
+        dispatchException: function dispatchException(exception) {
+          if (this.done)
             throw exception;
-          }
           var context = this;
           function handle(loc, caught) {
-            record.type = "throw";
-            record.arg = exception;
-            context.next = loc;
-            if (caught) {
-              context.method = "next";
-              context.arg = undefined2;
-            }
-            return !!caught;
+            return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = void 0), !!caught;
           }
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-            var entry = this.tryEntries[i];
-            var record = entry.completion;
-            if (entry.tryLoc === "root") {
+            var entry = this.tryEntries[i], record = entry.completion;
+            if (entry.tryLoc === "root")
               return handle("end");
-            }
             if (entry.tryLoc <= this.prev) {
-              var hasCatch = hasOwn.call(entry, "catchLoc");
-              var hasFinally = hasOwn.call(entry, "finallyLoc");
+              var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
               if (hasCatch && hasFinally) {
-                if (this.prev < entry.catchLoc) {
+                if (this.prev < entry.catchLoc)
                   return handle(entry.catchLoc, true);
-                } else if (this.prev < entry.finallyLoc) {
+                if (this.prev < entry.finallyLoc)
                   return handle(entry.finallyLoc);
-                }
               } else if (hasCatch) {
-                if (this.prev < entry.catchLoc) {
+                if (this.prev < entry.catchLoc)
                   return handle(entry.catchLoc, true);
-                }
-              } else if (hasFinally) {
-                if (this.prev < entry.finallyLoc) {
-                  return handle(entry.finallyLoc);
-                }
               } else {
-                throw new Error("try statement without catch or finally");
+                if (!hasFinally)
+                  throw new Error("try statement without catch or finally");
+                if (this.prev < entry.finallyLoc)
+                  return handle(entry.finallyLoc);
               }
             }
           }
         },
-        abrupt: function(type4, arg) {
+        abrupt: function abrupt(type4, arg) {
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
             var entry = this.tryEntries[i];
             if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
@@ -789,45 +685,23 @@ var require_runtime = __commonJS({
               break;
             }
           }
-          if (finallyEntry && (type4 === "break" || type4 === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
-            finallyEntry = null;
-          }
+          finallyEntry && (type4 === "break" || type4 === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
           var record = finallyEntry ? finallyEntry.completion : {};
-          record.type = type4;
-          record.arg = arg;
-          if (finallyEntry) {
-            this.method = "next";
-            this.next = finallyEntry.finallyLoc;
-            return ContinueSentinel;
-          }
-          return this.complete(record);
+          return record.type = type4, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
         },
-        complete: function(record, afterLoc) {
-          if (record.type === "throw") {
+        complete: function complete(record, afterLoc) {
+          if (record.type === "throw")
             throw record.arg;
-          }
-          if (record.type === "break" || record.type === "continue") {
-            this.next = record.arg;
-          } else if (record.type === "return") {
-            this.rval = this.arg = record.arg;
-            this.method = "return";
-            this.next = "end";
-          } else if (record.type === "normal" && afterLoc) {
-            this.next = afterLoc;
-          }
-          return ContinueSentinel;
+          return record.type === "break" || record.type === "continue" ? this.next = record.arg : record.type === "return" ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : record.type === "normal" && afterLoc && (this.next = afterLoc), ContinueSentinel;
         },
-        finish: function(finallyLoc) {
+        finish: function finish(finallyLoc) {
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
             var entry = this.tryEntries[i];
-            if (entry.finallyLoc === finallyLoc) {
-              this.complete(entry.completion, entry.afterLoc);
-              resetTryEntry(entry);
-              return ContinueSentinel;
-            }
+            if (entry.finallyLoc === finallyLoc)
+              return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
           }
         },
-        "catch": function(tryLoc) {
+        "catch": function _catch(tryLoc) {
           for (var i = this.tryEntries.length - 1; i >= 0; --i) {
             var entry = this.tryEntries[i];
             if (entry.tryLoc === tryLoc) {
@@ -841,20 +715,25 @@ var require_runtime = __commonJS({
           }
           throw new Error("illegal catch attempt");
         },
-        delegateYield: function(iterable, resultName, nextLoc) {
-          this.delegate = {
+        delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+          return this.delegate = {
             iterator: values(iterable),
             resultName,
             nextLoc
-          };
-          if (this.method === "next") {
-            this.arg = undefined2;
-          }
-          return ContinueSentinel;
+          }, this.method === "next" && (this.arg = void 0), ContinueSentinel;
         }
-      };
-      return exports2;
-    }(typeof module2 === "object" ? module2.exports : {});
+      }, exports2;
+    }
+    module2.exports = _regeneratorRuntime3, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
+  }
+});
+
+// ../../node_modules/@babel/runtime/regenerator/index.js
+var require_regenerator = __commonJS({
+  "../../node_modules/@babel/runtime/regenerator/index.js"(exports, module2) {
+    init_cjs_shims();
+    var runtime = require_regeneratorRuntime()();
+    module2.exports = runtime;
     try {
       regeneratorRuntime = runtime;
     } catch (accidentalStrictMode) {
@@ -864,14 +743,6 @@ var require_runtime = __commonJS({
         Function("r", "regeneratorRuntime = r")(runtime);
       }
     }
-  }
-});
-
-// ../../node_modules/@babel/runtime/regenerator/index.js
-var require_regenerator = __commonJS({
-  "../../node_modules/@babel/runtime/regenerator/index.js"(exports, module2) {
-    init_cjs_shims();
-    module2.exports = require_runtime();
   }
 });
 
@@ -895,7 +766,7 @@ init_cjs_shims();
 // ../../node_modules/@babel/runtime/helpers/esm/extends.js
 init_cjs_shims();
 function _extends() {
-  _extends = Object.assign || function(target) {
+  _extends = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
       for (var key2 in source) {
@@ -962,7 +833,7 @@ init_cjs_shims();
 // ../../node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 init_cjs_shims();
 function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf3(o2, p2) {
+  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf3(o2, p2) {
     o2.__proto__ = p2;
     return o2;
   };
@@ -994,7 +865,7 @@ init_cjs_shims();
 // ../../node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
 init_cjs_shims();
 function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf3(o2) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf3(o2) {
     return o2.__proto__ || Object.getPrototypeOf(o2);
   };
   return _getPrototypeOf(o);
@@ -1133,6 +1004,9 @@ function warning(valid, message) {
   if (process.env.NODE_ENV !== "production" && !valid && console !== void 0) {
     console.error("Warning: ".concat(message));
   }
+}
+function resetWarned() {
+  warned = {};
 }
 function call(method4, valid, message) {
   if (!valid && !warned[message]) {
@@ -1356,6 +1230,7 @@ var Context = /* @__PURE__ */ React3.createContext({
       setInitialValues: warningFunc,
       destroyForm: warningFunc,
       setCallbacks: warningFunc,
+      registerWatch: warningFunc,
       getFields: warningFunc,
       setValidateMessages: warningFunc,
       setPreserve: warningFunc,
@@ -1376,7 +1251,322 @@ function toArray2(value) {
 
 // ../../node_modules/rc-field-form/es/utils/validateUtil.js
 init_cjs_shims();
-var import_regenerator = __toESM(require_regenerator());
+
+// ../../node_modules/@babel/runtime/helpers/esm/regeneratorRuntime.js
+init_cjs_shims();
+function _regeneratorRuntime() {
+  "use strict";
+  _regeneratorRuntime = function _regeneratorRuntime3() {
+    return exports;
+  };
+  var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = typeof Symbol == "function" ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+  function define2(obj, key2, value) {
+    return Object.defineProperty(obj, key2, {
+      value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    }), obj[key2];
+  }
+  try {
+    define2({}, "");
+  } catch (err) {
+    define2 = function define3(obj, key2, value) {
+      return obj[key2] = value;
+    };
+  }
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context2(tryLocsList || []);
+    return generator._invoke = function(innerFn2, self2, context2) {
+      var state = "suspendedStart";
+      return function(method4, arg) {
+        if (state === "executing")
+          throw new Error("Generator is already running");
+        if (state === "completed") {
+          if (method4 === "throw")
+            throw arg;
+          return doneResult();
+        }
+        for (context2.method = method4, context2.arg = arg; ; ) {
+          var delegate = context2.delegate;
+          if (delegate) {
+            var delegateResult = maybeInvokeDelegate(delegate, context2);
+            if (delegateResult) {
+              if (delegateResult === ContinueSentinel)
+                continue;
+              return delegateResult;
+            }
+          }
+          if (context2.method === "next")
+            context2.sent = context2._sent = context2.arg;
+          else if (context2.method === "throw") {
+            if (state === "suspendedStart")
+              throw state = "completed", context2.arg;
+            context2.dispatchException(context2.arg);
+          } else
+            context2.method === "return" && context2.abrupt("return", context2.arg);
+          state = "executing";
+          var record = tryCatch(innerFn2, self2, context2);
+          if (record.type === "normal") {
+            if (state = context2.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel)
+              continue;
+            return {
+              value: record.arg,
+              done: context2.done
+            };
+          }
+          record.type === "throw" && (state = "completed", context2.method = "throw", context2.arg = record.arg);
+        }
+      };
+    }(innerFn, self, context), generator;
+  }
+  function tryCatch(fn, obj, arg) {
+    try {
+      return {
+        type: "normal",
+        arg: fn.call(obj, arg)
+      };
+    } catch (err) {
+      return {
+        type: "throw",
+        arg: err
+      };
+    }
+  }
+  exports.wrap = wrap;
+  var ContinueSentinel = {};
+  function Generator() {
+  }
+  function GeneratorFunction() {
+  }
+  function GeneratorFunctionPrototype() {
+  }
+  var IteratorPrototype = {};
+  define2(IteratorPrototype, iteratorSymbol, function() {
+    return this;
+  });
+  var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
+  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method4) {
+      define2(prototype, method4, function(arg) {
+        return this._invoke(method4, arg);
+      });
+    });
+  }
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method4, arg, resolve, reject) {
+      var record = tryCatch(generator[method4], generator, arg);
+      if (record.type !== "throw") {
+        var result = record.arg, value = result.value;
+        return value && _typeof(value) == "object" && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function(value2) {
+          invoke("next", value2, resolve, reject);
+        }, function(err) {
+          invoke("throw", err, resolve, reject);
+        }) : PromiseImpl.resolve(value).then(function(unwrapped) {
+          result.value = unwrapped, resolve(result);
+        }, function(error) {
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+      reject(record.arg);
+    }
+    var previousPromise;
+    this._invoke = function(method4, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method4, arg, resolve, reject);
+        });
+      }
+      return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+    };
+  }
+  function maybeInvokeDelegate(delegate, context) {
+    var method4 = delegate.iterator[context.method];
+    if (method4 === void 0) {
+      if (context.delegate = null, context.method === "throw") {
+        if (delegate.iterator["return"] && (context.method = "return", context.arg = void 0, maybeInvokeDelegate(delegate, context), context.method === "throw"))
+          return ContinueSentinel;
+        context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
+      }
+      return ContinueSentinel;
+    }
+    var record = tryCatch(method4, delegate.iterator, context.arg);
+    if (record.type === "throw")
+      return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
+    var info = record.arg;
+    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, context.method !== "return" && (context.method = "next", context.arg = void 0), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+  }
+  function pushTryEntry(locs) {
+    var entry = {
+      tryLoc: locs[0]
+    };
+    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+  }
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal", delete record.arg, entry.completion = record;
+  }
+  function Context2(tryLocsList) {
+    this.tryEntries = [{
+      tryLoc: "root"
+    }], tryLocsList.forEach(pushTryEntry, this), this.reset(true);
+  }
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod)
+        return iteratorMethod.call(iterable);
+      if (typeof iterable.next == "function")
+        return iterable;
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next2() {
+          for (; ++i < iterable.length; ) {
+            if (hasOwn.call(iterable, i))
+              return next2.value = iterable[i], next2.done = false, next2;
+          }
+          return next2.value = void 0, next2.done = true, next2;
+        };
+        return next.next = next;
+      }
+    }
+    return {
+      next: doneResult
+    };
+  }
+  function doneResult() {
+    return {
+      value: void 0,
+      done: true
+    };
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, define2(Gp, "constructor", GeneratorFunctionPrototype), define2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define2(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun == "function" && genFun.constructor;
+    return !!ctor && (ctor === GeneratorFunction || (ctor.displayName || ctor.name) === "GeneratorFunction");
+  }, exports.mark = function(genFun) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define2(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+  }, exports.awrap = function(arg) {
+    return {
+      __await: arg
+    };
+  }, defineIteratorMethods(AsyncIterator.prototype), define2(AsyncIterator.prototype, asyncIteratorSymbol, function() {
+    return this;
+  }), exports.AsyncIterator = AsyncIterator, exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    PromiseImpl === void 0 && (PromiseImpl = Promise);
+    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
+      return result.done ? result.value : iter.next();
+    });
+  }, defineIteratorMethods(Gp), define2(Gp, toStringTagSymbol, "Generator"), define2(Gp, iteratorSymbol, function() {
+    return this;
+  }), define2(Gp, "toString", function() {
+    return "[object Generator]";
+  }), exports.keys = function(object4) {
+    var keys = [];
+    for (var key2 in object4) {
+      keys.push(key2);
+    }
+    return keys.reverse(), function next() {
+      for (; keys.length; ) {
+        var key3 = keys.pop();
+        if (key3 in object4)
+          return next.value = key3, next.done = false, next;
+      }
+      return next.done = true, next;
+    };
+  }, exports.values = values, Context2.prototype = {
+    constructor: Context2,
+    reset: function reset(skipTempReset) {
+      if (this.prev = 0, this.next = 0, this.sent = this._sent = void 0, this.done = false, this.delegate = null, this.method = "next", this.arg = void 0, this.tryEntries.forEach(resetTryEntry), !skipTempReset)
+        for (var name in this) {
+          name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = void 0);
+        }
+    },
+    stop: function stop() {
+      this.done = true;
+      var rootRecord = this.tryEntries[0].completion;
+      if (rootRecord.type === "throw")
+        throw rootRecord.arg;
+      return this.rval;
+    },
+    dispatchException: function dispatchException(exception) {
+      if (this.done)
+        throw exception;
+      var context = this;
+      function handle(loc, caught) {
+        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = void 0), !!caught;
+      }
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i], record = entry.completion;
+        if (entry.tryLoc === "root")
+          return handle("end");
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc)
+              return handle(entry.catchLoc, true);
+            if (this.prev < entry.finallyLoc)
+              return handle(entry.finallyLoc);
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc)
+              return handle(entry.catchLoc, true);
+          } else {
+            if (!hasFinally)
+              throw new Error("try statement without catch or finally");
+            if (this.prev < entry.finallyLoc)
+              return handle(entry.finallyLoc);
+          }
+        }
+      }
+    },
+    abrupt: function abrupt(type4, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+      finallyEntry && (type4 === "break" || type4 === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+      var record = finallyEntry ? finallyEntry.completion : {};
+      return record.type = type4, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+    },
+    complete: function complete(record, afterLoc) {
+      if (record.type === "throw")
+        throw record.arg;
+      return record.type === "break" || record.type === "continue" ? this.next = record.arg : record.type === "return" ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : record.type === "normal" && afterLoc && (this.next = afterLoc), ContinueSentinel;
+    },
+    finish: function finish(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc)
+          return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+      }
+    },
+    "catch": function _catch(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+      throw new Error("illegal catch attempt");
+    },
+    delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+      return this.delegate = {
+        iterator: values(iterable),
+        resultName,
+        nextLoc
+      }, this.method === "next" && (this.arg = void 0), ContinueSentinel;
+    }
+  }, exports;
+}
 
 // ../../node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
 init_cjs_shims();
@@ -1510,7 +1700,7 @@ var formatRegExp = /%[sdj%]/g;
 var warning2 = function warning3() {
 };
 if (typeof process !== "undefined" && process.env && process.env.NODE_ENV !== "production" && typeof window !== "undefined" && typeof document !== "undefined") {
-  warning2 = function warning5(type4, errors) {
+  warning2 = function warning6(type4, errors) {
     if (typeof console !== "undefined" && console.warn && typeof ASYNC_VALIDATOR_NO_WARNING === "undefined") {
       if (errors.every(function(e) {
         return typeof e === "string";
@@ -2358,7 +2548,15 @@ var Schema = /* @__PURE__ */ function() {
       if (rule.asyncValidator) {
         res = rule.asyncValidator(rule, data.value, cb, data.source, options);
       } else if (rule.validator) {
-        res = rule.validator(rule, data.value, cb, data.source, options);
+        try {
+          res = rule.validator(rule, data.value, cb, data.source, options);
+        } catch (error) {
+          console.error == null ? void 0 : console.error(error);
+          setTimeout(function() {
+            throw error;
+          }, 0);
+          cb(error.message);
+        }
         if (res === true) {
           cb();
         } else if (res === false) {
@@ -2676,18 +2874,30 @@ function replaceMessage(template, kv) {
     return kv[key2];
   });
 }
+var CODE_LOGIC_ERROR = "CODE_LOGIC_ERROR";
 function validateRule(_x, _x2, _x3, _x4, _x5) {
   return _validateRule.apply(this, arguments);
 }
 function _validateRule() {
-  _validateRule = _asyncToGenerator(/* @__PURE__ */ import_regenerator.default.mark(function _callee2(name, value, rule, options, messageVariables) {
-    var cloneRule, subRuleField, validator, messages2, result, subResults, kv, fillVariableResult;
-    return import_regenerator.default.wrap(function _callee2$(_context2) {
+  _validateRule = _asyncToGenerator(/* @__PURE__ */ _regeneratorRuntime().mark(function _callee2(name, value, rule, options, messageVariables) {
+    var cloneRule, originValidator, subRuleField, validator, messages2, result, subResults, kv, fillVariableResult;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             cloneRule = _objectSpread2({}, rule);
             delete cloneRule.ruleIndex;
+            if (cloneRule.validator) {
+              originValidator = cloneRule.validator;
+              cloneRule.validator = function() {
+                try {
+                  return originValidator.apply(void 0, arguments);
+                } catch (error) {
+                  console.error(error);
+                  return Promise.reject(CODE_LOGIC_ERROR);
+                }
+              };
+            }
             subRuleField = null;
             if (cloneRule && cloneRule.type === "array" && cloneRule.defaultField) {
               subRuleField = cloneRule.defaultField;
@@ -2697,41 +2907,39 @@ function _validateRule() {
             messages2 = setValues({}, defaultValidateMessages, options.validateMessages);
             validator.messages(messages2);
             result = [];
-            _context2.prev = 8;
-            _context2.next = 11;
+            _context2.prev = 9;
+            _context2.next = 12;
             return Promise.resolve(validator.validate(_defineProperty({}, name, value), _objectSpread2({}, options)));
-          case 11:
-            _context2.next = 16;
+          case 12:
+            _context2.next = 17;
             break;
-          case 13:
-            _context2.prev = 13;
-            _context2.t0 = _context2["catch"](8);
+          case 14:
+            _context2.prev = 14;
+            _context2.t0 = _context2["catch"](9);
             if (_context2.t0.errors) {
               result = _context2.t0.errors.map(function(_ref4, index) {
                 var message = _ref4.message;
-                return /* @__PURE__ */ React4.isValidElement(message) ? /* @__PURE__ */ React4.cloneElement(message, {
+                var mergedMessage = message === CODE_LOGIC_ERROR ? messages2.default : message;
+                return /* @__PURE__ */ React4.isValidElement(mergedMessage) ? /* @__PURE__ */ React4.cloneElement(mergedMessage, {
                   key: "error_".concat(index)
-                }) : message;
+                }) : mergedMessage;
               });
-            } else {
-              console.error(_context2.t0);
-              result = [messages2.default];
             }
-          case 16:
+          case 17:
             if (!(!result.length && subRuleField)) {
-              _context2.next = 21;
+              _context2.next = 22;
               break;
             }
-            _context2.next = 19;
+            _context2.next = 20;
             return Promise.all(value.map(function(subValue, i) {
               return validateRule("".concat(name, ".").concat(i), subValue, subRuleField, options, messageVariables);
             }));
-          case 19:
+          case 20:
             subResults = _context2.sent;
             return _context2.abrupt("return", subResults.reduce(function(prev, errors) {
               return [].concat(_toConsumableArray(prev), _toConsumableArray(errors));
             }, []));
-          case 21:
+          case 22:
             kv = _objectSpread2(_objectSpread2({}, rule), {}, {
               name,
               enum: (rule.enum || []).join(", ")
@@ -2743,12 +2951,12 @@ function _validateRule() {
               return error;
             });
             return _context2.abrupt("return", fillVariableResult);
-          case 24:
+          case 25:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[8, 13]]);
+    }, _callee2, null, [[9, 14]]);
   }));
   return _validateRule.apply(this, arguments);
 }
@@ -2800,9 +3008,9 @@ function validateRules(namePath, value, rules2, options, validateFirst, messageV
   var summaryPromise;
   if (validateFirst === true) {
     summaryPromise = new Promise(/* @__PURE__ */ function() {
-      var _ref3 = _asyncToGenerator(/* @__PURE__ */ import_regenerator.default.mark(function _callee(resolve, reject) {
+      var _ref3 = _asyncToGenerator(/* @__PURE__ */ _regeneratorRuntime().mark(function _callee(resolve, reject) {
         var i, rule, errors;
-        return import_regenerator.default.wrap(function _callee$(_context) {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -2865,8 +3073,8 @@ function finishOnAllFailed(_x8) {
   return _finishOnAllFailed.apply(this, arguments);
 }
 function _finishOnAllFailed() {
-  _finishOnAllFailed = _asyncToGenerator(/* @__PURE__ */ import_regenerator.default.mark(function _callee3(rulePromises) {
-    return import_regenerator.default.wrap(function _callee3$(_context3) {
+  _finishOnAllFailed = _asyncToGenerator(/* @__PURE__ */ _regeneratorRuntime().mark(function _callee3(rulePromises) {
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -2888,9 +3096,9 @@ function finishOnFirstFailed(_x9) {
   return _finishOnFirstFailed.apply(this, arguments);
 }
 function _finishOnFirstFailed() {
-  _finishOnFirstFailed = _asyncToGenerator(/* @__PURE__ */ import_regenerator.default.mark(function _callee4(rulePromises) {
+  _finishOnFirstFailed = _asyncToGenerator(/* @__PURE__ */ _regeneratorRuntime().mark(function _callee4(rulePromises) {
     var count;
-    return import_regenerator.default.wrap(function _callee4$(_context4) {
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -3281,7 +3489,7 @@ var Field = /* @__PURE__ */ function(_React$Component) {
     }
   }, {
     key: "render",
-    value: function render() {
+    value: function render2() {
       var resetCount = this.state.resetCount;
       var children = this.props.children;
       var _this$getOnlyChild = this.getOnlyChild(children), child = _this$getOnlyChild.child, isFunction = _this$getOnlyChild.isFunction;
@@ -3631,6 +3839,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
       setFieldsValue: _this.setFieldsValue,
       validateFields: _this.validateFields,
       submit: _this.submit,
+      _init: true,
       getInternalHooks: _this.getInternalHooks
     };
   };
@@ -3648,7 +3857,8 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
         setValidateMessages: _this.setValidateMessages,
         getFields: _this.getFields,
         setPreserve: _this.setPreserve,
-        getInitialValue: _this.getInitialValue
+        getInitialValue: _this.getInitialValue,
+        registerWatch: _this.registerWatch
       };
     }
     warning_default(false, "`getInternalHooks` is internal usage. Should not call directly.");
@@ -3674,7 +3884,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
   this.destroyForm = function() {
     var prevWithoutPreserves = new NameMap_default();
     _this.getFieldEntities(true).forEach(function(entity) {
-      if (!entity.isPreserve()) {
+      if (!_this.isMergedPreserve(entity.isPreserve())) {
         prevWithoutPreserves.set(entity.getNamePath(), true);
       }
     });
@@ -3692,6 +3902,24 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
   };
   this.setPreserve = function(preserve) {
     _this.preserve = preserve;
+  };
+  this.watchList = [];
+  this.registerWatch = function(callback) {
+    _this.watchList.push(callback);
+    return function() {
+      _this.watchList = _this.watchList.filter(function(fn) {
+        return fn !== callback;
+      });
+    };
+  };
+  this.notifyWatch = function() {
+    var namePath = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
+    if (_this.watchList.length) {
+      var values = _this.getFieldsValue();
+      _this.watchList.forEach(function(callback) {
+        callback(values, namePath);
+      });
+    }
   };
   this.timeoutId = null;
   this.warningUnhooked = function() {
@@ -3938,6 +4166,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
       _this.notifyObservers(prevStore, null, {
         type: "reset"
       });
+      _this.notifyWatch();
       return;
     }
     var namePathList = nameList.map(getNamePath);
@@ -3951,13 +4180,16 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
     _this.notifyObservers(prevStore, namePathList, {
       type: "reset"
     });
+    _this.notifyWatch(namePathList);
   };
   this.setFields = function(fields) {
     _this.warningUnhooked();
     var prevStore = _this.store;
+    var namePathList = [];
     fields.forEach(function(fieldData) {
       var name = fieldData.name, errors = fieldData.errors, data = _objectWithoutProperties(fieldData, _excluded2);
       var namePath = getNamePath(name);
+      namePathList.push(namePath);
       if ("value" in data) {
         _this.updateStore(setValue(_this.store, namePath, data.value));
       }
@@ -3966,6 +4198,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
         data: fieldData
       });
     });
+    _this.notifyWatch(namePathList);
   };
   this.getFields = function() {
     var entities = _this.getFieldEntities(true);
@@ -3993,8 +4226,14 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
       }
     }
   };
+  this.isMergedPreserve = function(fieldPreserve) {
+    var mergedPreserve = fieldPreserve !== void 0 ? fieldPreserve : _this.preserve;
+    return mergedPreserve !== null && mergedPreserve !== void 0 ? mergedPreserve : true;
+  };
   this.registerField = function(entity) {
     _this.fieldEntities.push(entity);
+    var namePath = entity.getNamePath();
+    _this.notifyWatch([namePath]);
     if (entity.props.initialValue !== void 0) {
       var prevStore = _this.store;
       _this.resetWithFieldInitialValue({
@@ -4011,9 +4250,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
       _this.fieldEntities = _this.fieldEntities.filter(function(item) {
         return item !== entity;
       });
-      var mergedPreserve = preserve !== void 0 ? preserve : _this.preserve;
-      if (mergedPreserve === false && (!isListField || subNamePath.length > 1)) {
-        var namePath = entity.getNamePath();
+      if (!_this.isMergedPreserve(preserve) && (!isListField || subNamePath.length > 1)) {
         var defaultValue = isListField ? void 0 : _this.getInitialValue(namePath);
         if (namePath.length && _this.getFieldValue(namePath) !== defaultValue && _this.fieldEntities.every(function(field) {
           return !matchNamePath(field.getNamePath(), namePath);
@@ -4026,6 +4263,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
           _this.triggerDependenciesUpdate(_prevStore, namePath);
         }
       }
+      _this.notifyWatch([namePath]);
     };
   };
   this.dispatch = function(action) {
@@ -4077,6 +4315,7 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
       type: "valueUpdate",
       source: "internal"
     });
+    _this.notifyWatch([namePath]);
     var childrenFields = _this.triggerDependenciesUpdate(prevStore, namePath);
     var onValuesChange = _this.callbacks.onValuesChange;
     if (onValuesChange) {
@@ -4089,12 +4328,14 @@ var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate
     _this.warningUnhooked();
     var prevStore = _this.store;
     if (store) {
-      _this.updateStore(setValues(_this.store, store));
+      var nextStore = setValues(_this.store, store);
+      _this.updateStore(nextStore);
     }
     _this.notifyObservers(prevStore, null, {
       type: "valueUpdate",
       source: "external"
     });
+    _this.notifyWatch();
   };
   this.getDependencyChildrenFields = function(rootNamePath) {
     var children = /* @__PURE__ */ new Set();
@@ -4424,6 +4665,55 @@ var Form = function Form2(_ref, ref) {
 };
 var Form_default = Form;
 
+// ../../node_modules/rc-field-form/es/useWatch.js
+init_cjs_shims();
+var import_react3 = require("react");
+function stringify(value) {
+  try {
+    return JSON.stringify(value);
+  } catch (err) {
+    return Math.random();
+  }
+}
+function useWatch() {
+  var dependencies = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
+  var form = arguments.length > 1 ? arguments[1] : void 0;
+  var _useState = (0, import_react3.useState)(), _useState2 = _slicedToArray(_useState, 2), value = _useState2[0], setValue2 = _useState2[1];
+  var valueStr = (0, import_react3.useMemo)(function() {
+    return stringify(value);
+  }, [value]);
+  var valueStrRef = (0, import_react3.useRef)(valueStr);
+  valueStrRef.current = valueStr;
+  var fieldContext = (0, import_react3.useContext)(FieldContext_default);
+  var formInstance = form || fieldContext;
+  var isValidForm = formInstance && formInstance._init;
+  if (process.env.NODE_ENV !== "production") {
+    warning_default(isValidForm, "useWatch requires a form instance since it can not auto detect from context.");
+  }
+  var namePath = getNamePath(dependencies);
+  var namePathRef = (0, import_react3.useRef)(namePath);
+  namePathRef.current = namePath;
+  (0, import_react3.useEffect)(function() {
+    if (!isValidForm) {
+      return;
+    }
+    var getFieldsValue = formInstance.getFieldsValue, getInternalHooks2 = formInstance.getInternalHooks;
+    var _getInternalHooks = getInternalHooks2(HOOK_MARK), registerWatch = _getInternalHooks.registerWatch;
+    var cancelRegister = registerWatch(function(store) {
+      var newValue = getValue2(store, namePathRef.current);
+      var nextValueStr = stringify(newValue);
+      if (valueStrRef.current !== nextValueStr) {
+        setValue2(newValue);
+      }
+    });
+    var initialValue = getValue2(getFieldsValue(), namePathRef.current);
+    setValue2(initialValue);
+    return cancelRegister;
+  }, []);
+  return value;
+}
+var useWatch_default = useWatch;
+
 // ../../node_modules/rc-field-form/es/index.js
 var InternalForm = /* @__PURE__ */ React11.forwardRef(Form_default);
 var RefForm = InternalForm;
@@ -4431,6 +4721,7 @@ RefForm.FormProvider = FormProvider;
 RefForm.Field = Field_default;
 RefForm.List = List_default;
 RefForm.useForm = useForm_default;
+RefForm.useWatch = useWatch_default;
 
 // ../../node_modules/antd/es/locale-provider/index.js
 init_cjs_shims();
@@ -4488,11 +4779,20 @@ function memoizeOne(resultFn, isEqual2) {
   return memoized;
 }
 
-// ../../node_modules/antd/es/_util/devWarning.js
+// ../../node_modules/antd/es/_util/warning.js
 init_cjs_shims();
-var devWarning_default = function(valid, component, message) {
-  warning_default(valid, "[antd: ".concat(component, "] ").concat(message));
-};
+function noop() {
+}
+var warning4 = noop;
+if (process.env.NODE_ENV !== "production") {
+  warning4 = function warning6(valid, component, message) {
+    warning_default(valid, "[antd: ".concat(component, "] ").concat(message));
+    if (process.env.NODE_ENV === "test") {
+      resetWarned();
+    }
+  };
+}
+var warning_default2 = warning4;
 
 // ../../node_modules/antd/es/modal/locale.js
 init_cjs_shims();
@@ -4526,7 +4826,7 @@ var locale = {
   today: "Today",
   now: "Now",
   backToToday: "Back to today",
-  ok: "Ok",
+  ok: "OK",
   clear: "Clear",
   month: "Month",
   year: "Year",
@@ -4723,8 +5023,8 @@ function changeConfirmLocale(newLocale) {
 
 // ../../node_modules/antd/es/locale-provider/context.js
 init_cjs_shims();
-var import_react3 = require("react");
-var LocaleContext = /* @__PURE__ */ (0, import_react3.createContext)(void 0);
+var import_react4 = require("react");
+var LocaleContext = /* @__PURE__ */ (0, import_react4.createContext)(void 0);
 var context_default = LocaleContext;
 
 // ../../node_modules/antd/es/locale-provider/index.js
@@ -4742,7 +5042,7 @@ var LocaleProvider = /* @__PURE__ */ function(_React$Component) {
       });
     });
     changeConfirmLocale(props.locale && props.locale.Modal);
-    devWarning_default(props._ANT_MARK__ === ANT_MARK, "LocaleProvider", "`LocaleProvider` is deprecated. Please use `locale` with `ConfigProvider` instead: http://u.ant.design/locale");
+    process.env.NODE_ENV !== "production" ? warning_default2(props._ANT_MARK__ === ANT_MARK, "LocaleProvider", "`LocaleProvider` is deprecated. Please use `locale` with `ConfigProvider` instead: http://u.ant.design/locale") : void 0;
     return _this;
   }
   _createClass(LocaleProvider2, [{
@@ -4765,7 +5065,7 @@ var LocaleProvider = /* @__PURE__ */ function(_React$Component) {
     }
   }, {
     key: "render",
-    value: function render() {
+    value: function render2() {
       var _this$props = this.props, locale4 = _this$props.locale, children = _this$props.children;
       var contextValue = this.getMemoizedContextValue(locale4);
       return /* @__PURE__ */ React12.createElement(context_default.Provider, {
@@ -4816,7 +5116,7 @@ var LocaleReceiver = /* @__PURE__ */ function(_React$Component) {
     }
   }, {
     key: "render",
-    value: function render() {
+    value: function render2() {
       return this.props.children(this.getLocale(), this.getLocaleCode(), this.context);
     }
   }]);
@@ -5042,8 +5342,101 @@ init_cjs_shims();
 // ../../node_modules/rc-notification/es/Notification.js
 init_cjs_shims();
 var React30 = __toESM(require("react"));
-var import_react9 = require("react");
-var import_react_dom3 = __toESM(require("react-dom"));
+var import_react10 = require("react");
+
+// ../../node_modules/rc-util/es/React/render.js
+init_cjs_shims();
+var ReactDOM2 = __toESM(require("react-dom"));
+var fullClone = _objectSpread2({}, ReactDOM2);
+var version = fullClone.version;
+var reactRender = fullClone.render;
+var unmountComponentAtNode = fullClone.unmountComponentAtNode;
+var createRoot;
+try {
+  mainVersion = Number((version || "").split(".")[0]);
+  if (mainVersion >= 18) {
+    createRoot = fullClone.createRoot;
+  }
+} catch (e) {
+}
+var mainVersion;
+function toggleWarning(skip) {
+  var __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = fullClone.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  if (__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED && _typeof(__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED) === "object") {
+    __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.usingClientEntryPoint = skip;
+  }
+}
+var MARK = "__rc_react_root__";
+function modernRender(node, container) {
+  toggleWarning(true);
+  var root = container[MARK] || createRoot(container);
+  toggleWarning(false);
+  root.render(node);
+  container[MARK] = root;
+}
+function legacyRender(node, container) {
+  reactRender(node, container);
+}
+function render(node, container) {
+  if (createRoot) {
+    modernRender(node, container);
+    return;
+  }
+  legacyRender(node, container);
+}
+function modernUnmount(_x) {
+  return _modernUnmount.apply(this, arguments);
+}
+function _modernUnmount() {
+  _modernUnmount = _asyncToGenerator(/* @__PURE__ */ _regeneratorRuntime().mark(function _callee(container) {
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            return _context.abrupt("return", Promise.resolve().then(function() {
+              var _container$MARK;
+              (_container$MARK = container[MARK]) === null || _container$MARK === void 0 ? void 0 : _container$MARK.unmount();
+              delete container[MARK];
+            }));
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _modernUnmount.apply(this, arguments);
+}
+function legacyUnmount(container) {
+  unmountComponentAtNode(container);
+}
+function unmount(_x2) {
+  return _unmount.apply(this, arguments);
+}
+function _unmount() {
+  _unmount = _asyncToGenerator(/* @__PURE__ */ _regeneratorRuntime().mark(function _callee2(container) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!(createRoot !== void 0)) {
+              _context2.next = 2;
+              break;
+            }
+            return _context2.abrupt("return", modernUnmount(container));
+          case 2:
+            legacyUnmount(container);
+          case 3:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return _unmount.apply(this, arguments);
+}
+
+// ../../node_modules/rc-notification/es/Notification.js
 var import_classnames4 = __toESM(require_classnames());
 
 // ../../node_modules/rc-motion/es/index.js
@@ -5052,7 +5445,7 @@ init_cjs_shims();
 // ../../node_modules/rc-motion/es/CSSMotion.js
 init_cjs_shims();
 var React26 = __toESM(require("react"));
-var import_react7 = require("react");
+var import_react8 = require("react");
 var import_classnames2 = __toESM(require_classnames());
 
 // ../../node_modules/rc-motion/es/util/motion.js
@@ -5147,7 +5540,7 @@ var STEP_ACTIVATED = "end";
 // ../../node_modules/rc-motion/es/hooks/useStatus.js
 init_cjs_shims();
 var React24 = __toESM(require("react"));
-var import_react6 = require("react");
+var import_react7 = require("react");
 
 // ../../node_modules/rc-util/es/hooks/useState.js
 init_cjs_shims();
@@ -5169,12 +5562,6 @@ function useSafeState(defaultValue) {
   }
   return [value, safeSetState];
 }
-
-// ../../node_modules/rc-motion/es/hooks/useIsomorphicLayoutEffect.js
-init_cjs_shims();
-var import_react4 = require("react");
-var useIsomorphicLayoutEffect = canUseDom() ? import_react4.useLayoutEffect : import_react4.useEffect;
-var useIsomorphicLayoutEffect_default = useIsomorphicLayoutEffect;
 
 // ../../node_modules/rc-motion/es/hooks/useStepQueue.js
 init_cjs_shims();
@@ -5259,6 +5646,12 @@ var useNextFrame_default = function() {
   return [nextFrame, cancelNextFrame];
 };
 
+// ../../node_modules/rc-motion/es/hooks/useIsomorphicLayoutEffect.js
+init_cjs_shims();
+var import_react5 = require("react");
+var useIsomorphicLayoutEffect = canUseDom() ? import_react5.useLayoutEffect : import_react5.useEffect;
+var useIsomorphicLayoutEffect_default = useIsomorphicLayoutEffect;
+
 // ../../node_modules/rc-motion/es/hooks/useStepQueue.js
 var STEP_QUEUE = [STEP_PREPARE, STEP_START, STEP_ACTIVE, STEP_ACTIVATED];
 var SkipStep = false;
@@ -5306,10 +5699,10 @@ var useStepQueue_default = function(status, callback) {
 // ../../node_modules/rc-motion/es/hooks/useDomMotionEvents.js
 init_cjs_shims();
 var React23 = __toESM(require("react"));
-var import_react5 = require("react");
+var import_react6 = require("react");
 var useDomMotionEvents_default = function(callback) {
-  var cacheElementRef = (0, import_react5.useRef)();
-  var callbackRef = (0, import_react5.useRef)(callback);
+  var cacheElementRef = (0, import_react6.useRef)();
+  var callbackRef = (0, import_react6.useRef)(callback);
   callbackRef.current = callback;
   var onInternalMotionEnd = React23.useCallback(function(event) {
     callbackRef.current(event);
@@ -5344,12 +5737,12 @@ function useStatus(supportMotion, visible, getElement, _ref) {
   var _useState = useSafeState(), _useState2 = _slicedToArray(_useState, 2), asyncVisible = _useState2[0], setAsyncVisible = _useState2[1];
   var _useState3 = useSafeState(STATUS_NONE), _useState4 = _slicedToArray(_useState3, 2), status = _useState4[0], setStatus = _useState4[1];
   var _useState5 = useSafeState(null), _useState6 = _slicedToArray(_useState5, 2), style2 = _useState6[0], setStyle = _useState6[1];
-  var mountedRef = (0, import_react6.useRef)(false);
-  var deadlineRef = (0, import_react6.useRef)(null);
+  var mountedRef = (0, import_react7.useRef)(false);
+  var deadlineRef = (0, import_react7.useRef)(null);
   function getDomElement() {
     return getElement();
   }
-  var activeRef = (0, import_react6.useRef)(false);
+  var activeRef = (0, import_react7.useRef)(false);
   function onInternalMotionEnd(event) {
     var element = getDomElement();
     if (event && !event.deadline && event.target !== element) {
@@ -5432,18 +5825,18 @@ function useStatus(supportMotion, visible, getElement, _ref) {
       startStep();
     }
   }, [visible]);
-  (0, import_react6.useEffect)(function() {
+  (0, import_react7.useEffect)(function() {
     if (status === STATUS_APPEAR && !motionAppear || status === STATUS_ENTER && !motionEnter || status === STATUS_LEAVE && !motionLeave) {
       setStatus(STATUS_NONE);
     }
   }, [motionAppear, motionEnter, motionLeave]);
-  (0, import_react6.useEffect)(function() {
+  (0, import_react7.useEffect)(function() {
     return function() {
       mountedRef.current = false;
       clearTimeout(deadlineRef.current);
     };
   }, []);
-  (0, import_react6.useEffect)(function() {
+  (0, import_react7.useEffect)(function() {
     if (asyncVisible !== void 0 && status === STATUS_NONE) {
       onVisibleChanged === null || onVisibleChanged === void 0 ? void 0 : onVisibleChanged(asyncVisible);
     }
@@ -5469,7 +5862,7 @@ var DomWrapper = /* @__PURE__ */ function(_React$Component) {
   }
   _createClass(DomWrapper2, [{
     key: "render",
-    value: function render() {
+    value: function render2() {
       return this.props.children;
     }
   }]);
@@ -5489,8 +5882,8 @@ function genCSSMotion(config) {
   var CSSMotion = /* @__PURE__ */ React26.forwardRef(function(props, ref) {
     var _props$visible = props.visible, visible = _props$visible === void 0 ? true : _props$visible, _props$removeOnLeave = props.removeOnLeave, removeOnLeave = _props$removeOnLeave === void 0 ? true : _props$removeOnLeave, forceRender = props.forceRender, children = props.children, motionName = props.motionName, leavedClassName = props.leavedClassName, eventProps = props.eventProps;
     var supportMotion = isSupportTransition(props);
-    var nodeRef = (0, import_react7.useRef)();
-    var wrapperNodeRef = (0, import_react7.useRef)();
+    var nodeRef = (0, import_react8.useRef)();
+    var wrapperNodeRef = (0, import_react8.useRef)();
     function getDomElement() {
       try {
         return nodeRef.current instanceof HTMLElement ? nodeRef.current : findDOMNode(wrapperNodeRef.current);
@@ -5506,7 +5899,7 @@ function genCSSMotion(config) {
     var setNodeRef = React26.useCallback(function(node) {
       nodeRef.current = node;
       fillRef(ref, node);
-    }, []);
+    }, [ref]);
     var motionChildren;
     var mergedProps = _objectSpread2(_objectSpread2({}, eventProps), {}, {
       visible
@@ -5543,6 +5936,14 @@ function genCSSMotion(config) {
         className: (0, import_classnames2.default)(getTransitionName(motionName, status), (_classNames = {}, _defineProperty(_classNames, getTransitionName(motionName, "".concat(status, "-").concat(statusSuffix)), statusSuffix), _defineProperty(_classNames, motionName, typeof motionName === "string"), _classNames)),
         style: statusStyle
       }), setNodeRef);
+    }
+    if (/* @__PURE__ */ React26.isValidElement(motionChildren) && supportRef(motionChildren)) {
+      var _motionChildren = motionChildren, originNodeRef = _motionChildren.ref;
+      if (!originNodeRef) {
+        motionChildren = /* @__PURE__ */ React26.cloneElement(motionChildren, {
+          ref: setNodeRef
+        });
+      }
     }
     return /* @__PURE__ */ React26.createElement(DomWrapper_default, {
       ref: wrapperNodeRef
@@ -5645,7 +6046,7 @@ function diffKeys() {
 }
 
 // ../../node_modules/rc-motion/es/CSSMotionList.js
-var _excluded4 = ["component", "children", "onVisibleChanged"];
+var _excluded4 = ["component", "children", "onVisibleChanged", "onAllRemoved"];
 var _excluded22 = ["status"];
 var MOTION_PROP_NAMES = ["eventProps", "visible", "children", "motionName", "motionAppear", "motionEnter", "motionLeave", "motionLeaveImmediately", "motionDeadline", "removeOnLeave", "leavedClassName", "onAppearStart", "onAppearActive", "onAppearEnd", "onEnterStart", "onEnterActive", "onEnterEnd", "onLeaveStart", "onLeaveActive", "onLeaveEnd"];
 function genCSSMotionList(transitionSupport) {
@@ -5664,27 +6065,30 @@ function genCSSMotionList(transitionSupport) {
         keyEntities: []
       };
       _this.removeKey = function(removeKey) {
-        _this.setState(function(_ref) {
-          var keyEntities = _ref.keyEntities;
-          return {
-            keyEntities: keyEntities.map(function(entity) {
-              if (entity.key !== removeKey)
-                return entity;
-              return _objectSpread2(_objectSpread2({}, entity), {}, {
-                status: STATUS_REMOVED
-              });
-            })
-          };
+        var keyEntities = _this.state.keyEntities;
+        var nextKeyEntities = keyEntities.map(function(entity) {
+          if (entity.key !== removeKey)
+            return entity;
+          return _objectSpread2(_objectSpread2({}, entity), {}, {
+            status: STATUS_REMOVED
+          });
         });
+        _this.setState({
+          keyEntities: nextKeyEntities
+        });
+        return nextKeyEntities.filter(function(_ref) {
+          var status = _ref.status;
+          return status !== STATUS_REMOVED;
+        }).length;
       };
       return _this;
     }
     _createClass(CSSMotionList2, [{
       key: "render",
-      value: function render() {
+      value: function render2() {
         var _this2 = this;
         var keyEntities = this.state.keyEntities;
-        var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, restProps = _objectWithoutProperties(_this$props, _excluded4);
+        var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, onAllRemoved = _this$props.onAllRemoved, restProps = _objectWithoutProperties(_this$props, _excluded4);
         var Component9 = component || React27.Fragment;
         var motionProps = {};
         MOTION_PROP_NAMES.forEach(function(prop) {
@@ -5704,7 +6108,10 @@ function genCSSMotionList(transitionSupport) {
                 key: eventProps.key
               });
               if (!changedVisible) {
-                _this2.removeKey(eventProps.key);
+                var restKeysCount = _this2.removeKey(eventProps.key);
+                if (restKeysCount === 0 && onAllRemoved) {
+                  onAllRemoved();
+                }
               }
             }
           }), children);
@@ -5746,7 +6153,7 @@ var es_default = CSSMotion_default;
 // ../../node_modules/rc-notification/es/Notice.js
 init_cjs_shims();
 var React28 = __toESM(require("react"));
-var import_react8 = require("react");
+var import_react9 = require("react");
 var import_react_dom2 = __toESM(require("react-dom"));
 var import_classnames3 = __toESM(require_classnames());
 var Notice = /* @__PURE__ */ function(_Component) {
@@ -5810,7 +6217,7 @@ var Notice = /* @__PURE__ */ function(_Component) {
     }
   }, {
     key: "render",
-    value: function render() {
+    value: function render2() {
       var _this2 = this;
       var _this$props2 = this.props, prefixCls = _this$props2.prefixCls, className = _this$props2.className, closable = _this$props2.closable, closeIcon = _this$props2.closeIcon, style2 = _this$props2.style, onClick = _this$props2.onClick, children = _this$props2.children, holder = _this$props2.holder;
       var componentClass = "".concat(prefixCls, "-notice");
@@ -5842,7 +6249,7 @@ var Notice = /* @__PURE__ */ function(_Component) {
     }
   }]);
   return Notice2;
-}(import_react8.Component);
+}(import_react9.Component);
 Notice.defaultProps = {
   onClose: function onClose() {
   },
@@ -5883,6 +6290,7 @@ function useNotification(notificationInstance2) {
 }
 
 // ../../node_modules/rc-notification/es/Notification.js
+var _excluded5 = ["getContainer"];
 var seed = 0;
 var now = Date.now();
 function getUuid() {
@@ -5965,7 +6373,7 @@ var Notification = /* @__PURE__ */ function(_Component) {
     }
   }, {
     key: "render",
-    value: function render() {
+    value: function render2() {
       var _this2 = this;
       var notices = this.state.notices;
       var _this$props2 = this.props, prefixCls = _this$props2.prefixCls, className = _this$props2.className, closeIcon = _this$props2.closeIcon, style2 = _this$props2.style;
@@ -6037,7 +6445,7 @@ var Notification = /* @__PURE__ */ function(_Component) {
     }
   }]);
   return Notification2;
-}(import_react9.Component);
+}(import_react10.Component);
 Notification.newInstance = void 0;
 Notification.defaultProps = {
   prefixCls: "rc-notification",
@@ -6048,7 +6456,7 @@ Notification.defaultProps = {
   }
 };
 Notification.newInstance = function newNotificationInstance(properties, callback) {
-  var _ref6 = properties || {}, getContainer3 = _ref6.getContainer, props = _objectWithoutProperties(_ref6, ["getContainer"]);
+  var _ref6 = properties || {}, getContainer3 = _ref6.getContainer, props = _objectWithoutProperties(_ref6, _excluded5);
   var div = document.createElement("div");
   if (getContainer3) {
     var root = getContainer3();
@@ -6071,7 +6479,7 @@ Notification.newInstance = function newNotificationInstance(properties, callback
       },
       component: notification,
       destroy: function destroy3() {
-        import_react_dom3.default.unmountComponentAtNode(div);
+        unmount(div);
         if (div.parentNode) {
           div.parentNode.removeChild(div);
         }
@@ -6087,7 +6495,7 @@ Notification.newInstance = function newNotificationInstance(properties, callback
     })));
     return;
   }
-  import_react_dom3.default.render(/* @__PURE__ */ React30.createElement(Notification, _extends({}, props, {
+  render(/* @__PURE__ */ React30.createElement(Notification, _extends({}, props, {
     ref
   })), div);
 };
@@ -7193,7 +7601,7 @@ var magenta = presetPalettes.magenta;
 var grey = presetPalettes.grey;
 
 // ../../node_modules/@ant-design/icons/es/utils.js
-var import_react10 = __toESM(require("react"));
+var import_react11 = __toESM(require("react"));
 
 // ../../node_modules/rc-util/es/Dom/dynamicCSS.js
 init_cjs_shims();
@@ -7270,7 +7678,7 @@ function updateCSS(css3, key2) {
 }
 
 // ../../node_modules/@ant-design/icons/es/utils.js
-function warning4(valid, message) {
+function warning5(valid, message) {
   warning_default(valid, "[@ant-design/icons] ".concat(message));
 }
 function isIconDefinition(target) {
@@ -7293,13 +7701,13 @@ function normalizeAttrs() {
 }
 function generate2(node, key2, rootProps) {
   if (!rootProps) {
-    return /* @__PURE__ */ import_react10.default.createElement(node.tag, _objectSpread2({
+    return /* @__PURE__ */ import_react11.default.createElement(node.tag, _objectSpread2({
       key: key2
     }, normalizeAttrs(node.attrs)), (node.children || []).map(function(child, index) {
       return generate2(child, "".concat(key2, "-").concat(node.tag, "-").concat(index));
     }));
   }
-  return /* @__PURE__ */ import_react10.default.createElement(node.tag, _objectSpread2(_objectSpread2({
+  return /* @__PURE__ */ import_react11.default.createElement(node.tag, _objectSpread2(_objectSpread2({
     key: key2
   }, normalizeAttrs(node.attrs)), rootProps), (node.children || []).map(function(child, index) {
     return generate2(child, "".concat(key2, "-").concat(node.tag, "-").concat(index));
@@ -7317,8 +7725,8 @@ function normalizeTwoToneColors(twoToneColor) {
 var iconStyles = "\n.anticon {\n  display: inline-block;\n  color: inherit;\n  font-style: normal;\n  line-height: 0;\n  text-align: center;\n  text-transform: none;\n  vertical-align: -0.125em;\n  text-rendering: optimizeLegibility;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.anticon > * {\n  line-height: 1;\n}\n\n.anticon svg {\n  display: inline-block;\n}\n\n.anticon::before {\n  display: none;\n}\n\n.anticon .anticon-icon {\n  display: block;\n}\n\n.anticon[tabindex] {\n  cursor: pointer;\n}\n\n.anticon-spin::before,\n.anticon-spin {\n  display: inline-block;\n  -webkit-animation: loadingCircle 1s infinite linear;\n  animation: loadingCircle 1s infinite linear;\n}\n\n@-webkit-keyframes loadingCircle {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes loadingCircle {\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n";
 var useInsertStyles = function useInsertStyles2() {
   var styleStr = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : iconStyles;
-  var _useContext = (0, import_react10.useContext)(Context_default), csp = _useContext.csp;
-  (0, import_react10.useEffect)(function() {
+  var _useContext = (0, import_react11.useContext)(Context_default), csp = _useContext.csp;
+  (0, import_react11.useEffect)(function() {
     updateCSS(styleStr, "@ant-design-icons", {
       prepend: true,
       csp
@@ -7327,7 +7735,7 @@ var useInsertStyles = function useInsertStyles2() {
 };
 
 // ../../node_modules/@ant-design/icons/es/components/IconBase.js
-var _excluded5 = ["icon", "className", "onClick", "style", "primaryColor", "secondaryColor"];
+var _excluded6 = ["icon", "className", "onClick", "style", "primaryColor", "secondaryColor"];
 var twoToneColorPalette = {
   primaryColor: "#333",
   secondaryColor: "#E6E6E6",
@@ -7343,7 +7751,7 @@ function getTwoToneColors() {
   return _objectSpread2({}, twoToneColorPalette);
 }
 var IconBase = function IconBase2(props) {
-  var icon = props.icon, className = props.className, onClick = props.onClick, style2 = props.style, primaryColor = props.primaryColor, secondaryColor = props.secondaryColor, restProps = _objectWithoutProperties(props, _excluded5);
+  var icon = props.icon, className = props.className, onClick = props.onClick, style2 = props.style, primaryColor = props.primaryColor, secondaryColor = props.secondaryColor, restProps = _objectWithoutProperties(props, _excluded6);
   var colors = twoToneColorPalette;
   if (primaryColor) {
     colors = {
@@ -7352,7 +7760,7 @@ var IconBase = function IconBase2(props) {
     };
   }
   useInsertStyles();
-  warning4(isIconDefinition(icon), "icon should be icon definiton, but got ".concat(icon));
+  warning5(isIconDefinition(icon), "icon should be icon definiton, but got ".concat(icon));
   if (!isIconDefinition(icon)) {
     return null;
   }
@@ -7396,11 +7804,11 @@ function getTwoToneColor() {
 }
 
 // ../../node_modules/@ant-design/icons/es/components/AntdIcon.js
-var _excluded6 = ["className", "icon", "spin", "rotate", "tabIndex", "onClick", "twoToneColor"];
+var _excluded7 = ["className", "icon", "spin", "rotate", "tabIndex", "onClick", "twoToneColor"];
 setTwoToneColor("#1890ff");
 var Icon = /* @__PURE__ */ React32.forwardRef(function(props, ref) {
   var _classNames;
-  var className = props.className, icon = props.icon, spin = props.spin, rotate = props.rotate, tabIndex = props.tabIndex, onClick = props.onClick, twoToneColor = props.twoToneColor, restProps = _objectWithoutProperties(props, _excluded6);
+  var className = props.className, icon = props.icon, spin = props.spin, rotate = props.rotate, tabIndex = props.tabIndex, onClick = props.onClick, twoToneColor = props.twoToneColor, restProps = _objectWithoutProperties(props, _excluded7);
   var _React$useContext = React32.useContext(Context_default), _React$useContext$pre = _React$useContext.prefixCls, prefixCls = _React$useContext$pre === void 0 ? "anticon" : _React$useContext$pre;
   var classString = (0, import_classnames5.default)(prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(icon.name), !!icon.name), _defineProperty(_classNames, "".concat(prefixCls, "-spin"), !!spin || icon.name === "loading"), _classNames), className);
   var iconTabIndex = tabIndex;
@@ -7774,7 +8182,7 @@ var message_default = api;
 
 // ../../node_modules/antd/es/notification/index.js
 init_cjs_shims();
-var import_regenerator2 = __toESM(require_regenerator());
+var import_regenerator = __toESM(require_regenerator());
 var React46 = __toESM(require("react"));
 
 // ../../node_modules/@ant-design/icons/es/icons/CloseOutlined.js
@@ -8209,7 +8617,7 @@ function registerTheme(globalPrefixCls2, theme) {
   if (canUseDom()) {
     updateCSS(style2, "".concat(dynamicStyleMark, "-dynamic-theme"));
   } else {
-    devWarning_default(false, "ConfigProvider", "SSR do not support dynamic theme with css variables.");
+    process.env.NODE_ENV !== "production" ? warning_default2(false, "ConfigProvider", "SSR do not support dynamic theme with css variables.") : void 0;
   }
 }
 
@@ -8370,13 +8778,13 @@ var tuple = function tuple2() {
 // ../../node_modules/antd/es/_util/reactNode.js
 init_cjs_shims();
 var React48 = __toESM(require("react"));
-var isValidElement4 = React48.isValidElement;
+var isValidElement5 = React48.isValidElement;
 function replaceElement(element, replacement, props) {
-  if (!isValidElement4(element))
+  if (!isValidElement5(element))
     return replacement;
   return /* @__PURE__ */ React48.cloneElement(element, typeof props === "function" ? props(element.props || {}) : props);
 }
-function cloneElement4(element, props) {
+function cloneElement5(element, props) {
   return replaceElement(element, element, props);
 }
 
@@ -8392,15 +8800,6 @@ var import_classnames9 = __toESM(require_classnames());
 init_cjs_shims();
 var React49 = __toESM(require("react"));
 var import_classnames8 = __toESM(require_classnames());
-
-// ../../node_modules/antd/es/_util/unreachableException.js
-init_cjs_shims();
-var UnreachableException = /* @__PURE__ */ _createClass(function UnreachableException2(value) {
-  _classCallCheck(this, UnreachableException2);
-  this.error = new Error("unreachable case: ".concat(JSON.stringify(value)));
-});
-
-// ../../node_modules/antd/es/button/button-group.js
 var __rest2 = function(s, e) {
   var t = {};
   for (var p in s) {
@@ -8414,31 +8813,32 @@ var __rest2 = function(s, e) {
     }
   return t;
 };
+var GroupSizeContext = /* @__PURE__ */ React49.createContext(void 0);
 var ButtonGroup = function ButtonGroup2(props) {
-  return /* @__PURE__ */ React49.createElement(ConfigConsumer, null, function(_ref) {
-    var _classNames;
-    var getPrefixCls = _ref.getPrefixCls, direction = _ref.direction;
-    var customizePrefixCls = props.prefixCls, size = props.size, className = props.className, others = __rest2(props, ["prefixCls", "size", "className"]);
-    var prefixCls = getPrefixCls("btn-group", customizePrefixCls);
-    var sizeCls = "";
-    switch (size) {
-      case "large":
-        sizeCls = "lg";
-        break;
-      case "small":
-        sizeCls = "sm";
-        break;
-      case "middle":
-      case void 0:
-        break;
-      default:
-        console.warn(new UnreachableException(size).error);
-    }
-    var classes = (0, import_classnames8.default)(prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(sizeCls), sizeCls), _defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === "rtl"), _classNames), className);
-    return /* @__PURE__ */ React49.createElement("div", _extends({}, others, {
-      className: classes
-    }));
-  });
+  var _classNames;
+  var _React$useContext = React49.useContext(ConfigContext), getPrefixCls = _React$useContext.getPrefixCls, direction = _React$useContext.direction;
+  var customizePrefixCls = props.prefixCls, size = props.size, className = props.className, others = __rest2(props, ["prefixCls", "size", "className"]);
+  var prefixCls = getPrefixCls("btn-group", customizePrefixCls);
+  var sizeCls = "";
+  switch (size) {
+    case "large":
+      sizeCls = "lg";
+      break;
+    case "small":
+      sizeCls = "sm";
+      break;
+    case "middle":
+    case void 0:
+      break;
+    default:
+      process.env.NODE_ENV !== "production" ? warning_default2(!size, "Button.Group", "Invalid prop `size`.") : void 0;
+  }
+  var classes = (0, import_classnames8.default)(prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(sizeCls), sizeCls), _defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === "rtl"), _classNames), className);
+  return /* @__PURE__ */ React49.createElement(GroupSizeContext.Provider, {
+    value: size
+  }, /* @__PURE__ */ React49.createElement("div", _extends({}, others, {
+    className: classes
+  })));
 };
 var button_group_default = ButtonGroup;
 
@@ -8580,7 +8980,7 @@ var Wave = /* @__PURE__ */ function(_React$Component) {
       if (supportRef(children)) {
         ref = composeRef(children.ref, _this.containerRef);
       }
-      return cloneElement4(children, {
+      return cloneElement5(children, {
         ref
       });
     };
@@ -8636,7 +9036,7 @@ var Wave = /* @__PURE__ */ function(_React$Component) {
     }
   }, {
     key: "render",
-    value: function render() {
+    value: function render2() {
       return /* @__PURE__ */ React50.createElement(ConfigConsumer, null, this.renderWave);
     }
   }]);
@@ -8646,7 +9046,7 @@ Wave.contextType = ConfigContext;
 
 // ../../node_modules/antd/es/button/LoadingIcon.js
 init_cjs_shims();
-var import_react11 = __toESM(require("react"));
+var import_react12 = __toESM(require("react"));
 var getCollapsedWidth = function getCollapsedWidth2() {
   return {
     width: 0,
@@ -8665,11 +9065,11 @@ var LoadingIcon = function LoadingIcon2(_ref) {
   var prefixCls = _ref.prefixCls, loading = _ref.loading, existIcon = _ref.existIcon;
   var visible = !!loading;
   if (existIcon) {
-    return /* @__PURE__ */ import_react11.default.createElement("span", {
+    return /* @__PURE__ */ import_react12.default.createElement("span", {
       className: "".concat(prefixCls, "-loading-icon")
-    }, /* @__PURE__ */ import_react11.default.createElement(LoadingOutlined_default2, null));
+    }, /* @__PURE__ */ import_react12.default.createElement(LoadingOutlined_default2, null));
   }
-  return /* @__PURE__ */ import_react11.default.createElement(es_default, {
+  return /* @__PURE__ */ import_react12.default.createElement(es_default, {
     visible,
     motionName: "".concat(prefixCls, "-loading-icon-motion"),
     removeOnLeave: true,
@@ -8681,11 +9081,11 @@ var LoadingIcon = function LoadingIcon2(_ref) {
     onLeaveActive: getCollapsedWidth
   }, function(_ref2, ref) {
     var className = _ref2.className, style2 = _ref2.style;
-    return /* @__PURE__ */ import_react11.default.createElement("span", {
+    return /* @__PURE__ */ import_react12.default.createElement("span", {
       className: "".concat(prefixCls, "-loading-icon"),
       style: style2,
       ref
-    }, /* @__PURE__ */ import_react11.default.createElement(LoadingOutlined_default2, {
+    }, /* @__PURE__ */ import_react12.default.createElement(LoadingOutlined_default2, {
       className
     }));
   });
@@ -8711,7 +9111,7 @@ var isTwoCNChar = rxTwoCNChar.test.bind(rxTwoCNChar);
 function isString(str) {
   return typeof str === "string";
 }
-function isUnborderedButtonType(type4) {
+function isUnBorderedButtonType(type4) {
   return type4 === "text" || type4 === "link";
 }
 function isReactFragment(node) {
@@ -8723,7 +9123,7 @@ function insertSpace(child, needInserted) {
   }
   var SPACE = needInserted ? " " : "";
   if (typeof child !== "string" && typeof child !== "number" && isString(child.type) && isTwoCNChar(child.props.children)) {
-    return cloneElement4(child, {
+    return cloneElement5(child, {
       children: child.props.children.split("").join(SPACE)
     });
   }
@@ -8761,12 +9161,13 @@ var InternalButton = function InternalButton2(props, ref) {
   var _classNames;
   var _props$loading = props.loading, loading = _props$loading === void 0 ? false : _props$loading, customizePrefixCls = props.prefixCls, _props$type = props.type, type4 = _props$type === void 0 ? "default" : _props$type, danger = props.danger, _props$shape = props.shape, shape = _props$shape === void 0 ? "default" : _props$shape, customizeSize = props.size, className = props.className, children = props.children, icon = props.icon, _props$ghost = props.ghost, ghost = _props$ghost === void 0 ? false : _props$ghost, _props$block = props.block, block = _props$block === void 0 ? false : _props$block, _props$htmlType = props.htmlType, htmlType = _props$htmlType === void 0 ? "button" : _props$htmlType, rest = __rest3(props, ["loading", "prefixCls", "type", "danger", "shape", "size", "className", "children", "icon", "ghost", "block", "htmlType"]);
   var size = React52.useContext(SizeContext_default);
+  var groupSize = React52.useContext(GroupSizeContext);
   var _React$useState = React52.useState(!!loading), _React$useState2 = _slicedToArray(_React$useState, 2), innerLoading = _React$useState2[0], setLoading = _React$useState2[1];
   var _React$useState3 = React52.useState(false), _React$useState4 = _slicedToArray(_React$useState3, 2), hasTwoCNChar = _React$useState4[0], setHasTwoCNChar = _React$useState4[1];
   var _React$useContext = React52.useContext(ConfigContext), getPrefixCls = _React$useContext.getPrefixCls, autoInsertSpaceInButton = _React$useContext.autoInsertSpaceInButton, direction = _React$useContext.direction;
   var buttonRef = ref || /* @__PURE__ */ React52.createRef();
   var isNeedInserted = function isNeedInserted2() {
-    return React52.Children.count(children) === 1 && !icon && !isUnborderedButtonType(type4);
+    return React52.Children.count(children) === 1 && !icon && !isUnBorderedButtonType(type4);
   };
   var fixTwoCNChar = function fixTwoCNChar2() {
     if (!buttonRef || !buttonRef.current || autoInsertSpaceInButton === false) {
@@ -8808,8 +9209,8 @@ var InternalButton = function InternalButton2(props, ref) {
     }
     onClick === null || onClick === void 0 ? void 0 : onClick(e);
   };
-  devWarning_default(!(typeof icon === "string" && icon.length > 2), "Button", "`icon` is using ReactNode instead of string naming in v4. Please check `".concat(icon, "` at https://ant.design/components/icon"));
-  devWarning_default(!(ghost && isUnborderedButtonType(type4)), "Button", "`link` or `text` button can't be a `ghost` button.");
+  process.env.NODE_ENV !== "production" ? warning_default2(!(typeof icon === "string" && icon.length > 2), "Button", "`icon` is using ReactNode instead of string naming in v4. Please check `".concat(icon, "` at https://ant.design/components/icon")) : void 0;
+  process.env.NODE_ENV !== "production" ? warning_default2(!(ghost && isUnBorderedButtonType(type4)), "Button", "`link` or `text` button can't be a `ghost` button.") : void 0;
   var prefixCls = getPrefixCls("btn", customizePrefixCls);
   var autoInsertSpace = autoInsertSpaceInButton !== false;
   var sizeClassNameMap = {
@@ -8817,10 +9218,10 @@ var InternalButton = function InternalButton2(props, ref) {
     small: "sm",
     middle: void 0
   };
-  var sizeFullname = customizeSize || size;
+  var sizeFullname = groupSize || customizeSize || size;
   var sizeCls = sizeFullname ? sizeClassNameMap[sizeFullname] || "" : "";
   var iconType = innerLoading ? "loading" : icon;
-  var classes = (0, import_classnames9.default)(prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(shape), shape !== "default" && shape), _defineProperty(_classNames, "".concat(prefixCls, "-").concat(type4), type4), _defineProperty(_classNames, "".concat(prefixCls, "-").concat(sizeCls), sizeCls), _defineProperty(_classNames, "".concat(prefixCls, "-icon-only"), !children && children !== 0 && !!iconType), _defineProperty(_classNames, "".concat(prefixCls, "-background-ghost"), ghost && !isUnborderedButtonType(type4)), _defineProperty(_classNames, "".concat(prefixCls, "-loading"), innerLoading), _defineProperty(_classNames, "".concat(prefixCls, "-two-chinese-chars"), hasTwoCNChar && autoInsertSpace), _defineProperty(_classNames, "".concat(prefixCls, "-block"), block), _defineProperty(_classNames, "".concat(prefixCls, "-dangerous"), !!danger), _defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === "rtl"), _classNames), className);
+  var classes = (0, import_classnames9.default)(prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(shape), shape !== "default" && shape), _defineProperty(_classNames, "".concat(prefixCls, "-").concat(type4), type4), _defineProperty(_classNames, "".concat(prefixCls, "-").concat(sizeCls), sizeCls), _defineProperty(_classNames, "".concat(prefixCls, "-icon-only"), !children && children !== 0 && !!iconType), _defineProperty(_classNames, "".concat(prefixCls, "-background-ghost"), ghost && !isUnBorderedButtonType(type4)), _defineProperty(_classNames, "".concat(prefixCls, "-loading"), innerLoading), _defineProperty(_classNames, "".concat(prefixCls, "-two-chinese-chars"), hasTwoCNChar && autoInsertSpace), _defineProperty(_classNames, "".concat(prefixCls, "-block"), block), _defineProperty(_classNames, "".concat(prefixCls, "-dangerous"), !!danger), _defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === "rtl"), _classNames), className);
   var iconNode = icon && !innerLoading ? icon : /* @__PURE__ */ React52.createElement(LoadingIcon_default, {
     existIcon: !!icon,
     prefixCls,
@@ -8841,7 +9242,7 @@ var InternalButton = function InternalButton2(props, ref) {
     onClick: handleClick,
     ref: buttonRef
   }), iconNode, kids);
-  if (isUnborderedButtonType(type4)) {
+  if (isUnBorderedButtonType(type4)) {
     return buttonNode;
   }
   return /* @__PURE__ */ React52.createElement(Wave, {
@@ -8858,7 +9259,7 @@ var button_default = Button;
 var button_default2 = button_default;
 
 // src/components/buttons/SimpleButton.tsx
-var import_react12 = __toESM(require("react"));
+var import_react13 = __toESM(require("react"));
 
 // src/components/buttons/simpleButton.module.scss
 init_cjs_shims();
@@ -8998,14 +9399,14 @@ var SimpleButton = (_a) => {
   var _b = _a, { title, type: type4, ghost, danger, className } = _b, props = __objRest(_b, ["title", "type", "ghost", "danger", "className"]);
   const dangerType = danger || type4 === "danger";
   if (antdTypes.includes(type4) || dangerType) {
-    return /* @__PURE__ */ import_react12.default.createElement(button_default2, __spreadValues({
+    return /* @__PURE__ */ import_react13.default.createElement(button_default2, __spreadValues({
       type: type4,
       ghost,
       danger,
       className
     }, props), title);
   } else {
-    return /* @__PURE__ */ import_react12.default.createElement(button_default2, __spreadValues({
+    return /* @__PURE__ */ import_react13.default.createElement(button_default2, __spreadValues({
       className: `${className} ${simpleButton_module_default[`button--${type4}`]} ${simpleButton_module_default[`button--${type4}${ghost ? "--ghost" : null}`]}`
     }, props), title);
   }
@@ -14691,6 +15092,7 @@ document.head.appendChild(document.createElement("style")).appendChild(document.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 /** @license React v16.13.1
  * react-is.development.js
  *
