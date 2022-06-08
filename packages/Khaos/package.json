@@ -33,7 +33,7 @@
   "scripts": {
     "build": "tsup",
     "watch": "tsup --watch",
-    "publish": "npm run publish"
+    "publish": "npm publish"
   },
   "browserslist": {
     "production": [

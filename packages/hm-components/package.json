@@ -27,7 +27,7 @@
     "watch": "tsup --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "publish": "npm run publish"
+    "publish": "npm publish"
   },
   "browserslist": {
     "production": [
