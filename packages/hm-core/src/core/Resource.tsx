@@ -18,11 +18,9 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   const navigate = useNavigate();
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
+  const [listOne, setListOne] = useState([]);
   const [total, setTotal] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-  useEffect(() => {
-    get();
-  }, []);
 
   const selectItem = item => {
     setSelectedItem(item);
@@ -33,10 +31,15 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
     setList([...list, data]);
   };
 
-  const get = async (page = 1, resultsPerPage = 20) => {
-    const { data } = await request.request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
-    //FIXME: correct types from backend api instead any
-    setList(data as Array<any>);
+  const get = async (page: number, resultsPerPage: number, id: number) => {
+    if (id) {
+      const { data } = await request.request.get(`${root}/${entityName}/${id}`);
+      setListOne(data as Array<any>);
+    } else {
+      const { data } = await request.request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
+      //FIXME: correct types from backend api instead any
+      setList(data as Array<any>);
+    }
   };
 
   const update = async (id, formData) => {
@@ -52,6 +55,7 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   const withPropsComponent = component => {
     return React.cloneElement(component, {
       list,
+      listOne,
       get,
       remove,
       selectItem,

@@ -12,23 +12,19 @@ interface FormData {
 }
 
 interface LoginFormProps {
-  callback?: () => void;
+  defaultRoute?: string;
   cardClassName?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ callback, cardClassName }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ defaultRoute = '/', cardClassName }) => {
   const { login, loginRequest } = useContext(AuthContext);
   const navigate = useNavigate();
   const onFinish = async (data: FormData) => {
     try {
       const creds = await loginRequest(data.username, data.password);
       login(creds);
-      navigate('/');
-      if (callback) callback();
+      navigate(defaultRoute);
     } catch {}
-  };
-  const test = () => {
-    requestHandler.request.get('https://dev.hamrah-mechanic.com/api/v1/membership/connect/userinfo');
   };
 
   return (
