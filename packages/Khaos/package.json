@@ -1,6 +1,6 @@
 {
   "name": "khaos-admin",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "main": "dist/index",
   "files": [
     "dist",
@@ -15,8 +15,8 @@
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
-    "hm-components": "^2.0.3",
-    "hm-core": "^2.0.3",
+    "hm-components": "^2.0.4",
+    "hm-core": "^2.0.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",
