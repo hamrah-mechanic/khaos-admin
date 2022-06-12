@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
-import { AuthContext } from './AuthContext';
+import Cookies from 'js-cookie';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   const location = useLocation();
-  const { user } = useContext(AuthContext);
-  if (user === undefined || user === null) {
+  const refreshToken = Cookies.get('refresh_token');
+  if (refreshToken === undefined) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
