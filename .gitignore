@@ -4,3 +4,4 @@ node_modules
 cypress.env.json
 tsconfig.tsbuildinfo
 Tartarus
+dist/
