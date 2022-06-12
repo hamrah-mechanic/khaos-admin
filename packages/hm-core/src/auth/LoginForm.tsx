@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { SimpleButton } from 'hm-components';
 import { useNavigate } from 'react-router';
 import { Card, Form, Input } from 'antd';
+import { SimpleButton } from 'hm-components';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { AuthContext } from './AuthContext';
-import requestHandler from '../api/requestHandler';
 
 interface FormData {
   username: string;

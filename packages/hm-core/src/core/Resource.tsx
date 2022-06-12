@@ -1,12 +1,15 @@
-import React, { ComponentType, useContext, useEffect, useState } from 'react';
+import React, { ComponentType, useContext, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
-import { SimpleButtonProps } from 'hm-components/src/components/buttons/SimpleButton';
 import request from '../api/requestHandler';
 import { ResourceProvider } from './ResourceContext';
 import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
+
+//TYPES
+import { SimpleButtonProps } from 'hm-components/src/components/buttons/SimpleButton';
+
 interface ResourceProps {
   name: string;
   entityName: string;

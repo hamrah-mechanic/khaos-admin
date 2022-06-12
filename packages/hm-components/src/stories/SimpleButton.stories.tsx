@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-
 import SimpleButton, { SimpleButtonProps } from '../components/buttons/SimpleButton';
 
 export default {

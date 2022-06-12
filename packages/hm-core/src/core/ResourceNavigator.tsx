@@ -1,6 +1,6 @@
-import { SimpleButton } from 'hm-components';
-import { Link } from 'react-router-dom';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { SimpleButton } from 'hm-components';
 
 const ResourceNavigator = ({ navigators }) => {
   return (

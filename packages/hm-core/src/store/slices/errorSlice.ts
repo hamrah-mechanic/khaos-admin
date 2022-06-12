@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
 import { ReactNode } from 'react';
+import { createSlice } from '@reduxjs/toolkit';
 
 export interface ErrorState {
   type: string;
