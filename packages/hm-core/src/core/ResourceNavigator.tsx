@@ -1,8 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { SimpleButton } from 'hm-components';
+import { SimpleButton, SimpleButtonProps } from 'hm-components';
 
-const ResourceNavigator = ({ navigators }) => {
+interface ResourceNavigatorProps {
+  navigators: {
+    name: string;
+    link: string;
+    button: SimpleButtonProps;
+  }[];
+}
+
+const ResourceNavigator: React.FC<ResourceNavigatorProps> = ({ navigators }) => {
   return (
     <div className="d-flex">
       {navigators.map(

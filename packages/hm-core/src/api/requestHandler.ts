@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 export const api = Axios.create();
 
-api.interceptors.request.use(function (config: any) {
+api.interceptors.request.use(function (config: AxiosRequestConfig) {
   const token = Cookies.get('access_token');
   //set Authorization header
   if (token) {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { ReactElement, useContext, useEffect } from 'react';
 
 //STYLES
 import styles from './page.module.scss';
@@ -17,16 +17,18 @@ import { setError } from '../../store/slices/errorSlice';
 import SidebarMenu from '../SideBar';
 import GlobalContext from '../../store/GlobalContext';
 
-const { Header, Content, Sider } = Layout;
+//TYPES
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
-  children: React.ReactNode;
+  children: ReactElement;
 };
 
+const { Header, Content, Sider } = Layout;
 const Page = ({ children, sideBarItems }: Props) => {
   const { logo } = useContext(GlobalContext);
   const dispatch = useDispatch();
   const error = useSelector((state: RootState) => state.error);
+
   useEffect(() => {
     if (error.message) {
       const key = `open${Date.now()}`;

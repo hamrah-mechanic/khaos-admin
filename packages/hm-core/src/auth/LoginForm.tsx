@@ -18,12 +18,15 @@ interface LoginFormProps {
 const LoginForm: React.FC<LoginFormProps> = ({ defaultRoute = '/', cardClassName }) => {
   const { login, loginRequest } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const onFinish = async (data: FormData) => {
     try {
       const creds = await loginRequest(data.username, data.password);
       login(creds);
       navigate(defaultRoute);
-    } catch {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

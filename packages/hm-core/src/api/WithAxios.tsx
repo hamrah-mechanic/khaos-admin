@@ -3,6 +3,13 @@ import { authenticate, logout } from '../auth/authUtilities';
 import { AuthContext } from '../auth/AuthContext';
 import { api } from './requestHandler';
 
+//TYPES
+import { TokenType } from '../types';
+
+interface DataTokenType {
+  data: TokenType;
+}
+
 const WithAxios = ({ children }) => {
   const { refreshRequest } = useContext(AuthContext);
 
@@ -14,10 +21,13 @@ const WithAxios = ({ children }) => {
       function (error) {
         if (error.response && error.response.status === 401) {
           return refreshRequest()
-            .then((newToken: any) => {
-              authenticate({ refreshToken: newToken.data.refresh_token, accessToken: newToken.data.access_token });
+            .then((newToken: DataTokenType) => {
+              const {
+                data: { refresh_token, access_token },
+              } = newToken;
+              authenticate({ refreshToken: refresh_token, accessToken: access_token });
               if (newToken.data.access_token) {
-                error.config.headers['Authorization'] = `Bearer ${newToken.data.access_token}`;
+                error.config.headers['Authorization'] = `Bearer ${access_token}`;
                 return api.request(error.config);
               }
             })

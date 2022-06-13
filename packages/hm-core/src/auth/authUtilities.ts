@@ -6,9 +6,8 @@ import jwt from 'jwt-decode';
 import { User } from '../types';
 
 export const authenticate = (tokens: { refreshToken: string; accessToken: string }, expiration?: number): boolean => {
-  console.log('asdf');
   const { accessToken, refreshToken } = tokens;
-  console.log('inside authenticate', accessToken, refreshToken);
+
   try {
     if (expiration) {
       Cookies.set('access_token', accessToken, { expires: expiration });
