@@ -1,5 +1,5 @@
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
 import { SimpleButtonProps } from 'hm-components/src/components/buttons/SimpleButton';
@@ -16,12 +16,13 @@ interface ResourceProps {
 
 const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
   const [listOne, setListOne] = useState([]);
   const [total, setTotal] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-
   const selectItem = item => {
     setSelectedItem(item);
   };
@@ -70,15 +71,17 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   return (
     <ResourceProvider value={{ list }}>
       <>
-        <ResourceNavigator
-          navigators={components.map(comp => {
-            return {
-              name: comp.name,
-              link: entityName + '/' + comp.path,
-              button: comp.button,
-            };
-          })}
-        />
+        {location.pathname !== '/' && (
+          <ResourceNavigator
+            navigators={components.map(comp => {
+              return {
+                name: comp.name,
+                link: entityName + '/' + comp.path,
+                button: comp.button,
+              };
+            })}
+          />
+        )}
         <RequireAuth>
           <Routes>
             {components.map(component => {
