@@ -25,4 +25,3 @@ rules:
   "react/prop-types": "off"
   "react-hooks/exhaustive-deps": "off"
   "@typescript-eslint/no-namespace": "off"
-ignorePatterns: ["dist/*"]
