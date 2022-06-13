@@ -1,6 +1,10 @@
-import { Button, ButtonProps } from 'antd';
-import { ButtonType } from 'antd/lib/button';
 import React from 'react';
+import { Button, ButtonProps } from 'antd';
+
+//TYPES
+import { ButtonType } from 'antd/lib/button';
+
+//STYLES
 import styles from './simpleButton.module.scss';
 
 const antdTypes = ['default', 'primary', 'ghost', 'dashed', 'link', 'text'];

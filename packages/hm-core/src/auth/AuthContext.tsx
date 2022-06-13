@@ -1,7 +1,10 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { User } from '../types';
+import React, { createContext, useState } from 'react';
 import { authenticate, extractUserFromCookie, removeAuthTokens } from './authUtilities';
 import WithAxios from '../api/WithAxios';
+
+//TYPES
+import { User } from '../types';
+
 //FIXME: correct types instead any
 export const AuthContext = createContext<any>({});
 

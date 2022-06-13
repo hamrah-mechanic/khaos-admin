@@ -1,6 +1,8 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import jwt from 'jwt-decode';
+
+//TYPES
 import { User } from '../types';
 
 export const authenticate = (tokens: { refreshToken: string; accessToken: string }, expiration?: number): boolean => {
