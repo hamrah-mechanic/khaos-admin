@@ -8,39 +8,44 @@ import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
 
 //TYPES
-import { SimpleButtonProps } from 'hm-components/src/components/buttons/SimpleButton';
+import { SimpleButtonProps } from 'hm-components';
 
+//TYPES
 interface ResourceProps {
   name: string;
   entityName: string;
   sidebarLink: string;
-  components?: Array<{ path: string; component: ComponentType; name: string; button?: SimpleButtonProps }>;
+  components?: Array<{
+    path: string;
+    component: ComponentType;
+    name: string;
+    button?: SimpleButtonProps;
+  }>;
 }
 
-const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
+const Resource = ({ components, entityName }: ResourceProps) => {
   const navigate = useNavigate();
 
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
   const [listOne, setListOne] = useState([]);
-  const [total, setTotal] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const selectItem = item => {
+  const [selectedItem, setSelectedItem] = useState<number>(null);
+
+  const selectItem = (item: number): void => {
     setSelectedItem(item);
   };
 
-  const create = async formData => {
+  const create = async (formData): Promise<void> => {
     const { data } = await request.request.post(`${root}/${entityName}`, formData);
     setList([...list, data]);
   };
 
-  const get = async (page: number, resultsPerPage: number, id: number) => {
+  const get = async (page: number, resultsPerPage: number, id: number): Promise<void> => {
     if (id) {
       const { data } = await request.request.get(`${root}/${entityName}/${id}`);
       setListOne(data as Array<any>);
     } else {
       const { data } = await request.request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
-      //FIXME: correct types from backend api instead any
       setList(data as Array<any>);
     }
   };
@@ -49,12 +54,13 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
     console.log('id is', id);
   };
   getSelectedItem();
-  const update = async (id, formData) => {
+
+  const update = async (id: number, formData): Promise<void> => {
     const { data } = await request.request.put(`${root}/${entityName}/${id}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
   };
 
-  const remove = async id => {
+  const remove = async (id: number): Promise<void> => {
     await request.request.delete(`${root}/${entityName}/${id}`);
     setList(list.filter(item => item.id !== id));
   };

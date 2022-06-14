@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-function RequireAuth({ children }: { children: JSX.Element }) {
+function RequireAuth({ children }: { children: ReactElement }) {
   const location = useLocation();
   const refreshToken = Cookies.get('refresh_token');
   if (refreshToken === undefined) {
