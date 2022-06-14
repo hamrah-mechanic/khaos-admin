@@ -19,7 +19,6 @@ interface ResourceProps {
 
 const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
@@ -45,7 +44,11 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
       setList(data as Array<any>);
     }
   };
-
+  const getSelectedItem = () => {
+    const id = useLocation();
+    console.log('id is', id);
+  };
+  getSelectedItem();
   const update = async (id, formData) => {
     const { data } = await request.request.put(`${root}/${entityName}/${id}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
@@ -68,23 +71,24 @@ const Resource: React.FC<ResourceProps> = ({ components, entityName }) => {
       create,
       entityName,
       navigate,
+      getSelectedItem,
     });
   };
 
   return (
-    <ResourceProvider value={{ list }}>
+    <ResourceProvider value={{ list, selectedItem }}>
       <>
-        {location.pathname !== '/' && (
-          <ResourceNavigator
-            navigators={components.map(comp => {
-              return {
-                name: comp.name,
-                link: entityName + '/' + comp.path,
-                button: comp.button,
-              };
-            })}
-          />
-        )}
+        <ResourceNavigator
+          selectedItem={selectedItem}
+          navigators={components.map(comp => {
+            return {
+              name: comp.name,
+              link: entityName + '/' + comp.path,
+              button: comp.button,
+              entity: entityName,
+            };
+          })}
+        />
         <RequireAuth>
           <Routes>
             {components.map(component => {
