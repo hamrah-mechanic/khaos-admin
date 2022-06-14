@@ -1,5 +1,5 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import React, { ComponentType, useContext, useState } from 'react';
+import { Route, Routes, useParams } from 'react-router-dom';
+import React, { ComponentType, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
 import request from '../api/requestHandler';
@@ -25,6 +25,7 @@ interface ResourceProps {
 
 const Resource = ({ components, entityName }: ResourceProps) => {
   const navigate = useNavigate();
+  const urlParams = useParams();
 
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
@@ -49,12 +50,10 @@ const Resource = ({ components, entityName }: ResourceProps) => {
       setList(data as Array<any>);
     }
   };
-  const getSelectedItem = () => {
-    const id = useLocation();
-    console.log('id is', id);
-  };
-  getSelectedItem();
 
+  useEffect(() => {
+    setSelectedItem(Number(urlParams['*'].split('/').pop()));
+  }, [urlParams]);
   const update = async (id: number, formData): Promise<void> => {
     const { data } = await request.request.put(`${root}/${entityName}/${id}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
@@ -77,7 +76,6 @@ const Resource = ({ components, entityName }: ResourceProps) => {
       create,
       entityName,
       navigate,
-      getSelectedItem,
     });
   };
 

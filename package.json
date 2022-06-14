@@ -7,7 +7,8 @@
     "bootstrap": "^5.1.3",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "sass-loader": "^12.6.0"
+    "sass-loader": "^12.6.0",
+    "openapi-typescript": "^5.4.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.19.0",
@@ -47,7 +48,7 @@
     "packages": [
       "packages/*",
       "examples/*",
-      "playground/*"
+      "Tartarus/*"
     ]
   },
   "husky": {
