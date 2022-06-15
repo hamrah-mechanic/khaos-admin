@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { SimpleButton } from 'hm-components';
 import { useLocation } from 'react-router-dom';
 import { SimpleButtonProps } from 'hm-components';
+
+//TYPES
 interface ResourceNavigatorProps {
   navigators: {
     name: string;
@@ -14,7 +16,6 @@ interface ResourceNavigatorProps {
 }
 const ResourceNavigator: React.FC<ResourceNavigatorProps> = ({ navigators, selectedItem }) => {
   const location = useLocation();
-  console.log('navigators', navigators);
   const setRouteId = navigator => {
     if (navigator.link.includes(':id')) {
       return navigator.link.replace(':id', '') + selectedItem;

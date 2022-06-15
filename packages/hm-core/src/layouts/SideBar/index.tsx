@@ -10,7 +10,7 @@ const SidebarMenu = ({ items }: Props) => {
   return (
     <Menu mode="inline" defaultSelectedKeys={['1']} style={{ height: '100%', borderRight: 0 }} theme="light">
       {items.map(({ link, name }, index) => (
-        <Menu.Item key={index}>
+        <Menu.Item key={index} className="text-right">
           <Link to={link}>{name}</Link>
         </Menu.Item>
       ))}

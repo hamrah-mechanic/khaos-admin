@@ -32,6 +32,10 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const [listOne, setListOne] = useState([]);
   const [selectedItem, setSelectedItem] = useState<number>(null);
 
+  useEffect(() => {
+    setSelectedItem(Number(urlParams['*'].split('/').pop()));
+  }, [urlParams]);
+
   const selectItem = (item: number): void => {
     setSelectedItem(item);
   };
@@ -51,10 +55,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     }
   };
 
-  useEffect(() => {
-    setSelectedItem(Number(urlParams['*'].split('/').pop()));
-  }, [urlParams]);
-  const update = async (id: number, formData): Promise<void> => {
+  const update = async (formData, id?: number): Promise<void> => {
     const { data } = await request.request.put(`${root}/${entityName}/${id}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
   };
