@@ -38,10 +38,6 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     }
   }, [urlParams]);
 
-  useEffect(() => {
-    setSelectedItem(Number(urlParams['*'].split('/').pop()));
-  }, [urlParams]);
-
   const selectItem = (item: number): void => {
     setSelectedItem(item);
   };
