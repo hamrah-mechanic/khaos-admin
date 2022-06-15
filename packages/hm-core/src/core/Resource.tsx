@@ -30,7 +30,13 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
   const [listOne, setListOne] = useState([]);
-  const [selectedItem, setSelectedItem] = useState<number>(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    if (urlParams['*'].split('/').pop()) {
+      setSelectedItem(urlParams['*'].split('/').pop());
+    }
+  }, [urlParams]);
 
   useEffect(() => {
     setSelectedItem(Number(urlParams['*'].split('/').pop()));
@@ -56,7 +62,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   };
 
   const update = async (formData, id?: number): Promise<void> => {
-    const { data } = await request.request.put(`${root}/${entityName}/${id}`, formData);
+    const { data } = await request.request.put(`${root}/${entityName}/${id ? id : ''}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
   };
 

@@ -14,6 +14,7 @@ interface ResourceNavigatorProps {
   }[];
   selectedItem: number;
 }
+
 const ResourceNavigator: React.FC<ResourceNavigatorProps> = ({ navigators, selectedItem }) => {
   const location = useLocation();
   const setRouteId = navigator => {
