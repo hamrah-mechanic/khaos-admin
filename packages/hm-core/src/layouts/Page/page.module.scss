@@ -1,5 +1,6 @@
 .layout {
     min-height: 100vh !important;
+    position: relative;
     .header {
         padding: 0;
     }
@@ -25,5 +26,15 @@
     }
     &__sidebar {
         box-shadow: 0 0.1rem 0.4rem -0.1rem rgb(0 0 0 / 15%);
+    }
+    &__loading {
+      position: absolute;
+      left:0; top:0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
     }
 }

@@ -1,16 +1,36 @@
 import Axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
+import { setLoading } from '../store/slices/uiSlice';
+import { store } from '../store/store';
 
 export const api = Axios.create();
 
-api.interceptors.request.use(function (config: AxiosRequestConfig) {
-  const token = Cookies.get('access_token');
-  //set Authorization header
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
-  }
-  return config;
-});
+api.interceptors.request.use(
+  function (config: AxiosRequestConfig) {
+    store.dispatch(setLoading({ module: 'ui', loading: true }));
+    const token = Cookies.get('access_token');
+    //set Authorization header
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  function (error) {
+    store.dispatch(setLoading({ module: 'ui', loading: false }));
+
+    return Promise.reject(error);
+  },
+);
+api.interceptors.response.use(
+  function (response) {
+    store.dispatch(setLoading({ module: 'ui', loading: false }));
+    return response;
+  },
+  function (error) {
+    store.dispatch(setLoading({ module: 'ui', loading: false }));
+    return Promise.reject(error);
+  },
+);
 
 const request = {
   get: <T>(endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
