@@ -18,10 +18,7 @@ interface ResourceNavigatorProps {
 const ResourceNavigator: React.FC<ResourceNavigatorProps> = ({ navigators, selectedItem }) => {
   const location = useLocation();
   const setRouteId = navigator => {
-    if (navigator.link.includes(':id')) {
-      return navigator.link.replace(':id', '') + selectedItem;
-    }
-    return navigator.link;
+    return navigator.link + '?id=' + selectedItem;
   };
   if (location.pathname.includes(navigators[0].entity))
     return (

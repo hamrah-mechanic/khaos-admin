@@ -1,4 +1,4 @@
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
@@ -26,6 +26,7 @@ interface ResourceProps {
 const Resource = ({ components, entityName }: ResourceProps) => {
   const navigate = useNavigate();
   const urlParams = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState([]);
@@ -33,8 +34,8 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    if (urlParams['*'].split('/').pop()) {
-      setSelectedItem(urlParams['*'].split('/').pop());
+    if (searchParams.get('id')) {
+      setSelectedItem(searchParams.get('id'));
     }
   }, [urlParams]);
 
