@@ -5,10 +5,10 @@
     "@lerna/version": "^5.0.0",
     "antd": "^4.19.5",
     "bootstrap": "^5.1.3",
+    "openapi-typescript": "^5.4.0",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "sass-loader": "^12.6.0",
-    "openapi-typescript": "^5.4.0"
+    "sass-loader": "^12.6.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.19.0",
@@ -62,5 +62,9 @@
       "bash -c tsc --skipLibCheck --noEmit"
     ],
     "*.{css,scss,md}": "prettier --write"
-  }
+  },
+  "main": "index.js",
+  "repository": "git@gitlab.hamrah-mechanic.com:frontend/khaos.git",
+  "author": "sanaz <s.mahmoudi@hamrah-mechanic.com>",
+  "license": "MIT"
 }

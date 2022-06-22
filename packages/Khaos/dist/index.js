@@ -21,7 +21,8 @@ var src_exports = {};
 __export(src_exports, {
   Khaos: () => import_hm_core.Khaos,
   Resource: () => import_hm_core.Resource,
-  SimpleButton: () => import_hm_components.SimpleButton
+  SimpleButton: () => import_hm_components.SimpleButton,
+  request: () => import_hm_core.request
 });
 module.exports = __toCommonJS(src_exports);
 var import_hm_components = require("hm-components");
@@ -31,5 +32,6 @@ var import_dist = require("hm-components/dist/index.css");
 0 && (module.exports = {
   Khaos,
   Resource,
-  SimpleButton
+  SimpleButton,
+  request
 });
