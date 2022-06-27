@@ -16,6 +16,7 @@ import { setError } from '../../store/slices/errorSlice';
 //COMPONENTS
 import SidebarMenu from '../SideBar';
 import GlobalContext from '../../store/GlobalContext';
+import Loading from '../components/Loading';
 
 //TYPES
 type Props = {
@@ -64,6 +65,7 @@ const Page = ({ children, sideBarItems }: Props) => {
           </div>
         </div>
       </Header>
+      <Loading />
       <Layout>
         <Sider collapsed={false} className={styles['layout__sidebar']}>
           <SidebarMenu items={sideBarItems} />

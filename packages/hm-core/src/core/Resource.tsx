@@ -1,8 +1,8 @@
-import { Route, Routes, useParams, useSearchParams, useLocation } from 'react-router-dom';
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
+import { Route, Routes, useParams, useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
-import request from '../api/requestHandler';
+import { request } from '../api/requestHandler';
 import { ResourceProvider } from './ResourceContext';
 import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
@@ -44,27 +44,27 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   };
 
   const create = async (formData): Promise<void> => {
-    const { data } = await request.request.post(`${root}/${entityName}`, formData);
+    const { data } = await request.post(`${root}/${entityName}`, formData);
     setList([...list, data]);
   };
 
   const get = async (page: number, resultsPerPage: number, id: number): Promise<void> => {
     if (id) {
-      const { data } = await request.request.get(`${root}/${entityName}/${id}`);
+      const { data } = await request.get(`${root}/${entityName}/${id}`);
       setListOne(data as Array<any>);
     } else {
-      const { data } = await request.request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
+      const { data } = await request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
       setList(data as Array<any>);
     }
   };
 
   const update = async (formData, id?: number): Promise<void> => {
-    const { data } = await request.request.put(`${root}/${entityName}/${id ? id : ''}`, formData);
+    const { data } = await request.put(`${root}/${entityName}/${id ? id : ''}`, formData);
     setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
   };
 
   const remove = async (id: number): Promise<void> => {
-    await request.request.delete(`${root}/${entityName}/${id}`);
+    await request.delete(`${root}/${entityName}/${id}`);
     setList(list.filter(item => item.id !== id));
   };
 

@@ -32,7 +32,7 @@ api.interceptors.response.use(
   },
 );
 
-const request = {
+export const request = {
   get: <T>(endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     return api.get(endpoint, options);
   },
@@ -59,5 +59,3 @@ const request = {
     return api.head(endpoint, options);
   },
 };
-
-export default { request, api };
