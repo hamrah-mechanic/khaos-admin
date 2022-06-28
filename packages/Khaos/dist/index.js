@@ -20,6 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var src_exports = {};
 __export(src_exports, {
   Khaos: () => import_hm_core.Khaos,
+  LoginForm: () => import_hm_core.LoginForm,
   Resource: () => import_hm_core.Resource,
   SimpleButton: () => import_hm_components.SimpleButton,
   request: () => import_hm_core.request
@@ -31,6 +32,7 @@ var import_dist = require("hm-components/dist/index.css");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Khaos,
+  LoginForm,
   Resource,
   SimpleButton,
   request
