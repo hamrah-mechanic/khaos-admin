@@ -12,7 +12,7 @@ A frontend framework containing of tools for fast development of dashboard like 
 
 Build a react app with create-react-app or whatever then you can install Khaos using:
 
-```sh
+```js
 npm install khaos-admin
 #or
 yarn add khaos-admin
@@ -27,15 +27,13 @@ In order to make khaos work with your backend api we expect you to follow certai
 For Authentication you will need two parts.
 1. Login page : import Login form from khaos-admin and make your customized login page and send it as props to khaos
 2. Providing authentication tokens : You need to implement a function returning access token and refresh token with this format 
-```sh
+```js
 { access_token:your_access_token,refresh_token:your_refresh_token }
 ```
 If you implement this successfully you will see access and refresh token as a cookie in your browser. We will add token to header of all requests with this format:
-```sh
-Bearer Your_access_token
-```
+`Bearer Your_access_token`
  On unauthorized request we will request new access using the refresh request function that you provided. 
-```sh
+```js
 import React from 'react';
 import { Khaos, Resource } from 'khaos-admin';
 
@@ -47,20 +45,6 @@ const App: React.FC = () => {
         refreshRequest={renewAccessToken}
         appConfig={{ root: 'https://jsonplaceholder.typicode.com' }}
       >
-        <Resource
-          name=""
-          sidebarLink="list"
-          entityName="orders"
-          components={[
-            { component: OrderList, path: 'list', name: 'لیست سفارش' },
-            {
-              component: OrderShow,
-              path: 'show',
-              name: 'نمایش سفارش',
-              button: { type: 'info', className: 'mx-1 d-flex align-items-center' },
-            },
-          ]}
-        />
       </Khaos>
   );
 };
@@ -68,10 +52,52 @@ const App: React.FC = () => {
 export default App;
 
 ```
+### Adding Features
+To add features to your dashboard you will need to add their entity using resources. Each resource needs the following props:
+| Props Name      | Description |
+| ----------- | ----------- |
+| name      | to show on the sidebar       |
+| sidebarLink   | default link(will be used on sidebar)        |
+| entityName |will be used for api requests |
+| components      | an array of components which are features of your entity       |
 
+components props are like this:
+| Props Name      | Description |
+| ----------- | ----------- |
+| component      | the feature for example shows list or edit or etc...       |
+| path      | your custom link for the feature      |
+| name      | name of button on navigator bar   |
+| button      | button that is showed on navigator bar(uses SimpleButton from Khaos)   |
 
+The components you send to resource will have access to these methods for handling data:
+| Props Name      | Description | props |
+| ----------- | ----------- | ----------- |
+| list      | list of data for example list of users      |
+| get      | function for requesting data     |
+| listOne      | selected item   |
+| remove      | remove an item   |
+| selectItem      | select an item   |
+| update      | update item   |
+| create      | create item   |
+| navigate      | navigate between features   |
+
+```js
+     <Resource
+          name="feature name
+          sidebarLink="list"
+          entityName="users"
+          components={[
+            {
+              component: UserShow,
+              path: 'show',
+              name: 'Show User',
+              button: { type: 'info', className: 'mx-1 d-flex align-items-center' },
+            },
+          ]}
+        />
+```
 ### Features Roadmap
-![](https://us-central1-progress-markdown.cloudfunctions.net/progress/10)
+![](https://us-central1-progress-markdown.cloudfunctions.net/progress/45)
 - [x] Authentication
 - [x] Routing
 - [ ] Translation
