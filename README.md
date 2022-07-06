@@ -83,7 +83,7 @@ The components you send to resource will have access to these methods for handli
 
 ```js
      <Resource
-          name="feature name
+          name="feature name"
           sidebarLink="list"
           entityName="users"
           components={[

@@ -7,18 +7,21 @@ import GlobalContext, { GlobalContextType } from './store/GlobalContext';
 
 interface KhaosProps {
   login: React.ReactNode;
+  Home?: ReactElement;
   loginRequest: (username: string, password: string) => void;
   refreshRequest: () => Promise<any>;
   appConfig: GlobalContextType;
   children: ReactElement;
 }
 
-const Khaos: React.FC<KhaosProps> = ({ login, children, loginRequest, refreshRequest, appConfig }) => {
+const Khaos: React.FC<KhaosProps> = ({ login, Home, children, loginRequest, refreshRequest, appConfig }) => {
   return (
     <Provider store={store}>
       <GlobalContext.Provider value={appConfig}>
         <AuthProvider loginRequest={loginRequest} refreshRequest={refreshRequest}>
-          <Routing login={login}>{children}</Routing>
+          <Routing Home={Home} login={login}>
+            {children}
+          </Routing>
         </AuthProvider>
       </GlobalContext.Provider>
     </Provider>

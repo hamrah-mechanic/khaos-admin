@@ -61,7 +61,9 @@ const Page = ({ children, sideBarItems }: Props) => {
       <Header className={styles['header']}>
         <div className={styles['logo']}>
           <div className={styles['logo__image']}>
-            <img src={logo} alt="hm" />
+            <a href="/">
+              <img src={logo} alt="hm" />
+            </a>
           </div>
         </div>
       </Header>
