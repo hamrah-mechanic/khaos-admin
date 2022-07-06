@@ -5,19 +5,21 @@ import styles from './page.module.scss';
 
 //ANTD
 import { Layout, notification } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, LogoutOutlined } from '@ant-design/icons';
 
 //IMAGES
 // import logo from 'assets/images/general/logo.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setError } from '../../store/slices/errorSlice';
+import { useNavigate } from 'react-router';
 
 //COMPONENTS
 import SidebarMenu from '../SideBar';
 import GlobalContext from '../../store/GlobalContext';
 import Loading from '../components/Loading';
 
+import { logout } from '../../auth/authUtilities';
 //TYPES
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
@@ -27,6 +29,7 @@ type Props = {
 const { Header, Content, Sider } = Layout;
 const Page = ({ children, sideBarItems }: Props) => {
   const { logo } = useContext(GlobalContext);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const error = useSelector((state: RootState) => state.error);
 
@@ -65,6 +68,15 @@ const Page = ({ children, sideBarItems }: Props) => {
               <img src={logo} alt="hm" />
             </a>
           </div>
+        </div>
+        <div>
+          <LogoutOutlined
+            onClick={() => {
+              logout();
+              navigate('/');
+            }}
+            className={styles['logout']}
+          />
         </div>
       </Header>
       <Loading />
