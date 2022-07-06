@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 function RequireAuth({ children }: { children: ReactElement }) {
   const location = useLocation();
-  const refreshToken = Cookies.get('refresh_token');
+  const refreshToken = Cookies.get('access_token');
   if (refreshToken === undefined) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import RequireAuth from '../auth/RequireAuth';
 import Page from '../layouts/Page';
 
 interface RoutingProps {
@@ -16,14 +17,18 @@ const Routing = ({ children, login }: RoutingProps) => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={login} />
+
         <Route
           path="/"
           element={
-            <Page sideBarItems={sideBarItems}>
-              <div>home</div>
-            </Page>
+            <RequireAuth>
+              <Page sideBarItems={sideBarItems}>
+                <div>home</div>
+              </Page>
+            </RequireAuth>
           }
         />
+
         <Route path="/*" element={<Page sideBarItems={sideBarItems}>{children}</Page>} />
       </Routes>
     </BrowserRouter>
