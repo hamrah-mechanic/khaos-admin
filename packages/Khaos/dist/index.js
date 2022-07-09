@@ -37,3 +37,4 @@ var import_dist = require("hm-components/dist/index.css");
   SimpleButton,
   request
 });
+//# sourceMappingURL=index.js.map

@@ -4,5 +4,8 @@ import postcss from 'esbuild-postcss';
 
 export default defineConfig({
   entry: ['src/index.tsx'],
+  splitting: false,
+  sourcemap: true,
+  clean: true,
   esbuildPlugins: [sassPlugin(), postcss()],
 });
