@@ -29,8 +29,8 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { root } = useContext(GlobalContext);
-  const [list, setList] = useState([]);
-  const [listOne, setListOne] = useState([]);
+  const [list, setList] = useState({});
+  const [listOne, setListOne] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
@@ -44,28 +44,25 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   };
 
   const create = async (formData): Promise<void> => {
-    const { data } = await request.post(`${root}/${entityName}`, formData);
-    setList([...list, data]);
+    await request.post(`${root}/${entityName}`, formData);
   };
 
   const get = async (page: number, resultsPerPage: number, id: number): Promise<void> => {
     if (id) {
       const { data } = await request.get(`${root}/${entityName}/${id}`);
-      setListOne(data as Array<any>);
+      setListOne(data);
     } else {
       const { data } = await request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
-      setList(data as Array<any>);
+      setList(data);
     }
   };
 
   const update = async (formData, id?: number): Promise<void> => {
-    const { data } = await request.put(`${root}/${entityName}/${id ? id : ''}`, formData);
-    setList(list.map(item => (item.id === id ? { ...item, ...data } : item)));
+    await request.put(`${root}/${entityName}/${id ? id : ''}`, formData);
   };
 
   const remove = async (id: number): Promise<void> => {
     await request.delete(`${root}/${entityName}/${id}`);
-    setList(list.filter(item => item.id !== id));
   };
 
   const withPropsComponent = component => {
