@@ -4,7 +4,7 @@ A frontend framework containing of tools for fast development of dashboard like 
 
 ## Tools We Provide
 
-* **Fast Development**: We handle data flow in components using props you wont need to use satate mangers or even requesting data manually 
+* **Fast Development**: We handle data flow in components using props you wont need to use state mangers or even requesting data manually 
 * **Authentication**: Built-in token-based authentication 
 * **Customization**: You will have full control over your components(although we use [antd](https://ant.design/) and recommend using it for faster development)
 
@@ -20,8 +20,9 @@ yarn add khaos-admin
 
 ## Implementation
 
-### Configuration
+### API Configuration
 In order to make khaos work with your backend api we expect you to follow certain rules. Add your api route to appConfig with root key. You can also set your app configurations such as logo, theme and etc inside appConfig object.
+The URL structure you need to implement consists of root URL which you should set inside the app config object and for each entity, entityName will be used to request data for that entity. For example if you have an api for your users you should use users for entityName of that resource and we will use YourRootURL/users to get the data for that compoenent.
 
 ### Authentication
 For Authentication you will need two parts.
@@ -57,11 +58,11 @@ To add features to your dashboard you will need to add their entity using resour
 | Props Name      | Description |
 | ----------- | ----------- |
 | name      | to show on the sidebar       |
-| sidebarLink   | default link(will be used on sidebar)        |
+| sidebarLink   | default link(will be used on sidebar to show your landing component for that feature)        |
 | entityName |will be used for api requests |
 | components      | an array of components which are features of your entity       |
 
-components props are like this:
+Components props are like this:
 | Props Name      | Description |
 | ----------- | ----------- |
 | component      | the feature for example shows list or edit or etc...       |
@@ -69,18 +70,19 @@ components props are like this:
 | name      | name of button on navigator bar   |
 | button      | button that is showed on navigator bar(uses SimpleButton from Khaos)   |
 
-The components you send to resource will have access to these methods for handling data:
+The components you send to resource will have access to these methods and objects for handling data:
 | Props Name      | Description | props |
 | ----------- | ----------- | ----------- |
-| list      | list of data for example list of users      |
+| list      | list of data for example list of users      | 
 | get      | function for requesting data     |
-| listOne      | selected item   |
-| remove      | remove an item   |
+| listOne      | selected item   | item you selected in the list
+| remove      | remove an item   | 
 | selectItem      | select an item   |
 | update      | update item   |
 | create      | create item   |
 | navigate      | navigate between features   |
 
+For example the example below is a resource that you can use to show a list of users.
 ```js
      <Resource
           name="feature name"
@@ -88,14 +90,25 @@ The components you send to resource will have access to these methods for handli
           entityName="users"
           components={[
             {
-              component: UserShow,
-              path: 'show',
-              name: 'Show User',
+              component: UserList,
+              path: 'list',
+              name: 'User List',
               button: { type: 'info', className: 'mx-1 d-flex align-items-center' },
             },
           ]}
         />
 ```
+for list request we expect you to return list of data for example users and the total results with the key totalResults.
+And the UserShow component will be like this:
+
+```js
+const UserList = ({ list }) => {
+  console.log('here you have access to list of whatever entity you are in',list);
+  return (<div>List of users </div>)
+}
+
+```
+
 ### Features Roadmap
 ![](https://us-central1-progress-markdown.cloudfunctions.net/progress/45)
 - [x] Authentication
