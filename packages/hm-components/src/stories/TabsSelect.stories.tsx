@@ -1,9 +1,9 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import TabsSelect, { TabsSelectProps } from '../components/TabsSelect';
+import { TabsSelect, TabsSelectProps } from '../components/selects';
 
 export default {
-  title: 'Select/TabsSelect',
+  title: 'Selects/TabsSelect',
   component: TabsSelect,
   argTypes: {
     backgroundColor: { control: 'color' },
