@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { Card, Form, Input } from 'antd';
+import { ButtonProps, Card, Form, FormItemProps, Input, InputProps } from 'antd';
 import { SimpleButton } from 'hm-components';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { AuthContext } from './AuthContext';
 
 interface FormData {
@@ -11,11 +10,13 @@ interface FormData {
 }
 
 interface LoginFormProps {
+  fields: InputProps[] | FormItemProps[];
+  buttons: ButtonProps[];
   defaultRoute?: string;
   cardClassName?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ defaultRoute = '/', cardClassName }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ fields, buttons, defaultRoute = '/', cardClassName }) => {
   const { login, loginRequest } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -32,22 +33,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ defaultRoute = '/', cardClassName
   return (
     <Card className={`${cardClassName} d-flex flex-column`} title="ورود به سیستم">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} autoComplete="off">
-        <Form.Item name="username" rules={[{ required: true, message: 'نام کاربری را لطفا وارد نمایید!' }]}>
-          <Input placeholder="نام کاربری" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: 'رمز عبور را لطفا وارد نمایید!' }]}
-          className="my-4"
-        >
-          <Input.Password
-            placeholder="رمز عبور"
-            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-          />
-        </Form.Item>
-        <Form.Item>
-          <SimpleButton htmlType="submit" title="ورود" type="primary" block />
-        </Form.Item>
+        {fields.map(field => (
+          <Form.Item key={field.name} name={field.name} rules={field.rules} className={field.className}>
+            {field.type === 'password' ? (
+              <Input.Password placeholder={field.placeholder} iconRender={field.iconRender} />
+            ) : (
+              <Input type={field.type} placeholder={field.placeholder} {...field} />
+            )}
+          </Form.Item>
+        ))}
+        {buttons.map(btn => (
+          <Form.Item key={btn.title}>
+            <SimpleButton htmlType={btn.htmlType} title={btn.title} type={btn.type} {...btn} />
+          </Form.Item>
+        ))}
       </Form>
     </Card>
   );

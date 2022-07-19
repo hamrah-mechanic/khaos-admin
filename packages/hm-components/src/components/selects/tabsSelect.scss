@@ -1,19 +1,10 @@
 :global {
     .ant-modal-content {
-        min-height: 250px;
-    }
-    .ant-modal-header {
-        text-align: center;
-    }
-
-    .ant-tabs-tab + .ant-tabs-tab {
-        margin-left: 0 !important;
-        margin-right: 32px !important;
+        direction: ltr;
     }
 
     .ant-select,
     .ant-select-selector {
         width: 100%;
-        text-align: right;
     }
 }

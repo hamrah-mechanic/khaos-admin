@@ -5,20 +5,19 @@ import { useLocation } from 'react-router-dom';
 import { SimpleButtonProps } from 'hm-components';
 
 //TYPES
-interface ResourceNavigatorProps {
+interface ResourceNavigatorProps<T> {
   navigators: {
-    name: string;
     link: string;
     button: SimpleButtonProps;
     entity: string;
   }[];
-  selectedItem: number;
+  selectedId: T;
 }
 
-const ResourceNavigator: React.FC<ResourceNavigatorProps> = ({ navigators, selectedItem }) => {
+const ResourceNavigator = <T,>({ navigators, selectedId }: ResourceNavigatorProps<T>) => {
   const location = useLocation();
   const setRouteId = navigator => {
-    return navigator.link + '?id=' + selectedItem;
+    return navigator.link + '?id=' + selectedId;
   };
   if (location.pathname.includes(navigators[0].entity))
     return (
@@ -27,7 +26,7 @@ const ResourceNavigator: React.FC<ResourceNavigatorProps> = ({ navigators, selec
           navigator =>
             navigator.button && (
               <Link key={navigator.link} to={setRouteId(navigator)}>
-                <SimpleButton title={navigator.name} {...navigator.button} />
+                <SimpleButton title={navigator.button.name} {...navigator.button} />
               </Link>
             ),
         )}
