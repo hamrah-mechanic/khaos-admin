@@ -18,7 +18,6 @@ interface ResourceProps {
   components?: Array<{
     path: string;
     component: ComponentType;
-    name: string;
     button?: SimpleButtonProps;
   }>;
 }
@@ -26,31 +25,31 @@ interface ResourceProps {
 const Resource = ({ components, entityName }: ResourceProps) => {
   const navigate = useNavigate();
   const urlParams = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const { root } = useContext(GlobalContext);
   const [list, setList] = useState({});
-  const [listOne, setListOne] = useState({});
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [selectedId, setSelectedId] = useState<number | string>(null);
 
   useEffect(() => {
     if (searchParams.get('id')) {
-      setSelectedItem(searchParams.get('id'));
+      setSelectedId(searchParams.get('id'));
     }
   }, [urlParams]);
 
-  const selectItem = (item: number): void => {
-    setSelectedItem(item);
+  const selectId = (id: number | string): void => {
+    setSelectedId(id);
   };
 
   const create = async (formData): Promise<void> => {
     await request.post(`${root}/${entityName}`, formData);
   };
 
-  const get = async (page: number, resultsPerPage: number, id: number): Promise<void> => {
+  const get = async (page: number, resultsPerPage: number, id: number | string): Promise<void> => {
     if (id) {
       const { data } = await request.get(`${root}/${entityName}/${id}`);
-      setListOne(data);
+      setSelectedItem(data);
     } else {
       const { data } = await request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
       setList(data);
@@ -68,11 +67,11 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const withPropsComponent = component => {
     return React.cloneElement(component, {
       list,
-      listOne,
+      selectedItem,
       get,
       remove,
-      selectItem,
-      selectedItem,
+      selectId,
+      selectedId,
       update,
       create,
       entityName,
@@ -81,13 +80,12 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   };
 
   return (
-    <ResourceProvider value={{ list, selectedItem }}>
+    <ResourceProvider value={{ list, selectedId }}>
       <>
         <ResourceNavigator
-          selectedItem={selectedItem}
+          selectedId={selectedId}
           navigators={components.map(comp => {
             return {
-              name: comp.name,
               link: entityName + '/' + comp.path,
               button: comp.button,
               entity: entityName,
