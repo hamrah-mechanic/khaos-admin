@@ -23,8 +23,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "build": "tsup",
-    "watch": "tsup --watch",
+    "build": "tsup src/index.tsx --dts --sourcemap",
+    "watch": "tsup  src/index.tsx --dts --sourcemap --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

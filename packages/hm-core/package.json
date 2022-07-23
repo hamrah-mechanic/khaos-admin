@@ -6,6 +6,7 @@
     "dist",
     "src"
   ],
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
@@ -36,8 +37,8 @@
     "postcss-modules": "^4.3.1"
   },
   "scripts": {
-    "build": "tsup",
-    "watch": "tsup --watch"
+    "build": "tsup src/index.tsx --dts --sourcemap",
+    "watch": "tsup  src/index.tsx --dts --sourcemap --watch"
   },
   "browserslist": {
     "production": [

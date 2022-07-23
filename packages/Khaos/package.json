@@ -31,8 +31,8 @@
     "esbuild-sass-plugin": "^2.2.6"
   },
   "scripts": {
-    "build": "tsup",
-    "watch": "tsup --watch"
+    "build": "tsup src/index.tsx --dts --sourcemap",
+    "watch": "tsup  src/index.tsx --dts --sourcemap --watch"
   },
   "browserslist": {
     "production": [

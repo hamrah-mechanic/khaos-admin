@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { SimpleButton } from 'hm-components';
 import { useLocation } from 'react-router-dom';
-import { SimpleButtonProps } from 'hm-components';
+// import { SimpleButtonProps } from 'hm-components';
 
 //TYPES
 interface ResourceNavigatorProps<T> {
   navigators: {
     link: string;
-    button: SimpleButtonProps;
+    button: any;
     entity: string;
   }[];
   selectedId: T;
