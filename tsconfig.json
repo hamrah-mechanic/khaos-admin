@@ -17,7 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "downlevelIteration": true,
-    "incremental": true,
+    "incremental": false,
     "baseUrl": "./",
     "types": ["cypress"]
   },

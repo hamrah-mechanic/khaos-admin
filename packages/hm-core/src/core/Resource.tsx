@@ -8,7 +8,7 @@ import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
 
 //TYPES
-import { SimpleButtonProps } from 'hm-components';
+// import { SimpleButtonProps } from 'hm-components/dist/';
 
 //TYPES
 interface ResourceProps {
@@ -19,7 +19,7 @@ interface ResourceProps {
     path: string;
     component: ComponentType;
     name: string;
-    button?: SimpleButtonProps;
+    button?: any;
   }>;
 }
 
