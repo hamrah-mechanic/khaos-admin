@@ -12,7 +12,7 @@ import GlobalContext from '../store/GlobalContext';
 
 //TYPES
 interface ResourceProps {
-  name: string;
+  name?: string;
   entityName: string;
   sidebarLink: string;
   components?: Array<{
