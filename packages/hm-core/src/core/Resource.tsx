@@ -12,13 +12,12 @@ import GlobalContext from '../store/GlobalContext';
 
 //TYPES
 interface ResourceProps {
-  name?: string;
+  name: string;
   entityName: string;
   sidebarLink: string;
   components?: Array<{
     path: string;
     component: ComponentType;
-    name: string;
     button?: any;
   }>;
 }
@@ -28,7 +27,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const urlParams = useParams();
   const [searchParams] = useSearchParams();
 
-  const { root } = useContext(GlobalContext);
+  const { root, requireAuthentication } = useContext(GlobalContext);
   const [list, setList] = useState({});
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedId, setSelectedId] = useState<number | string>(null);
@@ -93,7 +92,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
             };
           })}
         />
-        <RequireAuth>
+        <RequireAuth requireAuthentication={requireAuthentication}>
           <Routes>
             {components.map(component => {
               const { path, component: Compo } = component;
