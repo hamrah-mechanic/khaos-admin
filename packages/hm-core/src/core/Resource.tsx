@@ -8,18 +8,17 @@ import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
 
 //TYPES
-// import { SimpleButtonProps } from 'hm-components/dist/';
+import { SimpleButtonProps } from 'hm-components';
 
 //TYPES
 interface ResourceProps {
-  name?: string;
+  name: string;
   entityName: string;
   sidebarLink: string;
   components?: Array<{
     path: string;
     component: ComponentType;
-    name: string;
-    button?: any;
+    button?: SimpleButtonProps;
   }>;
 }
 

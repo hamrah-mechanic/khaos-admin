@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import AuthProvider from './auth/AuthContext';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
@@ -11,7 +11,7 @@ interface KhaosProps {
   loginRequest: (username: string, password: string) => void;
   refreshRequest: () => Promise<any>;
   appConfig: GlobalContextType;
-  children: any;
+  children: ReactElement | ReactElement[];
 }
 
 const Khaos: React.FC<KhaosProps> = ({ login, Home, children, loginRequest, refreshRequest, appConfig }) => {

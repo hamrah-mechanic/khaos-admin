@@ -1,22 +1,56 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { ButtonProps, Card, Form, FormItemProps, Input, InputProps } from 'antd';
-import { SimpleButton } from 'hm-components';
+import { Card, Form, Input } from 'antd';
+import { SimpleButton, SimpleButtonProps } from 'hm-components';
 import { AuthContext } from './AuthContext';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Rule } from 'antd/lib/form';
 
 interface FormData {
   username: string;
   password: string;
 }
 
-interface LoginFormProps {
-  fields: InputProps[] | FormItemProps[];
-  buttons: ButtonProps[];
-  defaultRoute?: string;
-  cardClassName?: string;
+interface FieldProps {
+  name?: string;
+  rules?: Rule[];
+  placeholder?: string;
+  label?: string;
+  className?: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ fields, buttons, defaultRoute = '/', cardClassName }) => {
+interface PasswordFieldProps extends FieldProps {
+  iconRender?: (visible: boolean) => React.ReactNode;
+}
+
+interface LoginFormProps {
+  userNameProps?: FieldProps;
+  passwordProps?: PasswordFieldProps;
+  defaultRoute?: string;
+  cardClassName?: string;
+  buttonProps?: SimpleButtonProps;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({
+  userNameProps,
+  passwordProps,
+  defaultRoute = '/',
+  cardClassName,
+  buttonProps = { title: 'login', type: 'primary', block: true, htmlType: 'submit' },
+}) => {
+  const {
+    name: userName,
+    rules: userRules,
+    placeholder: userPlaceholder,
+    className: userClassName,
+  } = userNameProps || {};
+  const {
+    name,
+    rules,
+    placeholder,
+    iconRender = visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />),
+    className,
+  } = passwordProps || {};
   const { login, loginRequest } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -33,20 +67,23 @@ const LoginForm: React.FC<LoginFormProps> = ({ fields, buttons, defaultRoute = '
   return (
     <Card className={`${cardClassName} d-flex flex-column`} title="ورود به سیستم">
       <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish} autoComplete="off">
-        {fields.map(field => (
-          <Form.Item key={field.name} name={field.name} rules={field.rules} className={field.className}>
-            {field.type === 'password' ? (
-              <Input.Password placeholder={field.placeholder} iconRender={field.iconRender} />
-            ) : (
-              <Input type={field.type} placeholder={field.placeholder} {...field} />
-            )}
-          </Form.Item>
-        ))}
-        {buttons.map(btn => (
-          <Form.Item key={btn.title}>
-            <SimpleButton htmlType={btn.htmlType} title={btn.title} type={btn.type} {...btn} />
-          </Form.Item>
-        ))}
+        <Form.Item
+          name={userName || 'username'}
+          rules={userRules || [{ required: true, message: 'Please enter username!' }]}
+          className={userClassName}
+        >
+          <Input placeholder={userPlaceholder || 'Username'} />
+        </Form.Item>
+        <Form.Item
+          name={name || 'password'}
+          rules={rules || [{ required: true, message: 'Please enter password!' }]}
+          className={className || 'my-4'}
+        >
+          <Input.Password placeholder={placeholder || 'Password'} iconRender={iconRender} />
+        </Form.Item>
+        <Form.Item>
+          <SimpleButton {...buttonProps} />
+        </Form.Item>
       </Form>
     </Card>
   );

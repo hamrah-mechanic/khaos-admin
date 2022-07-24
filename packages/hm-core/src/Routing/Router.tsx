@@ -6,7 +6,7 @@ import Page from '../layouts/Page';
 interface RoutingProps {
   login: React.ReactNode;
   Home?: ReactElement;
-  children: ReactElement;
+  children: ReactElement | ReactElement[];
 }
 //TODO check if there is children then map so it wont error on empty project for both sidebar and resources
 const Routing = ({ children, login, Home }: RoutingProps) => {
