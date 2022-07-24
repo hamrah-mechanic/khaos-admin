@@ -5,3 +5,5 @@ cypress.env.json
 tsconfig.tsbuildinfo
 Tartarus
 dist/
+yarn-error.log
+.env

@@ -5,6 +5,6 @@ import { Resource, ResorceContext } from './core';
 import 'antd/dist/antd.min.css';
 
 //EXPORTS
-export * from './auth/authUtilities';
+export { authenticate } from './auth/authUtilities';
 export * from './types';
 export { AuthProvider, AuthContext, LoginForm, request, Khaos, Resource, ResorceContext };

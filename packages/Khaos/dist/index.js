@@ -24,6 +24,7 @@ __export(src_exports, {
   Resource: () => import_hm_core.Resource,
   SimpleButton: () => import_hm_components.SimpleButton,
   TabsSelect: () => import_hm_components.TabsSelect,
+  authenticate: () => import_hm_core.authenticate,
   request: () => import_hm_core.request
 });
 module.exports = __toCommonJS(src_exports);
@@ -37,6 +38,7 @@ var import_dist = require("hm-components/dist/index.css");
   Resource,
   SimpleButton,
   TabsSelect,
+  authenticate,
   request
 });
 //# sourceMappingURL=index.js.map
