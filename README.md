@@ -29,7 +29,10 @@ The URL structure you need to implement consists of root URL which you should se
 
 For Authentication you will need two parts.
 
-1. Login page : import Login form from khaos-admin and make your customized login page and send it as props to khaos.
+1. Login page : import Login form from khaos-admin and make your customized login page and you.
+Or you can create your custom login page and pass it as props to `login`, but you should import `authenticate()` from khaos-admin.
+For authentication you should pass `access token` and `referesh token` and `expiration` (optional) as parameter to `authenticate()` function.
+
 2. Providing authentication tokens : You need to implement a function returning access token and refresh token with this format.
 
 ```js
@@ -57,6 +60,34 @@ const App: React.FC = () => {
 
 export default App;
 ```
+
+### Login Customization
+
+We provided a default form for login page. as we told before, you can create custom login form or you can import `<LoginForm>` from khaos-admin and customize it via some props as following:
+
+| Props Name | Description |
+| ----------- | ----------- |
+| defaultRoute | navigate to custom route after submiting login (default = '/') |
+|cardClassName  | custom classname for form in login page |
+| userNameProps | [custom props for userName input](#custom-props) |
+| passwordProps | [custom props for password input](#custom-props) |
+| buttonProps | custom props for submit button (use`SimpleButtonProps` from khaos) |
+
+#### Custom Props
+
+For `userNameProps` and `passwordProps` you can pass these props(optional):
+| Props Name | Description |
+| ----------- | ----------- |
+| name | optional props for name of fields |
+| rules | custom rules for validation |
+| placholder | custom placeholder for fields |
+| label | custom label for fields |
+| className | custom classname for styling fields |
+
+`passwordProps` has another props more:
+| Props Name | Description |
+| ----------- | ----------- |
+| iconrender | to rendering custom icon for password field (e.g: visibility) |
 
 ### Adding Features
 
