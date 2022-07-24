@@ -7,38 +7,16 @@
     "src"
   ],
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-scripts": "5.0.1",
     "storybook": "^6.3.6",
     "tsup": "^5.12.8",
-    "typescript": "^4.6.3",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.6.3"
   },
-  "scripts": {
-    "build": "tsup src/index.tsx --dts --sourcemap",
-    "watch": "tsup  src/index.tsx --dts --sourcemap --watch",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.4.22",
@@ -59,6 +37,13 @@
     "sass-loader": "^12.6.0",
     "storybook-css-modules-preset": "^1.1.1",
     "style-loader": "^3.3.1",
-    "webpack": "^5.72.1"
+    "antd": "^4.19.5",
+    "sass": "^1.52.1"
+  },
+  "scripts": {
+    "build": "tsup src/index.tsx --dts --sourcemap",
+    "watch": "tsup --watch",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   }
 }
