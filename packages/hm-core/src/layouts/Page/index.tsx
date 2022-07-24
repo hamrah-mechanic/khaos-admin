@@ -23,7 +23,7 @@ import { logout } from '../../auth/authUtilities';
 //TYPES
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
-  children: ReactElement;
+  children: ReactElement | ReactElement[];
 };
 
 const { Header, Content, Sider } = Layout;

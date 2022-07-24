@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "@lerna/version": "^5.0.0"
-
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.19.0",
@@ -23,7 +22,8 @@
     "husky": "^7.0.0",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.8",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "build": "lerna run build",

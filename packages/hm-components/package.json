@@ -6,6 +6,7 @@
     "dist",
     "src"
   ],
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@types/node": "^16.11.27",
     "@types/react": "^18.0.5",
