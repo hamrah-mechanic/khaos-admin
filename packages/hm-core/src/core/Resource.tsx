@@ -1,5 +1,5 @@
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
-import { Route, Routes, useParams, useSearchParams } from 'react-router-dom';
+import { createSearchParams, Route, Routes, useParams, useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
 import { request } from '../api/requestHandler';
@@ -7,10 +7,13 @@ import { ResourceProvider } from './ResourceContext';
 import ResourceNavigator from './ResourceNavigator';
 import GlobalContext from '../store/GlobalContext';
 
-//TYPES
-import { SimpleButtonProps } from 'hm-components';
+//HELPERS
+import { stringfyObject } from '../helpers';
 
 //TYPES
+import { SimpleButtonProps } from 'hm-components';
+import { Filters } from '../types';
+
 interface ResourceProps {
   name: string;
   entityName: string;
@@ -31,6 +34,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const [list, setList] = useState({});
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedId, setSelectedId] = useState<number | string>(null);
+  const [filters, setFilters] = useState<Filters>({ page: 1, resultsPerPage: 10 });
 
   useEffect(() => {
     if (searchParams.get('id')) {
@@ -46,14 +50,14 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     await request.post(`${root}/${entityName}`, formData);
   };
 
-  const get = async (page: number, resultsPerPage: number, id: number | string): Promise<void> => {
-    if (id) {
-      const { data } = await request.get(`${root}/${entityName}/${id}`);
-      setSelectedItem(data);
-    } else {
-      const { data } = await request.get(`${root}/${entityName}?page=${page}&resultsPerPage=${resultsPerPage}`);
-      setList(data);
-    }
+  const getByFilter = async (filters: Filters): Promise<void> => {
+    const { data } = await request.get(`${root}/${entityName}?${createSearchParams(stringfyObject(filters))}`);
+    setList(data);
+  };
+
+  const getById = async (id: number | string): Promise<void> => {
+    const { data } = await request.get(`${root}/${entityName}/${id}`);
+    setSelectedItem(data);
   };
 
   const update = async (formData, id?: number): Promise<void> => {
@@ -68,7 +72,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     return React.cloneElement(component, {
       list,
       selectedItem,
-      get,
+      getById,
       remove,
       selectId,
       selectedId,
@@ -76,6 +80,9 @@ const Resource = ({ components, entityName }: ResourceProps) => {
       create,
       entityName,
       navigate,
+      filters,
+      setFilters,
+      getByFilter,
     });
   };
 

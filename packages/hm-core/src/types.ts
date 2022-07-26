@@ -8,3 +8,10 @@ export interface TokenType {
   scope: 'api offline_access openid profile' | string;
   token_type: 'Bearer';
 }
+
+interface RequireFilters {
+  resultsPerPage: number;
+  page: number;
+}
+
+export type Filters = RequireFilters & unknown;
