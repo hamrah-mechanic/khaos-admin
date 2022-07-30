@@ -7,13 +7,13 @@ import { User, TokenType } from '../types';
 //FIXME: whats tokens type
 interface AuthContextProps {
   user: User | null;
-  login: (tokens: TokenType) => void;
-  loginRequest: (username: string, password: string) => Promise<TokenType>;
-  refreshRequest: () => Promise<TokenType>;
+  login?: (tokens: TokenType) => void;
+  loginRequest?: (username: string, password: string) => Promise<TokenType>;
+  refreshRequest?: () => Promise<TokenType>;
 }
 interface AuthProviderProps {
-  loginRequest: (username: string, password: string) => Promise<TokenType>;
-  refreshRequest: () => Promise<TokenType>;
+  loginRequest?: (username: string, password: string) => Promise<TokenType>;
+  refreshRequest?: () => Promise<TokenType>;
   children: ReactElement;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "khaos-admin",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "main": "dist/index",
   "files": [
     "dist",
@@ -8,8 +8,9 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "hm-components": "^2.0.15",
-    "hm-core": "^2.0.15",
+    "antd": "^4.19.5",
+    "hm-components": "^2.0.16",
+    "hm-core": "^2.0.16",
     "react-redux": "^8.0.1",
     "react-scripts": "5.0.1",
     "tsup": "^5.12.8",

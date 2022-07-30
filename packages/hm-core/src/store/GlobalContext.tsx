@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 export interface GlobalContextType {
   root: string;
-  logo: string;
+  logo?: string;
   requireAuthentication?: boolean;
 }
 
