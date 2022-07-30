@@ -7,8 +7,8 @@ interface Props {
 }
 function RequireAuth({ children, requireAuthentication }: Props) {
   const location = useLocation();
-  const refreshToken = Cookies.get('access_token');
-  if (refreshToken === undefined && requireAuthentication) {
+  const refreshToken = Cookies.get('refresh_token');
+  if (refreshToken === undefined) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

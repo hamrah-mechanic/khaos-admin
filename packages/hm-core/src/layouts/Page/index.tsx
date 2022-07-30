@@ -20,14 +20,16 @@ import GlobalContext from '../../store/GlobalContext';
 import Loading from '../components/Loading';
 
 import { logout } from '../../auth/authUtilities';
+import Cookies from 'js-cookie';
 //TYPES
 type Props = {
   sideBarItems: Array<{ name: string; link: string }>;
-  children: ReactElement | ReactElement[];
+  children: ReactElement | ReactElement[] | null;
 };
 
 const { Header, Content, Sider } = Layout;
 const Page = ({ children, sideBarItems }: Props) => {
+  const refreshToken = Cookies.get('refresh_token');
   const { logo } = useContext(GlobalContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -70,13 +72,15 @@ const Page = ({ children, sideBarItems }: Props) => {
           </div>
         </div>
         <div>
-          <LogoutOutlined
-            onClick={() => {
-              logout();
-              navigate('/');
-            }}
-            className={styles['logout']}
-          />
+          {refreshToken && (
+            <LogoutOutlined
+              onClick={() => {
+                logout();
+                navigate('/');
+              }}
+              className={styles['logout']}
+            />
+          )}
         </div>
       </Header>
       <Loading />

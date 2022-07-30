@@ -5,7 +5,7 @@ import { SimpleButton, SimpleButtonProps } from 'hm-components';
 import { AuthContext } from './AuthContext';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Rule } from 'antd/lib/form';
-
+import { TokenType } from '../types';
 interface FormData {
   username: string;
   password: string;
@@ -48,7 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
     name,
     rules,
     placeholder,
-    iconRender = visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />),
+    iconRender = (visible: boolean) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />),
     className,
   } = passwordProps || {};
   const { login, loginRequest } = useContext(AuthContext);
@@ -56,7 +56,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   const onFinish = async (data: FormData) => {
     try {
-      const creds = await loginRequest(data.username, data.password);
+      const creds = (await loginRequest(data.username, data.password)) as TokenType;
       login(creds);
       navigate(defaultRoute);
     } catch (err) {

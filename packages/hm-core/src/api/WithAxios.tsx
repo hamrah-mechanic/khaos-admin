@@ -6,11 +6,11 @@ import { api } from './requestHandler';
 //TYPES
 import { TokenType } from '../types';
 
-interface DataTokenType {
-  data: TokenType;
+interface Props {
+  children: JSX.Element;
 }
 
-const WithAxios = ({ children }) => {
+const WithAxios = ({ children }: Props): JSX.Element => {
   const { refreshRequest } = useContext(AuthContext);
 
   useMemo(() => {
@@ -21,12 +21,10 @@ const WithAxios = ({ children }) => {
       function (error) {
         if (error.response && error.response.status === 401) {
           return refreshRequest()
-            .then((newToken: DataTokenType) => {
-              const {
-                data: { refresh_token, access_token },
-              } = newToken;
+            .then((newToken: TokenType) => {
+              const { refresh_token, access_token } = newToken;
               authenticate({ refreshToken: refresh_token, accessToken: access_token });
-              if (newToken.data.access_token) {
+              if (newToken.access_token) {
                 error.config.headers['Authorization'] = `Bearer ${access_token}`;
                 return api.request(error.config);
               }

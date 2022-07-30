@@ -1,4 +1,4 @@
-import React, { ComponentType, useContext, useEffect, useState } from 'react';
+import React, { ComponentType, FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
 import { createSearchParams, Route, Routes, useParams, useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import RequireAuth from '../auth/RequireAuth';
@@ -31,9 +31,9 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const [searchParams] = useSearchParams();
 
   const { root, requireAuthentication } = useContext(GlobalContext);
-  const [list, setList] = useState({});
-  const [selectedItem, setSelectedItem] = useState({});
-  const [selectedId, setSelectedId] = useState<number | string>(null);
+  const [list, setList] = useState<unknown>(null);
+  const [selectedItem, setSelectedItem] = useState<unknown>({});
+  const [selectedId, setSelectedId] = useState<number | string | null>(null);
   const [filters, setFilters] = useState<Filters>({ page: 1, resultsPerPage: 10 });
 
   useEffect(() => {
@@ -46,12 +46,12 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     setSelectedId(id);
   };
 
-  const create = async (formData): Promise<void> => {
+  const create = async (formData: unknown): Promise<void> => {
     await request.post(`${root}/${entityName}`, formData);
   };
 
   const getByFilter = async (filters: Filters): Promise<void> => {
-    const { data } = await request.get(`${root}/${entityName}?${createSearchParams(stringfyObject(filters))}`);
+    const { data } = await request.get<unknown>(`${root}/${entityName}?${createSearchParams(stringfyObject(filters))}`);
     setList(data);
   };
 
@@ -60,7 +60,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     setSelectedItem(data);
   };
 
-  const update = async (formData, id?: number): Promise<void> => {
+  const update = async (formData: unknown, id?: number): Promise<void> => {
     await request.put(`${root}/${entityName}/${id ? id : ''}`, formData);
   };
 
@@ -68,7 +68,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
     await request.delete(`${root}/${entityName}/${id}`);
   };
 
-  const withPropsComponent = component => {
+  const withPropsComponent = (component: ReactElement) => {
     return React.cloneElement(component, {
       list,
       selectedItem,
@@ -89,22 +89,25 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   return (
     <ResourceProvider value={{ list, selectedId }}>
       <>
-        <ResourceNavigator
-          selectedId={selectedId}
-          navigators={components.map(comp => {
-            return {
-              link: entityName + '/' + comp.path,
-              button: comp.button,
-              entity: entityName,
-            };
-          })}
-        />
+        {components && (
+          <ResourceNavigator
+            selectedId={selectedId}
+            navigators={components.map(comp => {
+              return {
+                link: entityName + '/' + comp.path,
+                button: comp.button,
+                entity: entityName,
+              };
+            })}
+          />
+        )}
         <RequireAuth requireAuthentication={requireAuthentication}>
           <Routes>
-            {components.map(component => {
-              const { path, component: Compo } = component;
-              return <Route key={path} path={entityName + '/' + path} element={withPropsComponent(<Compo />)} />;
-            })}
+            {components &&
+              components.map(component => {
+                const { path, component: Component } = component;
+                return <Route key={path} path={entityName + '/' + path} element={withPropsComponent(<Component />)} />;
+              })}
           </Routes>
         </RequireAuth>
       </>

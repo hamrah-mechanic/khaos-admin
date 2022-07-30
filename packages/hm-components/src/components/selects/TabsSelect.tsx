@@ -50,12 +50,12 @@ const TabsSelect: React.FC<TabsSelectProps> = ({
               showSearch={tab.searchable}
               suffixIcon={tab.icon}
               optionFilterProp="children"
-              filterOption={(input, option: OptionType) =>
+              filterOption={(input, option: any) =>
                 option.englishLabel?.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
                 option.label?.toLowerCase().indexOf(input.toLowerCase()) >= 0
               }
               placeholder={tab.placeholder || tab.title}
-              onSelect={(value, option: OptionType) => {
+              onSelect={(value: number, option: any) => {
                 handleSelectedOption?.(tab.name, value, option.label);
                 const newStep = (Number(formStep) + 1).toString();
                 if (Number(newStep) <= tabsOptions.length) {

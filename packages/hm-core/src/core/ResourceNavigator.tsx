@@ -4,19 +4,20 @@ import { SimpleButton } from 'hm-components';
 import { useLocation } from 'react-router-dom';
 import { SimpleButtonProps } from 'hm-components';
 
+interface Navigator {
+  link: string;
+  button?: SimpleButtonProps;
+  entity: string;
+}
 //TYPES
 interface ResourceNavigatorProps<T> {
-  navigators: {
-    link: string;
-    button: SimpleButtonProps;
-    entity: string;
-  }[];
+  navigators: Navigator[];
   selectedId: T;
 }
 
 const ResourceNavigator = <T,>({ navigators, selectedId }: ResourceNavigatorProps<T>) => {
   const location = useLocation();
-  const setRouteId = navigator => {
+  const setRouteId = (navigator: Navigator) => {
     return navigator.link + '?id=' + selectedId;
   };
   if (location.pathname.includes(navigators[0].entity))

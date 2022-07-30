@@ -10,7 +10,7 @@ TopBarProgress.config({
   shadowBlur: 5,
 });
 
-const Loading = () => {
+const Loading: React.FC = () => {
   const location = useLocation();
 
   const [progress, setProgress] = useState(false);
@@ -28,7 +28,7 @@ const Loading = () => {
     setProgress(false);
   }, [prevLocation]);
 
-  return progress && <TopBarProgress />;
+  return progress ? <TopBarProgress /> : null;
 };
 
 export default Loading;

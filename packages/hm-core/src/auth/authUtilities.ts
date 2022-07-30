@@ -1,4 +1,3 @@
-import React from 'react';
 import Cookies from 'js-cookie';
 import jwt from 'jwt-decode';
 
@@ -40,7 +39,7 @@ export const removeAuthTokens = (): void => {
   }
 };
 
-export const extractUserFromCookie = (token?: string): User => {
+export const extractUserFromCookie = (): User | null => {
   try {
     const accessToken = Cookies.get('access_token');
     if (accessToken) {
