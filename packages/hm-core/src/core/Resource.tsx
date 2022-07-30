@@ -15,10 +15,10 @@ import { SimpleButtonProps } from 'hm-components';
 import { Filters } from '../types';
 
 interface ResourceProps {
-  name: string;
+  label: string;
   entityName: string;
   sidebarLink: string;
-  components?: Array<{
+  components: Array<{
     path: string;
     component: ComponentType;
     button?: SimpleButtonProps;

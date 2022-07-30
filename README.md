@@ -30,8 +30,8 @@ The URL structure you need to implement consists of root URL which you should se
 For Authentication you will need two parts.
 
 1. Login page : import Login form from khaos-admin and make your customized login page and you.
-Or you can create your custom login page and pass it as props to `login`, but you should import `authenticate()` from khaos-admin.
-For authentication you should pass `access token` and `referesh token` and `expiration` (optional) as parameter to `authenticate()` function.
+   Or you can create your custom login page and pass it as props to `login`, but you should import `authenticate()` from khaos-admin.
+   For authentication you should pass `access token` and `referesh token` and `expiration` (optional) as parameter to `authenticate()` function.
 
 2. Providing authentication tokens : You need to implement a function returning access token and refresh token with this format.
 
@@ -61,17 +61,43 @@ const App: React.FC = () => {
 export default App;
 ```
 
+> ##### Note:
+>
+> If you want right to left body `(rtl)`, you should follow tow steps:
+>
+> ###### 1)
+>
+> In your app code add:
+>
+> ```js
+> import { ConfigProvider } from 'antd';
+>
+> <ConfigProvider direction="rtl">
+>   <Khaos {...props}>
+> </ConfigProvider>`
+> ```
+>
+> ###### 2)
+>
+> In your css code add:
+>
+> ```css
+> body {
+>   direction: rtl;
+> }
+> ```
+
 ### Login Customization
 
 We provided a default form for login page. as we told before, you can create custom login form or you can import `<LoginForm>` from khaos-admin and customize it via some props as following:
 
-| Props Name | Description |
-| ----------- | ----------- |
-| defaultRoute | navigate to custom route after submiting login (default = '/') |
-|cardClassName  | custom classname for form in login page |
-| userNameProps | [custom props for userName input](#custom-props) |
-| passwordProps | [custom props for password input](#custom-props) |
-| buttonProps | custom props for submit button (use`SimpleButtonProps` from khaos) |
+| Props Name    | Description                                                        |
+| ------------- | ------------------------------------------------------------------ |
+| defaultRoute  | navigate to custom route after submiting login (default = '/')     |
+| cardClassName | custom classname for form in login page                            |
+| userNameProps | [custom props for userName input](#custom-props)                   |
+| passwordProps | [custom props for password input](#custom-props)                   |
+| buttonProps   | custom props for submit button (use`SimpleButtonProps` from khaos) |
 
 #### Custom Props
 
@@ -94,7 +120,7 @@ For `userNameProps` and `passwordProps` you can pass these props(optional):
 To add features to your dashboard you will need to add their entity using resources. Each resource needs the following props:
 | Props Name | Description |
 | ----------- | ----------- |
-| name | to show on the sidebar |
+| label | to show on the sidebar |
 | sidebarLink | default link(will be used on sidebar to show your landing component for that feature) |
 | entityName |will be used for API requests |
 | components | an array of components which are features of your entity |
@@ -122,8 +148,10 @@ The components you send to resource will have access to these methods and object
 For example the example below is a resource that you can use to show a list of users.
 
 ```js
+import { Resource } from 'khaos-admin';
+
 <Resource
-  name="feature name"
+  label="feature name"
   sidebarLink="list"
   entityName="users"
   components={[
@@ -133,8 +161,13 @@ For example the example below is a resource that you can use to show a list of u
       button: { name: 'User List', type: 'info', className: 'mx-1 d-flex align-items-center' },
     },
   ]}
-/>
+/>;
 ```
+
+> ##### Note: 
+> `sidebarLink` is the default feature for this entity. e.g: in most cases you will show your list of that entity.
+> For this feature to work, you need to set same path for both `sidebarLink` and `path` prop for your listing component.
+
 
 for list request we expect you to return list of data, for example users and the total results with the key totalResults.
 And the `UserList` component will be like this:

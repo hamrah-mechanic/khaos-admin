@@ -7,10 +7,10 @@ import GlobalContext, { GlobalContextType } from './store/GlobalContext';
 import { TokenType } from './types';
 
 interface KhaosProps {
-  login: React.ReactNode;
+  login?: React.ReactNode;
   Home?: ReactElement;
-  loginRequest: (username: string, password: string) => Promise<TokenType>;
-  refreshRequest: () => Promise<TokenType>;
+  loginRequest?: (username: string, password: string) => Promise<TokenType>;
+  refreshRequest?: () => Promise<TokenType>;
   appConfig: GlobalContextType;
   children?: ReactElement | ReactElement[];
 }

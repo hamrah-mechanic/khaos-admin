@@ -64,13 +64,15 @@ const Page = ({ children, sideBarItems = [] }: Props) => {
   return (
     <Layout className={styles['layout']}>
       <Header className={styles['header']}>
-        <div className={styles['logo']}>
-          <div className={styles['logo__image']}>
-            <a href="/">
-              <img src={logo} alt="hm" />
-            </a>
+        {logo && (
+          <div className={styles['logo']}>
+            <div className={styles['logo__image']}>
+              <a href="/">
+                <img src={logo} alt="khaos-logo" />
+              </a>
+            </div>
           </div>
-        </div>
+        )}
         <div>
           {refreshToken && (
             <LogoutOutlined
