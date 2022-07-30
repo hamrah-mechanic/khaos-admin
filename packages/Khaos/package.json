@@ -9,7 +9,7 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "antd": "^4.19.5",
-    "hm-components": "^2.0.16",
+    "hm-components": "^2.0.17",
     "hm-core": "^2.0.17",
     "react-redux": "^8.0.1",
     "react-scripts": "5.0.1",
