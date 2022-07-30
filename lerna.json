@@ -4,7 +4,7 @@
     "examples/hm-app",
     "Tartarus"
   ],
-  "version": "2.0.17",
+  "version": "2.0.18",
   "useWorkspaces": true,
   "stream": true
 }
