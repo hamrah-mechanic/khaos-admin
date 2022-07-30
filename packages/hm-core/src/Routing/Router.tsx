@@ -11,7 +11,7 @@ interface RoutingProps {
 //TODO check if there is children then map so it wont error on empty project for both sidebar and resources
 const Routing = ({ children, login, Home }: RoutingProps) => {
   const sideBarItems = React.Children.map(children, child => {
-    return { name: child.props.name, link: `${child.props.entityName}/${child.props.sidebarLink}` };
+    return { name: child.props.label, link: `${child.props.entityName}/${child.props.sidebarLink}` };
   });
 
   return (
