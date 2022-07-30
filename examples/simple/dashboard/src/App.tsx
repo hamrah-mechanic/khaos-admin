@@ -1,10 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Khaos} from 'khaos-admin';
+import { Khaos } from 'khaos-admin';
 function App() {
   return (
- <Khaos appConfig={{root:""}}><div></div></Khaos>
+    <Khaos appConfig={{ root: '', authenticate: true }}>
+      <div></div>
+    </Khaos>
   );
 }
 

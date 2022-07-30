@@ -28,7 +28,7 @@ type Props = {
 };
 
 const { Header, Content, Sider } = Layout;
-const Page = ({ children, sideBarItems = [] }: Props) => {
+const Page = ({ children, sideBarItems }: Props) => {
   const refreshToken = Cookies.get('refresh_token');
   const { logo } = useContext(GlobalContext);
   const navigate = useNavigate();

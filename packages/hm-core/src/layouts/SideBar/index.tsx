@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 
 type Props = {
-  items: Array<{ name: string; link: string }>;
+  items?: Array<{ name: string; link: string }>;
 };
 
 const SidebarMenu = ({ items }: Props) => {
   const defaultSelectedKey = items?.findIndex(item => window.location.pathname === '/' + item.link);
+  console.log('items', items);
   return (
     <Menu
       mode="inline"
-      defaultSelectedKeys={[defaultSelectedKey?.toString()]}
+      defaultSelectedKeys={[defaultSelectedKey ? defaultSelectedKey?.toString() : '0']}
       style={{ height: '100%', borderRight: 0 }}
       theme="light"
     >
