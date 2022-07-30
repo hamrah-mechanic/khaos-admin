@@ -2,14 +2,14 @@ import { createContext } from 'react';
 
 export interface GlobalContextType {
   root: string;
-  logo: string;
-  requireAuthentication?: boolean;
+  logo?: string;
+  authenticate?: boolean;
 }
 
 const GlobalContext = createContext<GlobalContextType>({
   root: '',
   logo: '',
-  requireAuthentication: true,
+  authenticate: false,
 });
 
 export default GlobalContext;

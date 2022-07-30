@@ -30,7 +30,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
   const urlParams = useParams();
   const [searchParams] = useSearchParams();
 
-  const { root, requireAuthentication } = useContext(GlobalContext);
+  const { root, authenticate } = useContext(GlobalContext);
   const [list, setList] = useState<unknown>(null);
   const [selectedItem, setSelectedItem] = useState<unknown>({});
   const [selectedId, setSelectedId] = useState<number | string | null>(null);
@@ -101,7 +101,7 @@ const Resource = ({ components, entityName }: ResourceProps) => {
             })}
           />
         )}
-        <RequireAuth requireAuthentication={requireAuthentication}>
+        <RequireAuth authenticate={authenticate}>
           <Routes>
             {components &&
               components.map(component => {

@@ -12,7 +12,7 @@ interface KhaosProps {
   loginRequest: (username: string, password: string) => Promise<TokenType>;
   refreshRequest: () => Promise<TokenType>;
   appConfig: GlobalContextType;
-  children: ReactElement | ReactElement[];
+  children?: ReactElement | ReactElement[];
 }
 
 const Khaos: React.FC<KhaosProps> = ({ login, Home, children, loginRequest, refreshRequest, appConfig }) => {

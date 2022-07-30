@@ -23,12 +23,12 @@ import { logout } from '../../auth/authUtilities';
 import Cookies from 'js-cookie';
 //TYPES
 type Props = {
-  sideBarItems: Array<{ name: string; link: string }>;
-  children: ReactElement | ReactElement[] | null;
+  sideBarItems?: Array<{ name: string; link: string }>;
+  children?: ReactElement | ReactElement[] | null;
 };
 
 const { Header, Content, Sider } = Layout;
-const Page = ({ children, sideBarItems }: Props) => {
+const Page = ({ children, sideBarItems = [] }: Props) => {
   const refreshToken = Cookies.get('refresh_token');
   const { logo } = useContext(GlobalContext);
   const navigate = useNavigate();
