@@ -56,8 +56,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   const onFinish = async (data: FormData) => {
     try {
-      const creds = (await loginRequest(data.username, data.password)) as TokenType;
-      login(creds);
+      const creds = (await loginRequest?.(data.username, data.password)) as TokenType;
+      login?.(creds);
       navigate(defaultRoute);
     } catch (err) {
       console.log(err);
