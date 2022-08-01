@@ -56,6 +56,10 @@
   },
   "main": "index.js",
   "repository": "git@gitlab.hamrah-mechanic.com:frontend/khaos.git",
-  "author": "sanaz <s.mahmoudi@hamrah-mechanic.com>",
+  "contributors": [
+    "sanaz <mahmoudisanaz59@gmail.com>",
+    "iman <i.rezasefat@gmail.com>",
+    "mohammad <mohamad68@gmail.com>"
+  ],
   "license": "MIT"
 }
