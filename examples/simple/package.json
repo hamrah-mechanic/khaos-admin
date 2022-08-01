@@ -1,9 +1,9 @@
 {
   "name": "simple",
-  "version": "2.0.19",
-  "description": "",
-  "scripts": {
-    "server": "nodemon backend/server.js",
+  "version": "1.0.0",
+  "description": "", 
+   "scripts": {
+    "server": "nodemon server/server.js",
     "client": "npm start --prefix dashboard",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
