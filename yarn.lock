@@ -6753,7 +6753,7 @@
   optionalDependencies:
     "fsevents" "^1.2.7"
 
-"chokidar@^3.4.1", "chokidar@^3.4.2", "chokidar@^3.5.1", "chokidar@^3.5.3", "chokidar@>=3.0.0 <4.0.0":
+"chokidar@^3.4.1", "chokidar@^3.4.2", "chokidar@^3.5.1", "chokidar@^3.5.2", "chokidar@^3.5.3", "chokidar@>=3.0.0 <4.0.0":
   "integrity" "sha1-HPN8hwe5Mr0a8a4iwEMuKs0ZA70="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/chokidar/-/chokidar-3.5.3.tgz"
   "version" "3.5.3"
@@ -7157,6 +7157,21 @@
     "inherits" "^2.0.3"
     "readable-stream" "^3.0.2"
     "typedarray" "^0.0.6"
+
+"concurrently@^7.3.0":
+  "integrity" "sha1-60XNvI30PaGV9hmrohipgMrkkYQ="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/concurrently/-/concurrently-7.3.0.tgz"
+  "version" "7.3.0"
+  dependencies:
+    "chalk" "^4.1.0"
+    "date-fns" "^2.16.1"
+    "lodash" "^4.17.21"
+    "rxjs" "^7.0.0"
+    "shell-quote" "^1.7.3"
+    "spawn-command" "^0.0.2-1"
+    "supports-color" "^8.1.0"
+    "tree-kill" "^1.2.2"
+    "yargs" "^17.3.1"
 
 "config-chain@^1.1.12":
   "integrity" "sha1-+tB5Wqamza/57Rto6d/5Q3LCMvQ="
@@ -7797,7 +7812,7 @@
     "whatwg-mimetype" "^2.3.0"
     "whatwg-url" "^8.0.0"
 
-"date-fns@2.x":
+"date-fns@^2.16.1", "date-fns@2.x":
   "integrity" "sha1-lmfCYVUl5VK1E1oxFrlbGWFFbmA="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/date-fns/-/date-fns-2.29.1.tgz"
   "version" "2.29.1"
@@ -8265,17 +8280,10 @@
     "no-case" "^3.0.4"
     "tslib" "^2.0.3"
 
-"dot-prop@^5.1.0", "dot-prop@^5.2.0":
+"dot-prop@^5.1.0", "dot-prop@^5.2.0", "dot-prop@^6.0.1":
   "integrity" "sha1-kMzOcIzZzYLMTcjD3dmr3VWyDog="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/dot-prop/-/dot-prop-5.3.0.tgz"
   "version" "5.3.0"
-  dependencies:
-    "is-obj" "^2.0.0"
-
-"dot-prop@^6.0.1":
-  "integrity" "sha1-/CazzxQrnlm3Tb057WbOYgxoEIM="
-  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/dot-prop/-/dot-prop-6.0.1.tgz"
-  "version" "6.0.1"
   dependencies:
     "is-obj" "^2.0.0"
 
@@ -10385,9 +10393,9 @@
   dependencies:
     "@babel/runtime" "^7.7.6"
 
-"hm-components@^2.0.14", "hm-components@file:/home/satanmourner/Projects/khaos/packages/hm-components":
+"hm-components@^2.0.18", "hm-components@file:/home/satanmourner/Projects/khaos/packages/hm-components":
   "resolved" "file:packages/hm-components"
-  "version" "2.0.14"
+  "version" "2.0.18"
   dependencies:
     "@types/node" "^16.11.27"
     "@types/react" "^18.0.5"
@@ -10396,9 +10404,9 @@
     "tsup" "^5.12.8"
     "typescript" "^4.6.3"
 
-"hm-core@^2.0.14", "hm-core@file:/home/satanmourner/Projects/khaos/packages/hm-core":
+"hm-core@^2.0.18", "hm-core@file:/home/satanmourner/Projects/khaos/packages/hm-core":
   "resolved" "file:packages/hm-core"
-  "version" "2.0.14"
+  "version" "2.0.18"
   dependencies:
     "@reduxjs/toolkit" "^1.8.1"
     "@types/node" "^16.11.27"
@@ -10406,7 +10414,7 @@
     "@types/react-dom" "^18.0.1"
     "axios" "^0.26.1"
     "bootstrap" "^5.1.3"
-    "hm-components" "^2.0.14"
+    "hm-components" "^2.0.18"
     "js-cookie" "^3.0.1"
     "jwt-decode" "^3.1.2"
     "react-redux" "^8.0.1"
@@ -10732,6 +10740,11 @@
   "integrity" "sha1-xg7taebY/bazEEofy8ocGS3FtQE="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/iferr/-/iferr-0.1.5.tgz"
   "version" "0.1.5"
+
+"ignore-by-default@^1.0.1":
+  "integrity" "sha1-SMptcvbGo68Aqa1K5odr44ieKwk="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/ignore-by-default/-/ignore-by-default-1.0.1.tgz"
+  "version" "1.0.1"
 
 "ignore-walk@^3.0.3":
   "integrity" "sha1-yaCfabfHtHml10rBo8DUI20qYzU="
@@ -12320,11 +12333,11 @@
 
 "khaos-admin@file:/home/satanmourner/Projects/khaos/packages/Khaos":
   "resolved" "file:packages/Khaos"
-  "version" "2.0.14"
+  "version" "2.0.18"
   dependencies:
     "antd" "^4.19.5"
-    "hm-components" "^2.0.14"
-    "hm-core" "^2.0.14"
+    "hm-components" "^2.0.18"
+    "hm-core" "^2.0.18"
     "react-redux" "^8.0.1"
     "react-scripts" "5.0.1"
     "tsup" "^5.12.8"
@@ -12729,7 +12742,7 @@
     "slice-ansi" "^4.0.0"
     "wrap-ansi" "^6.2.0"
 
-"loose-envify@^1.1.0", "loose-envify@^1.4.0":
+"loose-envify@^1.4.0":
   "integrity" "sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/loose-envify/-/loose-envify-1.4.0.tgz"
   "version" "1.4.0"
@@ -13562,6 +13575,22 @@
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/node-releases/-/node-releases-2.0.6.tgz"
   "version" "2.0.6"
 
+"nodemon@^2.0.19":
+  "integrity" "sha1-ysF190ucuLV+dw1HhBmV7r5EiL0="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/nodemon/-/nodemon-2.0.19.tgz"
+  "version" "2.0.19"
+  dependencies:
+    "chokidar" "^3.5.2"
+    "debug" "^3.2.7"
+    "ignore-by-default" "^1.0.1"
+    "minimatch" "^3.0.4"
+    "pstree.remy" "^1.1.8"
+    "semver" "^5.7.1"
+    "simple-update-notifier" "^1.0.7"
+    "supports-color" "^5.5.0"
+    "touch" "^3.1.0"
+    "undefsafe" "^2.0.5"
+
 "nopt@^4.0.1":
   "integrity" "sha1-o3XK2dAv2SEnjZVMIlTVqlfhXkg="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/nopt/-/nopt-4.0.3.tgz"
@@ -13574,6 +13603,13 @@
   "integrity" "sha1-UwlCu1ilEvzK/lP+IQ8TolNV3Ig="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/nopt/-/nopt-5.0.0.tgz"
   "version" "5.0.0"
+  dependencies:
+    "abbrev" "1"
+
+"nopt@~1.0.10":
+  "integrity" "sha1-bd0hvSoxQXuScn3Vhfim83YI6+4="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/nopt/-/nopt-1.0.10.tgz"
+  "version" "1.0.10"
   dependencies:
     "abbrev" "1"
 
@@ -15429,6 +15465,11 @@
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/psl/-/psl-1.9.0.tgz"
   "version" "1.9.0"
 
+"pstree.remy@^1.1.8":
+  "integrity" "sha1-wkIiT0pnwh9oaDm720rCgrg3PTo="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/pstree.remy/-/pstree.remy-1.1.8.tgz"
+  "version" "1.1.8"
+
 "public-encrypt@^4.0.0":
   "integrity" "sha1-T8ydd6B+SLp1J+fL4N4z0HATMeA="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/public-encrypt/-/public-encrypt-4.0.3.tgz"
@@ -16058,14 +16099,6 @@
     "node-dir" "^0.1.10"
     "strip-indent" "^3.0.0"
 
-"react-dom@*", "react-dom@^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^18.0.0", "react-dom@>= 16.8.6", "react-dom@>=16.0.0", "react-dom@>=16.11.0", "react-dom@>=16.8", "react-dom@>=16.9.0":
-  "integrity" "sha1-IqrzhwjbJnTtmtoiTKSqcI2CHj0="
-  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/react-dom/-/react-dom-18.2.0.tgz"
-  "version" "18.2.0"
-  dependencies:
-    "loose-envify" "^1.1.0"
-    "scheduler" "^0.23.0"
-
 "react-element-to-jsx-string@^14.3.4":
   "integrity" "sha1-cJElvHLwaAC2j59NtIXyx9MSGKg="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/react-element-to-jsx-string/-/react-element-to-jsx-string-14.3.4.tgz"
@@ -16218,13 +16251,6 @@
   "version" "4.1.1"
   dependencies:
     "topbar" "^0.1.3"
-
-"react@*", "react@^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1", "react@^16.13.1 || ^17.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.4 || ^17.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 0.14.0", "react@>= 16", "react@>= 16.8.6", "react@>=16.0.0", "react@>=16.11.0", "react@>=16.8", "react@>=16.8.0", "react@>=16.9.0":
-  "integrity" "sha1-VVvZhZKIMlX6AN4U8RUakXtdd9U="
-  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/react/-/react-18.2.0.tgz"
-  "version" "18.2.0"
-  dependencies:
-    "loose-envify" "^1.1.0"
 
 "read-cache@^1.0.0":
   "integrity" "sha1-5mTvMRYRZsl1HNvo28+GtftY93Q="
@@ -16960,7 +16986,7 @@
   dependencies:
     "tslib" "^1.9.0"
 
-"rxjs@^7.5.1", "rxjs@^7.5.5":
+"rxjs@^7.0.0", "rxjs@^7.5.1", "rxjs@^7.5.5":
   "integrity" "sha1-BEZXdVeGKv1pA1F858rnnsuWYrw="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/rxjs/-/rxjs-7.5.6.tgz"
   "version" "7.5.6"
@@ -17047,13 +17073,6 @@
   "version" "5.0.1"
   dependencies:
     "xmlchars" "^2.2.0"
-
-"scheduler@^0.23.0":
-  "integrity" "sha1-uoBBr8PTDrIGpIe2s4QALk5h/f4="
-  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/scheduler/-/scheduler-0.23.0.tgz"
-  "version" "0.23.0"
-  dependencies:
-    "loose-envify" "^1.1.0"
 
 "schema-utils@^1.0.0":
   "integrity" "sha1-C3mpMgTXtgDUsoUNH2bCo0lRx3A="
@@ -17192,6 +17211,11 @@
   "version" "7.3.7"
   dependencies:
     "lru-cache" "^6.0.0"
+
+"semver@~7.0.0":
+  "integrity" "sha1-XzyjV2HkfgWyBsba/yz4FPAxa44="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/semver/-/semver-7.0.0.tgz"
+  "version" "7.0.0"
 
 "semver@2 || 3 || 4 || 5":
   "integrity" "sha1-qVT5Ma66UI0we78Gnv8MAclhFvc="
@@ -17378,6 +17402,17 @@
   "integrity" "sha1-qaF2f4r4QVURTqq9c/mSc8j1mtk="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/signal-exit/-/signal-exit-3.0.7.tgz"
   "version" "3.0.7"
+
+"simple-update-notifier@^1.0.7":
+  "integrity" "sha1-ft91xb3QT4iCjWMvdisrwymWqcw="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/simple-update-notifier/-/simple-update-notifier-1.0.7.tgz"
+  "version" "1.0.7"
+  dependencies:
+    "semver" "~7.0.0"
+
+"simple@file:/home/satanmourner/Projects/khaos/examples/simple":
+  "resolved" "file:examples/simple"
+  "version" "1.0.0"
 
 "sisteransi@^1.0.5":
   "integrity" "sha1-E01oEpd1ZDfMBcoBNw06elcQde0="
@@ -17600,6 +17635,11 @@
   "integrity" "sha1-hfMsPRDZaCAH6RdBTdxcJtGqaJk="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/space-separated-tokens/-/space-separated-tokens-1.1.5.tgz"
   "version" "1.1.5"
+
+"spawn-command@^0.0.2-1":
+  "integrity" "sha1-YvXpRmmBwbeW3Fkpk34RycaSG9A="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/spawn-command/-/spawn-command-0.0.2-1.tgz"
+  "version" "0.0.2-1"
 
 "spdx-correct@^3.0.0":
   "integrity" "sha1-3s6BrJweZxPl99G28X1Gj6U9iak="
@@ -18081,6 +18121,13 @@
   dependencies:
     "has-flag" "^3.0.0"
 
+"supports-color@^5.5.0":
+  "integrity" "sha1-4uaaRKyHcveKHsCzW2id9lMO/I8="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/supports-color/-/supports-color-5.5.0.tgz"
+  "version" "5.5.0"
+  dependencies:
+    "has-flag" "^3.0.0"
+
 "supports-color@^7.0.0", "supports-color@^7.1.0":
   "integrity" "sha1-G33NyzK4E4gBs+R4umpRyqiWSNo="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/supports-color/-/supports-color-7.2.0.tgz"
@@ -18089,6 +18136,13 @@
     "has-flag" "^4.0.0"
 
 "supports-color@^8.0.0":
+  "integrity" "sha1-zW/BfihQDP9WwbhsCn/UpUpzAFw="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/supports-color/-/supports-color-8.1.1.tgz"
+  "version" "8.1.1"
+  dependencies:
+    "has-flag" "^4.0.0"
+
+"supports-color@^8.1.0":
   "integrity" "sha1-zW/BfihQDP9WwbhsCn/UpUpzAFw="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/supports-color/-/supports-color-8.1.1.tgz"
   "version" "8.1.1"
@@ -18546,6 +18600,13 @@
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/topbar/-/topbar-0.1.4.tgz"
   "version" "0.1.4"
 
+"touch@^3.1.0":
+  "integrity" "sha1-/jZfX3XsntTlaCXgu3bSSrdK+Ds="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/touch/-/touch-3.1.0.tgz"
+  "version" "3.1.0"
+  dependencies:
+    "nopt" "~1.0.10"
+
 "tough-cookie@^4.0.0":
   "integrity" "sha1-2CIjTuyogvmR8PkIgkrSYi3b7OQ="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/tough-cookie/-/tough-cookie-4.0.0.tgz"
@@ -18816,6 +18877,11 @@
     "has-bigints" "^1.0.2"
     "has-symbols" "^1.0.3"
     "which-boxed-primitive" "^1.0.2"
+
+"undefsafe@^2.0.5":
+  "integrity" "sha1-OHM7kye9zSJtuIn7cjpu/RYubiw="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/undefsafe/-/undefsafe-2.0.5.tgz"
+  "version" "2.0.5"
 
 "unfetch@^4.2.0":
   "integrity" "sha1-fiGw7302PY2a8PuSmlVV9u+Xo74="
@@ -19974,6 +20040,11 @@
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/yargs-parser/-/yargs-parser-20.2.9.tgz"
   "version" "20.2.9"
 
+"yargs-parser@^21.0.0":
+  "integrity" "sha1-Amfyhsh3pPD3KPzrb4o+TLlcbjU="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/yargs-parser/-/yargs-parser-21.0.1.tgz"
+  "version" "21.0.1"
+
 "yargs-parser@20.2.4":
   "integrity" "sha1-tCiQ8UVmeW+Fro46JSkNIF8VSlQ="
   "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/yargs-parser/-/yargs-parser-20.2.4.tgz"
@@ -19991,6 +20062,19 @@
     "string-width" "^4.2.0"
     "y18n" "^5.0.5"
     "yargs-parser" "^20.2.2"
+
+"yargs@^17.3.1":
+  "integrity" "sha1-4QmQDKtvy3/USx2CSRZv6ws25Y4="
+  "resolved" "https://azure.hamrah-mechanic.com/DefaultCollection/HamrahMechanic/_packaging/NpmFeed/npm/registry/yargs/-/yargs-17.5.1.tgz"
+  "version" "17.5.1"
+  dependencies:
+    "cliui" "^7.0.2"
+    "escalade" "^3.1.1"
+    "get-caller-file" "^2.0.5"
+    "require-directory" "^2.1.1"
+    "string-width" "^4.2.3"
+    "y18n" "^5.0.5"
+    "yargs-parser" "^21.0.0"
 
 "yauzl@^2.10.0":
   "integrity" "sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk="

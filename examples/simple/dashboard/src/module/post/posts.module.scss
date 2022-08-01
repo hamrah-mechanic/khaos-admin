@@ -1,0 +1,33 @@
+.info {
+    &__card {
+        width: 100%;
+        margin: 1.6rem 0 !important;
+    }
+
+    &__title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-left: 1.2rem;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+}
+
+:global {
+    .ant-modal-content {
+        min-height: 250px;
+    }
+    .ant-modal-header {
+        text-align: center;
+    }
+
+    .ant-tabs-tab + .ant-tabs-tab {
+        margin-left: 0 !important;
+        margin-right: 32px !important;
+    }
+
+    .ant-select,
+    .ant-select-selector {
+        text-align: left;
+    }
+}
