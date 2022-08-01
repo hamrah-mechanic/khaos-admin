@@ -65,7 +65,6 @@ export default App;
 >
 > If you want right to left body `(rtl)`, you should follow tow steps:
 > 
->
 > ###### 1)
 >
 > In your app code add:
